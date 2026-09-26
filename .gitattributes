@@ -1,0 +1,9 @@
+# Normalize line endings in the repo; shell scripts must stay LF (they run inside Linux containers).
+* text=auto
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.pdf binary
+*.db binary

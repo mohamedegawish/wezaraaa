@@ -1,0 +1,177 @@
+
+/* Accent swatch palette for dccp-swatch — used by DegreeColorPicker */
+.dccp-accent-1 { background: var(--dccp-sw-red); }
+.dccp-accent-2 { background: var(--dccp-sw-teal); }
+.dccp-accent-3 { background: var(--dccp-sw-blue); }
+.dccp-accent-4 { background: var(--dccp-sw-green); }
+.dccp-accent-5 { background: var(--dccp-sw-purple); }
+.dccp-accent-6 { background: var(--dccp-sw-gold); }
+:root {
+  --dccp-sw-red:    #C8102E;
+  --dccp-sw-teal:   #0E6B65;
+  --dccp-sw-blue:   #3B6FB5;
+  --dccp-sw-green:  #1F7A4E;
+  --dccp-sw-purple: #7552B0;
+  --dccp-sw-gold:   #C5A059;
+}
+
+/* Degree Color Picker — stage color based on degree */
+.degree-color-picker {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+}
+@media (max-width: 640px) {
+  .degree-color-picker { flex-direction: column; }
+}
+
+/* RTL: strip flows on the right automatically via document direction */
+html[dir="rtl"] .degree-color-picker {
+  flex-direction: row-reverse;
+}
+.degree-color-picker--horizontal {
+  flex-direction: row !important;
+}
+html[dir="rtl"] .degree-color-picker--horizontal {
+  flex-direction: row-reverse !important;
+}
+.degree-color-picker--vertical {
+  flex-direction: column !important;
+}
+
+.dccp-degree-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0.5rem 0.3rem;
+  background: var(--bg-app);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  align-self: flex-start;
+}
+/* Horizontal orientation: row strip, pips stack horizontally */
+.degree-color-picker--horizontal .dccp-degree-strip {
+  flex-direction: row;
+  align-items: center;
+}
+.dccp-degree-pip {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--border-medium);
+  transition: all 0.18s ease;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+.dccp-degree-pip:hover { transform: scale(1.1); }
+.dccp-degree-pip--active {
+  box-shadow: 0 0 0 2px var(--bg-surface), 0 0 0 4px var(--gov-gold);
+  transform: scale(1.2);
+}
+.dccp-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.dccp-swatches {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.dccp-swatch {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  padding: 0;
+  margin: 0;
+  display: block;
+}
+.dccp-swatch:hover { transform: scale(1.15); }
+.dccp-swatch--active { border-color: var(--gov-gold); box-shadow: 0 0 0 2px var(--bg-app); }
+
+/* Accent-label row */
+.dccp-accent-label {
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+/* Tooltip label under each pip */
+.dccp-pip-label {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 4px);
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 1px 5px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 10;
+}
+html[dir="ltr"] .dccp-pip-label { left: auto; right: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+html[dir="rtl"] .dccp-pip-label { left: calc(100% + 6px); right: auto; }
+.dccp-degree-pip:hover .dccp-pip-label { opacity: 1; }
+
+.dccp-sliders { display: flex; flex-direction: column; gap: 4px; }
+.dccp-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-family: var(--eng-font-mono);
+}
+.dccp-slider-label { width: 14px; font-weight: 700; color: var(--text-muted); }
+.dccp-slider-val   { width: 36px; text-align: left; color: var(--text-body); }
+.dccp-slider-row input[type=range] { flex: 1; accent-color: var(--gov-gold-dark); }
+.dccp-input-row { display: flex; align-items: center; gap: 0.5rem; }
+.dccp-preview {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border-medium);
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+.dccp-hex-input {
+  font-family: var(--eng-font-mono);
+  font-size: 0.8rem;
+  flex: 1;
+}
+.dccp-card-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  background: var(--bg-app);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+.dccp-card-dot {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+.dccp-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-body);
+}

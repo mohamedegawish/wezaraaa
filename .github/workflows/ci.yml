@@ -1,0 +1,55 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+      # Frontend first: backend hosting tests + the deploy gate need frontend/dist.
+      - name: Frontend build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+      - name: Backend build + tests
+        working-directory: backend
+        run: |
+          npm ci
+          npm run build
+          npm test
+      - name: Validate OpenAPI JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('contracts/openapi.json','utf8')); console.log('openapi valid')"
+      - name: Pre-deploy gate (must PASS before any host upload)
+        run: node backend/scripts/check-prod.mjs
+
+  # The exact image Coolify builds (root Dockerfile) — must build and boot healthy.
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build single-service image
+        run: docker build -t industry-platform:ci .
+      - name: Boot + smoke test
+        run: |
+          docker run -d --name app -p 4000:4000 \
+            -e JWT_SECRET="$(openssl rand -hex 48)" \
+            -e CORS_ORIGIN=http://localhost:4000 -e SEED_ON_BOOT=1 \
+            industry-platform:ci
+          for i in $(seq 1 30); do curl -fs http://localhost:4000/api/v1/health && break; sleep 2; done
+          curl -fs http://localhost:4000/api/v1/health
+          curl -fs http://localhost:4000/ | grep -q 'id="root"'
+          curl -fs "http://localhost:4000/api/v1/initiatives?pageSize=1" > /dev/null
+      - name: Container logs
+        if: always()
+        run: docker logs app || true

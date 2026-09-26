@@ -1,0 +1,190 @@
+:root {
+  /* ================================================= */
+  /* Egyptian Government Platform — Clean × Attractive   */
+  /* Professional white + subtle mesh + OKLCH tints       */
+  /* جذاب بلا بهرجة — هدوء مع لمسة بريميوم               */
+  /* ================================================= */
+
+  /* العلم المصري — OKLCH-tuned for harmony */
+  --egypt-red:        #C8102E;
+  --egypt-red-dark:   #A00D24;
+  --egypt-red-soft:   #FEF2F2;
+  --egypt-red-bright: #E8384F;
+  --egypt-red-ring:   rgba(200,16,46,0.12);
+  --egypt-red-glow:   rgba(200,16,46,0.08);
+  --egypt-black:      #0F172A;
+  --egypt-white:      #FFFFFF;
+
+  /* النصوص — سلم تباين محكم */
+  --text-main:       #0F172A;
+  --text-secondary:  #334155;
+  --text-muted:      #64748B;
+  --text-light:      #94A3B8;
+  --text-inverse:    #FFFFFF;
+
+  /* الأسطح — أبيض نقي مع عمق خفيف */
+  --bg-app:         #F8FAFC;
+  --bg-surface:     #FFFFFF;
+  --bg-hover:       #F8FAFC;
+  --bg-muted:       #F1F5F9;
+  --bg-mesh:        radial-gradient(1200px 600px at 85% -10%, rgba(200,16,46,0.04) 0%, transparent 55%), radial-gradient(900px 500px at -10% 25%, rgba(14,107,101,0.03) 0%, transparent 60%), linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+
+  /* الحدود — أنعم */
+  --border-subtle:  #E2E8F0;
+  --border-medium:  #CBD5E1;
+  --border-strong:  #94A3B8;
+  --border-glow:    rgba(200,16,46,0.15);
+
+  /* خطوط — أزواج جذابة */
+  --font-display-ar: 'Alexandria', 'Cairo', system-ui, sans-serif;
+  --font-body-ar: 'IBM Plex Sans Arabic', 'Cairo', system-ui, sans-serif;
+  --font-display-en: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  --font-body-en: 'Inter', system-ui, sans-serif;
+  --font-ar: var(--font-body-ar);
+  --font-en: var(--font-body-en);
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+
+  /* شريط العلم — أنحف وأكثر دقة */
+  --egypt-flag-ribbon: linear-gradient(90deg,
+    #C8102E 0%, #C8102E 33.33%,
+    #FFFFFF 33.33%, #FFFFFF 66.66%,
+    #0F172A 66.66%, #0F172A 100%);
+
+  /* حالات — ألوان رسمية هادئة */
+  --status-approved:    #059669;
+  --status-approved-bg: #ECFDF5;
+  --status-approved-border: #A7F3D0;
+
+  --status-pending:    #D97706;
+  --status-pending-bg: #FFFBEB;
+  --status-pending-border: #FDE68A;
+
+  --status-rejected:    #DC2626;
+  --status-rejected-bg: #FEF2F2;
+  --status-rejected-border: #FECACA;
+
+  --status-draft:    #6B7280;
+  --status-draft-bg: #F9FAFB;
+  --status-draft-border: #E5E7EB;
+
+  /* ظلال — ناعمة وعميقة (جذابة بلا ثقل) */
+  --shadow-xs: 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-sm: 0 1px 3px rgba(15,23,42,0.05), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-md: 0 4px 12px rgba(15,23,42,0.06), 0 2px 6px rgba(15,23,42,0.04);
+  --shadow-lg: 0 12px 24px rgba(15,23,42,0.07), 0 4px 12px rgba(15,23,42,0.05);
+  --shadow-xl: 0 24px 40px rgba(15,23,42,0.10), 0 12px 20px rgba(15,23,42,0.06);
+  --shadow-glow-red: 0 8px 24px rgba(200,16,46,0.12);
+  --shadow-card-hover: 0 16px 32px rgba(15,23,42,0.09), 0 8px 16px rgba(15,23,42,0.05);
+
+  /* المسافات */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* نصف القطر — زوايا جذابة */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-2xl: 22px;
+  --radius-full: 9999px;
+
+  /* الانتقالات — منحنيات بريميوم */
+  --transition-fast: 0.16s cubic-bezier(0.16,1,0.3,1);
+  --transition-normal: 0.28s cubic-bezier(0.16,1,0.3,1);
+  --transition-slow: 0.45s cubic-bezier(0.16,1,0.3,1);
+  --transition-bounce: 0.5s cubic-bezier(0.34,1.56,0.64,1);
+
+  /* نصوص إضافية */
+  --text-primary:  #111827;
+  --text-body:     #374151;
+
+  /* رمادية — متناسقة مع slate */
+  --gray-200: #E2E8F0;
+  --gray-800: #1E293B;
+  --gray-900: #0F172A;
+
+  /* ألوان الحكومة — أحمر مصري رسمي بدل الذهبي */
+  --gov-primary-50:  #EFF6FF;
+  --gov-primary-200: #BFDBFE;
+  --gov-primary-500: #3B82F6;
+  --gov-primary-600: #2563EB;
+  --gov-primary-700: #1D4ED8;
+  --gov-primary-800: #1E40AF;
+  --gov-primary-900: #1E3A5F;
+  --gov-primary-950: #142A4A;
+
+  /* توكنات ذهبية موروثة → يُعاد توجيهها للأحمر (الخلفيات الذهبية ملغاة) */
+  /* النص الذهبي محجوز الآن للشارات الرسمية فقط — راجع توكنات --gold-* أدناه */
+  --gov-gold:         var(--egypt-red);
+  --gov-gold-light:   var(--egypt-red-soft);
+  --gov-gold-dark:    var(--egypt-red-dark);
+  --gov-gold-bright:  var(--egypt-red-bright);
+  --gov-gold-border:  #FECACA;
+
+  --gov-teal:    #0E6B65;
+  --gov-crimson: #DC2626;
+
+  /* ذهب رسمي للنصوص فقط — بديل البادجات الملونة (نص ذهبي راقٍ بلا خلفية ملونة)
+     --gold-text  : نص ذهبي عميق — متوافق AA على الخلفيات الفاتحة
+     --gold-bright: ذهب مضيء للنقاط والعناصر الدقيقة (على الداكن)
+     --gold-border: حدود شعرية ذهبية لهالات الشارات
+     --gold-halo  : هالة باهتة جداً حول النقاط */
+  --gold-text:   #8B6914;
+  --gold-bright: #C5A059;
+  --gold-border: rgba(200,168,88,0.45);
+  --gold-halo:   rgba(197,160,89,0.14);
+
+  /* حالات نصية */
+  --status-approved-text: #059669;
+  --status-rework-text:   #D97706;
+  --status-pending-text:  #D97706;
+
+  /* خلفيات شفافة + زجاج */
+  --on-dark-ghost:    rgba(255,255,255,0.08);
+  --on-dark-border-2: rgba(255,255,255,0.15);
+  --on-dark-ghost-2:  rgba(255,255,255,0.10);
+  --on-dark-border-3: rgba(255,255,255,0.22);
+  --on-dark-softer:   rgba(255,255,255,0.78);
+  --overlay-strong:   rgba(15,23,42,0.55);
+  --glass-bg:         rgba(255,255,255,0.82);
+  --glass-border:     rgba(255,255,255,0.65);
+  --glass-blur:       16px;
+
+  /* ذهبي مصري — موروث يُعاد توجيهه للأحمر */
+  --egypt-gold:      var(--egypt-red);
+  --egypt-gold-deep: var(--egypt-red-dark);
+
+  /* مراحل سير العمل (الباقة الرسمية) */
+  --stage-1: #64748B;
+  --stage-2: #0E6B65;
+  --stage-3: #2563EB;
+  --stage-4: #059669;
+  --stage-5: #D97706;
+  --stage-6: #C8102E;
+  --stage-fallback: #94A3B8;
+
+  /* لغة التصميم الهندسي (Engineering Language) */
+  --eng-status-approve:     #059669;
+  --eng-status-approve-bg:  #ECFDF5;
+  --eng-status-reject:      #DC2626;
+  --eng-status-reject-bg:   #FEF2F2;
+  --eng-status-pending:     #D97706;
+  --eng-status-pending-bg:  #FFFBEB;
+  --eng-brass:              var(--egypt-red);
+  --eng-brass-light:        var(--egypt-red-soft);
+  --eng-steel:              #64748B;
+  --eng-steel-dark:         #334155;
+  --eng-ink:                #0F172A;
+  --eng-paper:              #FFFFFF;
+  --eng-line:               #E2E8F0;
+  --eng-font-tech: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
+
+  --eng-font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
+}

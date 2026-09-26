@@ -1,0 +1,1053 @@
+{
+  "_meta": {
+    "format": "industrial-initiatives-seed/v1",
+    "descriptionAr": "إضافات الديمو — تُدمج مع البيانات الأساسية المفرّغة من قاعدة حقيقية لتكوين seed-data.json النهائي",
+    "defaultPassword": "Egypt@2026 — يجب تغييرها بعد أول دخول (حسابات المصانع الجديدة mustChangePassword=1)",
+    "usage": "npm run seed:file -- seed-data.json  (refuses production without CONFIRM=YES)",
+    "loginExample": {
+      "email": "tarek.mansour@industry.gov.eg",
+      "password": "Egypt@2026"
+    }
+  },
+  "organizations": [
+    {
+      "id": "org-apex-solar",
+      "code": "APEX_SOLAR",
+      "nameAr": "أبيكس لحلول الطاقة الشمسية",
+      "nameEn": "Apex Solar Energy Solutions",
+      "type": "provider",
+      "active": 1,
+      "contactEmail": "projects@apexsolar.eg"
+    },
+    {
+      "id": "org-banque-misr",
+      "code": "BANQUE_MISR",
+      "nameAr": "بنك مصر",
+      "nameEn": "Banque Misr",
+      "type": "bank",
+      "active": 1,
+      "contactEmail": "industrial@banquemisr.com"
+    },
+    {
+      "id": "org-eehc",
+      "code": "EEHC",
+      "nameAr": "الشركة القابضة لكهرباء مصر",
+      "nameEn": "Egyptian Electricity Holding Company",
+      "type": "utility",
+      "active": 1,
+      "contactEmail": "grid-connect@eehc.gov.eg"
+    },
+    {
+      "id": "org-factory-1",
+      "code": "FACTORY_1",
+      "nameAr": "مصنع النيل للأغذية",
+      "nameEn": "Nile Foods",
+      "type": "factory",
+      "active": 1,
+      "contactEmail": "factory@nile.eg"
+    },
+    {
+      "id": "org-ida",
+      "code": "IDA",
+      "nameAr": "الهيئة العامة للتنمية الصناعية",
+      "nameEn": "Industrial Development Authority (IDA)",
+      "type": "authority",
+      "active": 1,
+      "contactEmail": "licensing@ida.gov.eg"
+    },
+    {
+      "id": "org-imc",
+      "code": "IMC",
+      "nameAr": "مركز تحديث الصناعة",
+      "nameEn": "Industrial Modernization Center (IMC)",
+      "type": "center",
+      "active": 1,
+      "contactEmail": "evaluations@imc-egypt.org"
+    },
+    {
+      "id": "org-ministry",
+      "code": "MINISTRY_IND",
+      "nameAr": "وزارة الصناعة",
+      "nameEn": "Ministry of Industry",
+      "type": "ministry",
+      "active": 1,
+      "contactEmail": "initiatives@industry.gov.eg"
+    },
+    {
+      "id": "org-nbe",
+      "code": "NBE",
+      "nameAr": "البنك الأهلي المصري",
+      "nameEn": "National Bank of Egypt (NBE)",
+      "type": "bank",
+      "active": 1,
+      "contactEmail": "greenfinance@nbe.com.eg"
+    },
+    {
+      "id": "org-ghazl",
+      "code": "GHAZL_MAHALLA",
+      "nameAr": "مصنع الغزل والنسيج بالمحلة الكبرى",
+      "nameEn": "El-Mahalla Textiles Factory",
+      "type": "factory",
+      "active": 1,
+      "contactEmail": "info@ghazl-textile.eg"
+    },
+    {
+      "id": "org-chem",
+      "code": "SUEZ_CHEM",
+      "nameAr": "شركة السويس للصناعات الكيماوية",
+      "nameEn": "Suez Chemical Industries Co.",
+      "type": "factory",
+      "active": 1,
+      "contactEmail": "info@suezchem.eg"
+    },
+    {
+      "id": "org-ceramic",
+      "code": "CERAMIC_10TH",
+      "nameAr": "شركة العاشر للسيراميك والأدوات الصحية",
+      "nameEn": "10th of Ramadan Ceramics Co.",
+      "type": "factory",
+      "active": 1,
+      "contactEmail": "info@ceramic10.eg"
+    }
+  ],
+  "users": [
+    {
+      "id": "user-admin",
+      "name": "م. طارق منصور",
+      "nameEn": "Eng. Tarek Mansour",
+      "email": "tarek.mansour@industry.gov.eg",
+      "role": "ministry_admin",
+      "organizationId": "org-ministry",
+      "mustChangePassword": 0
+    },
+    {
+      "id": "user-auditor",
+      "name": "أ. هبة فاروق",
+      "nameEn": "Ms. Heba Farouk",
+      "email": "heba.farouk@audit.gov.eg",
+      "role": "auditor",
+      "organizationId": "org-ministry",
+      "mustChangePassword": 0
+    },
+    {
+      "id": "user-bank",
+      "name": "أ. ياسر فوزي",
+      "nameEn": "Mr. Yasser Fawzy",
+      "email": "yasser.fawzy@nbe.com.eg",
+      "role": "bank_reviewer",
+      "organizationId": "org-nbe",
+      "mustChangePassword": 0
+    },
+    {
+      "id": "user-factory-1",
+      "name": "مصنع النيل",
+      "nameEn": "Nile Factory",
+      "email": "factory@nile.eg",
+      "role": "factory_owner",
+      "organizationId": "org-factory-1",
+      "mustChangePassword": 0,
+      "factoryId": "factory-1"
+    },
+    {
+      "id": "user-factory-sewedy",
+      "name": "م. مصطفى السويدي",
+      "nameEn": "Eng. Mostafa El-Sewedy",
+      "email": "m.sewedy@elsewedy-ind.com",
+      "role": "factory_owner",
+      "organizationId": "org-factory-1",
+      "mustChangePassword": 0,
+      "factoryId": "factory-sewedy"
+    },
+    {
+      "id": "user-ida",
+      "name": "د. أحمد الشريف",
+      "nameEn": "Dr. Ahmed El-Sherif",
+      "email": "a.sherif@ida.gov.eg",
+      "role": "ida_reviewer",
+      "organizationId": "org-ida",
+      "mustChangePassword": 0
+    },
+    {
+      "id": "user-imc",
+      "name": "م. منى كمال",
+      "nameEn": "Eng. Mona Kamal",
+      "email": "mona.kamal@imc-egypt.org",
+      "role": "imc_reviewer",
+      "organizationId": "org-imc",
+      "mustChangePassword": 0
+    },
+    {
+      "id": "user-manager",
+      "name": "د. سارة عادل",
+      "nameEn": "Dr. Sara Adel",
+      "email": "sara.adel@industry.gov.eg",
+      "role": "initiative_manager",
+      "organizationId": "org-ministry",
+      "mustChangePassword": 0
+    },
+    {
+      "id": "user-solar",
+      "name": "م. كريم نبيل",
+      "nameEn": "Eng. Karim Nabil",
+      "email": "k.nabil@apexsolar.eg",
+      "role": "solar_provider",
+      "organizationId": "org-apex-solar",
+      "mustChangePassword": 0
+    },
+    {
+      "id": "user-ghazl",
+      "name": "م. كريم الشوربجي",
+      "nameEn": "Eng. Karim El-Shorbagy",
+      "email": "karim.elshorbagy@ghazl-textile.eg",
+      "role": "factory_owner",
+      "organizationId": "org-ghazl",
+      "mustChangePassword": 1,
+      "factoryId": "factory-ghazl"
+    },
+    {
+      "id": "user-chem",
+      "name": "د. هاني رمزي",
+      "nameEn": "Dr. Hany Ramzy",
+      "email": "hany.ramzy@suezchem.eg",
+      "role": "factory_owner",
+      "organizationId": "org-chem",
+      "mustChangePassword": 1,
+      "factoryId": "factory-chem"
+    },
+    {
+      "id": "user-ceramic",
+      "name": "م. ماجد فهمي",
+      "nameEn": "Eng. Maged Fahmy",
+      "email": "maged.fahmy@ceramic10.eg",
+      "role": "factory_owner",
+      "organizationId": "org-ceramic",
+      "mustChangePassword": 1,
+      "factoryId": "factory-ceramic"
+    },
+    {
+      "id": "user-bank2",
+      "name": "أ. دينا سمير",
+      "nameEn": "Ms. Dina Samir",
+      "email": "dina.samir@nbe.com.eg",
+      "role": "bank_reviewer",
+      "organizationId": "org-nbe",
+      "mustChangePassword": 0
+    }
+  ],
+  "factories": [
+    {
+      "id": "factory-1",
+      "data": {
+        "id": "factory-1",
+        "nameAr": "مصنع النيل للأغذية",
+        "nameEn": "Nile Foods",
+        "sector": "الصناعات الغذائية",
+        "sectorEn": "Food & Agro Industries",
+        "governorate": "الجيزة",
+        "governorateEn": "Giza",
+        "commercialRegistrationNumber": "CR-1001-GZ",
+        "industrialRegistrationNumber": "IND-1001-EGY",
+        "taxIdNumber": "TAX-100-100-100",
+        "employeesCount": 120,
+        "roofAreaSqMeters": 3000,
+        "annualEnergyConsumptionMWh": 900,
+        "monthlyElectricityBillEGP": 170000
+      }
+    },
+    {
+      "id": "factory-delta",
+      "data": {
+        "id": "factory-delta",
+        "nameAr": "شركة الدلتا للصناعات الغذائية والتعبئة",
+        "nameEn": "Delta Food Industries & Packaging Co.",
+        "sector": "الصناعات الغذائية والحاصلات الزراعية",
+        "sectorEn": "Food & Agro Industries",
+        "governorate": "الدقهلية",
+        "governorateEn": "Dakahlia",
+        "industrialZone": "المنطقة الصناعية بجمصة",
+        "commercialRegistrationNumber": "CR-448201-DK",
+        "industrialRegistrationNumber": "IND-33921-EGY",
+        "taxIdNumber": "TAX-441-902-120",
+        "employeesCount": 165,
+        "roofAreaSqMeters": 6500,
+        "annualEnergyConsumptionMWh": 1800,
+        "monthlyElectricityBillEGP": 340000
+      }
+    },
+    {
+      "id": "factory-sewedy",
+      "data": {
+        "id": "factory-sewedy",
+        "nameAr": "مصنع السويدي للكابلات والأنظمة الهندسية",
+        "nameEn": "El Sewedy Cables & Engineering Systems",
+        "sector": "الصناعات الهندسية والإلكترونية",
+        "sectorEn": "Engineering & Electrical Industries",
+        "governorate": "الجيزة",
+        "governorateEn": "Giza",
+        "industrialZone": "المنطقة الصناعية بالسادس من أكتوبر",
+        "commercialRegistrationNumber": "CR-104928-GZ",
+        "industrialRegistrationNumber": "IND-88472-EGY",
+        "taxIdNumber": "TAX-920-114-883",
+        "employeesCount": 420,
+        "roofAreaSqMeters": 14000,
+        "annualEnergyConsumptionMWh": 4500,
+        "monthlyElectricityBillEGP": 850000,
+        "contactPerson": "م. مصطفى السويدي",
+        "contactPhone": "+20 100 123 4567",
+        "contactEmail": "m.sewedy@elsewedy-ind.com"
+      }
+    },
+    {
+      "id": "factory-ghazl",
+      "data": {
+        "id": "factory-ghazl",
+        "nameAr": "مصنع الغزل والنسيج بالمحلة الكبرى",
+        "nameEn": "El-Mahalla Textiles Factory",
+        "sector": "الغزل والنسيج",
+        "sectorEn": "Textiles & Spinning",
+        "governorate": "الغربية",
+        "governorateEn": "Gharbia",
+        "industrialZone": "المنطقة الصناعية بالمحلة الكبرى",
+        "commercialRegistrationNumber": "CR-771204-GH",
+        "industrialRegistrationNumber": "IND-55210-EGY",
+        "taxIdNumber": "TAX-771-204-556",
+        "employeesCount": 860,
+        "roofAreaSqMeters": 22000,
+        "annualEnergyConsumptionMWh": 6100,
+        "monthlyElectricityBillEGP": 1150000,
+        "contactPerson": "م. كريم الشوربجي",
+        "contactPhone": "+20 122 345 6789",
+        "contactEmail": "karim.elshorbagy@ghazl-textile.eg"
+      }
+    },
+    {
+      "id": "factory-chem",
+      "data": {
+        "id": "factory-chem",
+        "nameAr": "شركة السويس للصناعات الكيماوية",
+        "nameEn": "Suez Chemical Industries Co.",
+        "sector": "الصناعات الكيماوية",
+        "sectorEn": "Chemical Industries",
+        "governorate": "السويس",
+        "governorateEn": "Suez",
+        "industrialZone": "المنطقة الصناعية بالعين السخنة",
+        "commercialRegistrationNumber": "CR-309977-SU",
+        "industrialRegistrationNumber": "IND-78113-EGY",
+        "taxIdNumber": "TAX-309-977-410",
+        "employeesCount": 340,
+        "roofAreaSqMeters": 9500,
+        "annualEnergyConsumptionMWh": 3900,
+        "monthlyElectricityBillEGP": 740000,
+        "contactPerson": "د. هاني رمزي",
+        "contactPhone": "+20 100 987 6543",
+        "contactEmail": "hany.ramzy@suezchem.eg"
+      }
+    },
+    {
+      "id": "factory-ceramic",
+      "data": {
+        "id": "factory-ceramic",
+        "nameAr": "شركة العاشر للسيراميك والأدوات الصحية",
+        "nameEn": "10th of Ramadan Ceramics Co.",
+        "sector": "صناعات مواد البناء والخزف",
+        "sectorEn": "Building Materials & Ceramics",
+        "governorate": "الشرقية",
+        "governorateEn": "Sharqia",
+        "industrialZone": "المنطقة الصناعية C4 بالعاشر من رمضان",
+        "commercialRegistrationNumber": "CR-512830-SH",
+        "industrialRegistrationNumber": "IND-66402-EGY",
+        "taxIdNumber": "TAX-512-830-209",
+        "employeesCount": 510,
+        "roofAreaSqMeters": 17500,
+        "annualEnergyConsumptionMWh": 5200,
+        "monthlyElectricityBillEGP": 985000,
+        "contactPerson": "م. ماجد فهمي",
+        "contactPhone": "+20 128 112 3344",
+        "contactEmail": "maged.fahmy@ceramic10.eg"
+      }
+    }
+  ],
+  "initiatives": [
+    {
+      "id": "init-import-sub-2026",
+      "slug": "local-manufacturing-innovation",
+      "titleAr": "المبادرة الوطنية لتعميق التصنيع المحلي",
+      "titleEn": "Local Manufacturing Deepening",
+      "taglineAr": "حوافز وأراضٍ مجهزة للمكون المحلي",
+      "taglineEn": "Incentives for local components",
+      "descriptionAr": "152 فرصة استثمارية لإنتاج مستلزمات الإنتاج محلياً.",
+      "descriptionEn": "152 opportunities for local components.",
+      "category": "تعميق التصنيع المحلي",
+      "categoryEn": "Localization",
+      "status": "coming_soon",
+      "targetSectors": [
+        "الصناعات الكيماوية"
+      ],
+      "targetSectorsEn": [
+        "Chemicals"
+      ],
+      "targetGovernorates": [
+        "العين السخنة"
+      ],
+      "budgetTotalEGP": 10000000000,
+      "budgetAllocatedEGP": 0,
+      "startDate": "2026-05-01",
+      "endDate": "2027-04-30",
+      "coverImage": "/covers/import-substitution-2026.svg",
+      "badgeTextAr": "قريباً — مايو 2026",
+      "badgeTextEn": "Coming Soon",
+      "participatingOrgs": [
+        "وزارة الصناعة",
+        "هيئة التنمية الصناعية (IDA)"
+      ],
+      "benefits": [],
+      "faqs": [],
+      "preEligibilityQuestions": [],
+      "requiredDocsList": [],
+      "formSections": [],
+      "impactMetrics": {
+        "targetFactories": 500,
+        "benefitedFactories": 0,
+        "investmentStimulatedEGP": 0,
+        "jobsCreated": 0
+      },
+      "customization": {
+        "showBenefits": true,
+        "showFaqs": true,
+        "showImpactMetrics": true,
+        "showTimeline": true,
+        "showPartners": true,
+        "enablePreEligibility": false,
+        "allowFactoryFileUpload": true,
+        "requireDetailsFile": false,
+        "maxFileSizeMB": 15,
+        "allowedFileTypes": ".pdf",
+        "customWelcomeMessageAr": "",
+        "customWelcomeMessageEn": "",
+        "accentColor": ""
+      },
+      "workflow": {
+        "id": "wf-imp-v1",
+        "initiativeId": "init-import-sub-2026",
+        "version": 1,
+        "nameAr": "مسار التعميق",
+        "nameEn": "Deepening Workflow",
+        "active": true,
+        "stages": []
+      }
+    },
+    {
+      "id": "init-modernization-2026",
+      "slug": "factory-modernization-fund",
+      "titleAr": "صندوق تحديث الصناعة وتطوير خطوط الإنتاج",
+      "titleEn": "Factory Modernization Fund",
+      "taglineAr": "منح وتمويلات لتحديث الآلات وخطوط الإنتاج",
+      "taglineEn": "Grants for machinery upgrades",
+      "descriptionAr": "دعم مالي وفني لإحلال الماكينات القديمة بمعدات آلية حديثة.",
+      "descriptionEn": "Financial and technical support to modernize legacy lines.",
+      "category": "التحديث التكنولوجي والجودة",
+      "categoryEn": "Tech Modernization & Quality",
+      "status": "active",
+      "targetSectors": [
+        "الغزل والنسيج",
+        "الصناعات الغذائية"
+      ],
+      "targetSectorsEn": [
+        "Textiles",
+        "Food"
+      ],
+      "targetGovernorates": [
+        "كافة المحافظات الصناعية"
+      ],
+      "budgetTotalEGP": 3000000000,
+      "budgetAllocatedEGP": 1200000000,
+      "startDate": "2026-02-01",
+      "endDate": "2026-11-30",
+      "coverImage": "/covers/modernization-2026.svg",
+      "badgeTextAr": "دعم يصل إلى 70%",
+      "badgeTextEn": "Up to 70% Support",
+      "participatingOrgs": [
+        "وزارة الصناعة",
+        "مركز تحديث الصناعة (IMC)"
+      ],
+      "benefits": [
+        {
+          "titleAr": "تمويل الماكينات الحديثة",
+          "titleEn": "Machinery Financing",
+          "descriptionAr": "تسهيلات طويلة الأجل.",
+          "descriptionEn": "Long-term facilities.",
+          "iconName": "Cpu"
+        }
+      ],
+      "faqs": [
+        {
+          "questionAr": "هل يشمل التحول الرقمي؟",
+          "questionEn": "Include digital?",
+          "answerAr": "نعم — ERP وSCADA.",
+          "answerEn": "Yes — ERP and SCADA."
+        }
+      ],
+      "preEligibilityQuestions": [
+        {
+          "id": "qm1",
+          "questionAr": "هل المنشأة تعمل منذ سنتين؟",
+          "questionEn": "Active for 2+ years?",
+          "type": "boolean",
+          "expectedValue": true,
+          "explanationAr": "للمصانع القائمة.",
+          "explanationEn": "Established factories."
+        }
+      ],
+      "requiredDocsList": [
+        {
+          "code": "CR_COPY",
+          "titleAr": "السجل التجاري",
+          "titleEn": "Commercial Register",
+          "mandatory": true
+        }
+      ],
+      "formSections": [
+        {
+          "id": "sec-mod-1",
+          "titleAr": "بيانات خط الإنتاج",
+          "titleEn": "Line Details",
+          "fields": [
+            {
+              "id": "currentLineAgeYears",
+              "labelAr": "عمر الخط (سنوات)",
+              "labelEn": "Line Age",
+              "type": "number",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "impactMetrics": {
+        "targetFactories": 800,
+        "benefitedFactories": 195,
+        "investmentStimulatedEGP": 1200000000,
+        "jobsCreated": 920
+      },
+      "customization": {
+        "showBenefits": true,
+        "showFaqs": true,
+        "showImpactMetrics": true,
+        "showTimeline": true,
+        "showPartners": true,
+        "enablePreEligibility": true,
+        "allowFactoryFileUpload": true,
+        "requireDetailsFile": false,
+        "maxFileSizeMB": 15,
+        "allowedFileTypes": ".pdf",
+        "customWelcomeMessageAr": "",
+        "customWelcomeMessageEn": "",
+        "accentColor": ""
+      },
+      "workflow": {
+        "id": "wf-mod-v1",
+        "initiativeId": "init-modernization-2026",
+        "version": 1,
+        "nameAr": "مسار التحديث",
+        "nameEn": "Modernization Workflow",
+        "active": true,
+        "stages": [
+          {
+            "id": "sm-1",
+            "order": 1,
+            "code": "MOD_ELIGIBILITY",
+            "nameAr": "1. مراجعة الأهلية",
+            "nameEn": "1. Eligibility",
+            "assignedOrgId": "org-imc",
+            "assignedOrgNameAr": "مركز تحديث الصناعة",
+            "assignedRole": "imc_reviewer",
+            "slaDays": 4,
+            "requiredDocuments": [
+              "CR_COPY"
+            ],
+            "canReject": true,
+            "canRequestRework": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "init-solar-1",
+      "slug": "solar-for-factories",
+      "titleAr": "الطاقة الشمسية للمصانع",
+      "titleEn": "Solar for Factories",
+      "taglineAr": "تمويل ميسر لمحطات شمسية على أسطح المصانع",
+      "taglineEn": "Soft financing for rooftop solar",
+      "descriptionAr": "بيانات تجريبية متوافقة مع أمثلة العقد.",
+      "descriptionEn": "Seed data matching contract examples.",
+      "category": "الطاقة النظيفة والاستدامة",
+      "categoryEn": "Clean Energy & Sustainability",
+      "status": "active",
+      "targetSectors": [
+        "الصناعات الغذائية"
+      ],
+      "targetSectorsEn": [
+        "Food"
+      ],
+      "targetGovernorates": [
+        "الجيزة"
+      ],
+      "budgetTotalEGP": 500000000,
+      "budgetAllocatedEGP": 0,
+      "startDate": "2026-01-01",
+      "endDate": "2026-12-31",
+      "coverImage": "/covers/solar.svg",
+      "badgeTextAr": "تمويل ميسر",
+      "badgeTextEn": "Soft loan",
+      "participatingOrgs": [
+        "وزارة الصناعة"
+      ],
+      "benefits": [],
+      "faqs": [],
+      "preEligibilityQuestions": [],
+      "requiredDocsList": [],
+      "formSections": [],
+      "impactMetrics": {},
+      "customization": {
+        "requireDetailsFile": false,
+        "maxFileSizeMB": 15,
+        "allowedFileTypes": ".pdf"
+      },
+      "workflow": {
+        "version": 1,
+        "stages": []
+      }
+    },
+    {
+      "id": "init-solar-2026",
+      "slug": "solar-energy-industrial-zones",
+      "titleAr": "شمس الصناعة",
+      "titleEn": "Shams El-Senaa",
+      "taglineAr": "دعم التحول للطاقة الشمسية للاستهلاك الذاتي صناعياً",
+      "taglineEn": "Powering industry with self-consumption solar",
+      "descriptionAr": "تهدف مبادرة شمس الصناعة إلى التوسع في استخدام الطاقة الجديدة والمتجددة وخفض تكلفة الطاقة على القطاع الصناعي وتنويع مصادر الطاقة للقطاع الصناعي وتعزيز تنافسية الصناعة المصرية وتوطين صناعات الطاقة الشمسية. تستهدف المبادرة إضافة قدرات تصل إلى نحو 1000 ميجاوات من الطاقة الشمسية للاستهلاك الذاتي لخدمة نحو 7000 مصنع وفق الجاهزية الفنية والتمويلية، بتمويل يصل إلى 12.5 مليار جنيه في صورة قروض من الجهاز المصرفي.",
+      "descriptionEn": "Shams El-Senaa expands renewable energy use, cuts industrial energy costs, diversifies energy sources, boosts Egyptian industry competitiveness, and localizes solar manufacturing. It targets about 1,000 MW of self-consumption solar capacity serving about 7,000 factories, funded by up to EGP 12.5B in bank loans.",
+      "category": "الطاقة النظيفة والاستدامة",
+      "categoryEn": "Clean Energy & Sustainability",
+      "status": "active",
+      "targetSectors": [
+        "الصناعات الهندسية",
+        "الغزل والنسيج",
+        "الصناعات الكيماوية",
+        "الصناعات الغذائية"
+      ],
+      "targetSectorsEn": [
+        "Engineering",
+        "Textiles",
+        "Chemicals",
+        "Food & Agro"
+      ],
+      "targetGovernorates": [
+        "كافة المحافظات",
+        "السادس من أكتوبر",
+        "العاشر من رمضان"
+      ],
+      "budgetTotalEGP": 12500000000,
+      "budgetAllocatedEGP": 0,
+      "startDate": "2026-01-01",
+      "endDate": "2030-12-31",
+      "coverImage": "/covers/solar-2026.svg",
+      "badgeTextAr": "تمويل 5% ميسر مع فترة سماح سنة",
+      "badgeTextEn": "5% Soft Loan with 1-Year Grace",
+      "participatingOrgs": [
+        "وزارة الصناعة",
+        "هيئة التنمية الصناعية (IDA)",
+        "مركز تحديث الصناعة (IMC)",
+        "البنك الأهلي المصري"
+      ],
+      "benefits": [
+        {
+          "titleAr": "تمويل بفائدة ميسرة 5% متناقصة",
+          "titleEn": "5% Decreasing Rate",
+          "descriptionAr": "قروض مدعومة حتى 7 سنوات مع سنة سماح.",
+          "descriptionEn": "Supported loans up to 7 years with grace.",
+          "iconName": "Percent"
+        },
+        {
+          "titleAr": "دراسة جدوى مجانية 100%",
+          "titleEn": "100% Free Feasibility Study",
+          "descriptionAr": "دراسات هندسية مجانية من IMC.",
+          "descriptionEn": "Free engineering studies by IMC.",
+          "iconName": "FileCheck"
+        }
+      ],
+      "faqs": [
+        {
+          "questionAr": "ما المساحة الدنيا للسطح؟",
+          "questionEn": "Minimum roof area?",
+          "answerAr": "1000 متر مربع أو 100 كيلووات.",
+          "answerEn": "1,000 sqm or 100 kWp."
+        }
+      ],
+      "preEligibilityQuestions": [
+        {
+          "id": "q1",
+          "questionAr": "هل يمتلك المصنع سجلاً صناعياً سارياً؟",
+          "questionEn": "Valid industrial license?",
+          "type": "boolean",
+          "expectedValue": true,
+          "explanationAr": "للمصانع المسجلة فقط.",
+          "explanationEn": "Registered factories only."
+        },
+        {
+          "id": "q3",
+          "questionAr": "ما متوسط الفاتورة الشهرية؟",
+          "questionEn": "Average monthly bill?",
+          "type": "select",
+          "options": [
+            {
+              "labelAr": "أقل من 50 ألف",
+              "labelEn": "Less than 50K",
+              "isEligible": false,
+              "value": "low"
+            },
+            {
+              "labelAr": "أكثر من 200 ألف",
+              "labelEn": "More than 200K",
+              "isEligible": true,
+              "value": "high"
+            }
+          ],
+          "explanationAr": "أولوية كثيفة الاستهلاك.",
+          "explanationEn": "Priority to heavy consumers."
+        }
+      ],
+      "requiredDocsList": [
+        {
+          "code": "CR_COPY",
+          "titleAr": "صورة السجل التجاري الحديث",
+          "titleEn": "Recent Commercial Register",
+          "mandatory": true
+        },
+        {
+          "code": "IND_LIC",
+          "titleAr": "رخصة التشغيل والسجل الصناعي",
+          "titleEn": "Industrial License",
+          "mandatory": true
+        },
+        {
+          "code": "ELEC_BILLS",
+          "titleAr": "آخر 3 فواتير كهرباء",
+          "titleEn": "Last 3 Electricity Bills",
+          "mandatory": true
+        }
+      ],
+      "formSections": [
+        {
+          "id": "sec-solar-tech",
+          "titleAr": "البيانات الفنية للمحطة",
+          "titleEn": "Technical Specs",
+          "descriptionAr": "",
+          "descriptionEn": "",
+          "fields": [
+            {
+              "id": "requestedCapacityKW",
+              "labelAr": "القدرة المطلوبة (كيلووات)",
+              "labelEn": "Requested Capacity (kWp)",
+              "type": "number",
+              "required": true,
+              "min": 50,
+              "max": 5000
+            },
+            {
+              "id": "roofType",
+              "labelAr": "نوع السطح",
+              "labelEn": "Roof Type",
+              "type": "select",
+              "required": true,
+              "options": [
+                {
+                  "labelAr": "خرسانة",
+                  "labelEn": "Concrete",
+                  "value": "concrete"
+                },
+                {
+                  "labelAr": "أرض مجاورة",
+                  "labelEn": "Ground",
+                  "value": "ground_mounted"
+                }
+              ]
+            },
+            {
+              "id": "financingAmountEGP",
+              "labelAr": "مبلغ التمويل (جنيه)",
+              "labelEn": "Loan Amount (EGP)",
+              "type": "number",
+              "required": true,
+              "min": 500000
+            }
+          ]
+        }
+      ],
+      "impactMetrics": {
+        "targetFactories": 7000,
+        "targetCapacityMW": 1000,
+        "benefitedFactories": 340,
+        "savedEnergyGWh": 185.4,
+        "investmentStimulatedEGP": 2150000000,
+        "jobsCreated": 1450
+      },
+      "customization": {
+        "showBenefits": true,
+        "showFaqs": true,
+        "showImpactMetrics": true,
+        "showTimeline": true,
+        "showPartners": true,
+        "enablePreEligibility": true,
+        "allowFactoryFileUpload": true,
+        "requireDetailsFile": false,
+        "maxFileSizeMB": 15,
+        "allowedFileTypes": ".pdf",
+        "customWelcomeMessageAr": "",
+        "customWelcomeMessageEn": "",
+        "accentColor": ""
+      },
+      "workflow": {
+        "id": "wf-solar-v1",
+        "initiativeId": "init-solar-2026",
+        "version": 1,
+        "nameAr": "مسار مبادرة شمس الصناعة v1.0 — من التسجيل حتى الربط والتشغيل",
+        "nameEn": "Shams El-Senaa Workflow v1.0 — Registration to Grid Connection",
+        "active": true,
+        "stages": [
+          {
+            "id": "stage-sh1",
+            "order": 1,
+            "code": "REG_SUBMIT",
+            "nameAr": "1. تسجيل المصنع",
+            "nameEn": "1. Factory Registration",
+            "assignedOrgId": "org-ida",
+            "assignedOrgNameAr": "الهيئة العامة للتنمية الصناعية (IDA)",
+            "assignedRole": "ida_reviewer",
+            "slaDays": 1,
+            "requiredDocuments": [
+              "CR_COPY",
+              "IND_LIC"
+            ],
+            "canReject": true,
+            "canRequestRework": true
+          },
+          {
+            "id": "stage-sh2",
+            "order": 2,
+            "code": "IDA_REVIEW",
+            "nameAr": "2. مراجعة الهيئة العامة للتنمية الصناعية",
+            "nameEn": "2. IDA Review",
+            "assignedOrgId": "org-ida",
+            "assignedOrgNameAr": "الهيئة العامة للتنمية الصناعية (IDA)",
+            "assignedRole": "ida_reviewer",
+            "slaDays": 2,
+            "requiredDocuments": [
+              "ELEC_BILLS_12",
+              "LOAD_PROFILE"
+            ],
+            "canReject": true,
+            "canRequestRework": true
+          },
+          {
+            "id": "stage-sh3",
+            "order": 3,
+            "code": "PREFEAS",
+            "nameAr": "3. دراسة ما قبل الجدوى",
+            "nameEn": "3. Pre-feasibility Study",
+            "assignedOrgId": "org-apex-solar",
+            "assignedOrgNameAr": "أبيكس لحلول الطاقة الشمسية",
+            "assignedRole": "solar_provider",
+            "slaDays": 7,
+            "requiredDocuments": [
+              "ROOF_DEED",
+              "STRUCT_REPORT"
+            ],
+            "canReject": true,
+            "canRequestRework": true
+          },
+          {
+            "id": "stage-sh4",
+            "order": 4,
+            "code": "TECH_REVIEW",
+            "nameAr": "4. مراجعة الملف الفني (IMC)",
+            "nameEn": "4. Technical File Review (IMC)",
+            "assignedOrgId": "org-imc",
+            "assignedOrgNameAr": "مركز تحديث الصناعة (IMC)",
+            "assignedRole": "imc_reviewer",
+            "slaDays": 2,
+            "requiredDocuments": [
+              "FEASIBILITY",
+              "SPECS"
+            ],
+            "canReject": true,
+            "canRequestRework": true
+          },
+          {
+            "id": "stage-sh5",
+            "order": 5,
+            "code": "BANK_CREDIT",
+            "nameAr": "5. التقييم الائتماني",
+            "nameEn": "5. Credit Assessment",
+            "assignedOrgId": "org-nbe",
+            "assignedOrgNameAr": "البنك الأهلي المصري",
+            "assignedRole": "bank_reviewer",
+            "slaDays": 14,
+            "requiredDocuments": [
+              "CREDIT"
+            ],
+            "canReject": true,
+            "canRequestRework": true
+          },
+          {
+            "id": "stage-sh6",
+            "order": 6,
+            "code": "CONTRACT_INSTALL",
+            "nameAr": "6. التعاقد والتركيب",
+            "nameEn": "6. Contracting & Installation",
+            "assignedOrgId": "org-apex-solar",
+            "assignedOrgNameAr": "أبيكس لحلول الطاقة الشمسية",
+            "assignedRole": "solar_provider",
+            "slaDays": 60,
+            "requiredDocuments": [
+              "PROVIDER"
+            ],
+            "canReject": true,
+            "canRequestRework": true
+          },
+          {
+            "id": "stage-sh7",
+            "order": 7,
+            "code": "UTILITY_APPROVAL",
+            "nameAr": "7. موافقة شركة الكهرباء",
+            "nameEn": "7. Utility Approval",
+            "assignedOrgId": "org-eehc",
+            "assignedOrgNameAr": "الشركة القابضة لكهرباء مصر",
+            "assignedRole": "ida_reviewer",
+            "slaDays": 7,
+            "requiredDocuments": [
+              "GRID_DATA"
+            ],
+            "canReject": true,
+            "canRequestRework": true
+          },
+          {
+            "id": "stage-sh8",
+            "order": 8,
+            "code": "GRID_CONNECT",
+            "nameAr": "8. الربط والتشغيل",
+            "nameEn": "8. Grid Connection & Commissioning",
+            "assignedOrgId": "org-eehc",
+            "assignedOrgNameAr": "الشركة القابضة لكهرباء مصر",
+            "assignedRole": "ida_reviewer",
+            "slaDays": 14,
+            "requiredDocuments": [],
+            "canReject": false,
+            "canRequestRework": false
+          }
+        ]
+      }
+    }
+  ],
+  "applications": [
+    {
+      "ref": "demo-solar-sewedy",
+      "initiativeId": "init-solar-2026",
+      "factoryId": "factory-sewedy",
+      "formData": {
+        "requestedCapacityKW": 1200,
+        "roofType": "concrete",
+        "financingAmountEGP": 24000000
+      },
+      "decisions": [
+        {
+          "action": "approve",
+          "comments": "التسجيل مكتمل والمستندات الأساسية سليمة — يُحال لمراجعة IDA.",
+          "by": "user-ida"
+        },
+        {
+          "action": "approve",
+          "comments": "مراجعة IDA: التراخيص والسجلات سارية — يُحال لدراسة ما قبل الجدوى.",
+          "by": "user-ida"
+        }
+      ]
+    },
+    {
+      "ref": "demo-solar-ghazl",
+      "initiativeId": "init-solar-2026",
+      "factoryId": "factory-ghazl",
+      "formData": {
+        "requestedCapacityKW": 2500,
+        "roofType": "concrete",
+        "financingAmountEGP": 48000000
+      },
+      "decisions": []
+    },
+    {
+      "ref": "demo-mod-ceramic",
+      "initiativeId": "init-modernization-2026",
+      "factoryId": "factory-ceramic",
+      "formData": {
+        "currentLineAgeYears": 14
+      },
+      "decisions": [
+        {
+          "action": "escalate",
+          "comments": "حجم الاستثمار المطلوب يتجاوز صلاحية المركز — يُصعّد للوزارة.",
+          "by": "user-imc"
+        }
+      ]
+    },
+    {
+      "ref": "demo-solar-delta",
+      "initiativeId": "init-solar-2026",
+      "factoryId": "factory-delta",
+      "formData": {
+        "requestedCapacityKW": 800,
+        "roofType": "ground_mounted",
+        "financingAmountEGP": 16500000
+      },
+      "decisions": [
+        {
+          "action": "approve",
+          "comments": "التسجيل مكتمل.",
+          "by": "user-ida"
+        },
+        {
+          "action": "approve",
+          "comments": "مراجعة IDA مستوفاة.",
+          "by": "user-ida"
+        },
+        {
+          "action": "approve",
+          "comments": "دراسة ما قبل الجدوى سليمة.",
+          "by": "user-solar"
+        },
+        {
+          "action": "approve",
+          "comments": "المراجعة الفنية سليمة.",
+          "by": "user-imc"
+        },
+        {
+          "action": "approve",
+          "comments": "الائتمان معتمد.",
+          "by": "user-bank"
+        },
+        {
+          "action": "approve",
+          "comments": "تم التوريد والتركيب طبقاً للمواصفات.",
+          "by": "user-solar"
+        },
+        {
+          "action": "approve",
+          "comments": "موافقة شركة الكهرباء على الربط.",
+          "by": "user-admin"
+        },
+        {
+          "action": "approve",
+          "comments": "تم الربط بالشبكة وبدء التشغيل التجاري والتوليد الفعلي.",
+          "by": "user-admin"
+        }
+      ]
+    }
+  ]
+}

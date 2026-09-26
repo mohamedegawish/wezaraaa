@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <defs>
+    <!-- Background Gradient: Sovereign Dark Charcoal to Neutral Slate -->
+    <linearGradient id="localBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050C16" />
+      <stop offset="45%" stop-color="#0C1A2E" />
+      <stop offset="85%" stop-color="#1A2A3F" />
+      <stop offset="100%" stop-color="#2E3D52" />
+    </linearGradient>
+
+    <!-- Egyptian Gold Rich Gradient -->
+    <linearGradient id="richGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE798" />
+      <stop offset="40%" stop-color="#D4AF37" />
+      <stop offset="80%" stop-color="#B38B3F" />
+      <stop offset="100%" stop-color="#7C591D" />
+    </linearGradient>
+
+    <linearGradient id="goldGlowHoriz" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D4AF37" stop-opacity="0" />
+      <stop offset="50%" stop-color="#D4AF37" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#D4AF37" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="675" fill="url(#localBg)" />
+
+  <!-- Sovereign Egyptian Industrial Seal Wireframe (Center Right) -->
+  <g transform="translate(860, 220)" opacity="0.35">
+    <!-- Outer Cog Gear -->
+    <circle cx="0" cy="0" r="160" stroke="#D4AF37" stroke-width="2" stroke-dasharray="16 10" />
+    <circle cx="0" cy="0" r="130" stroke="#C5A059" stroke-width="1.5" />
+    <circle cx="0" cy="0" r="95" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="6 6" />
+    <circle cx="0" cy="0" r="60" fill="url(#richGold)" opacity="0.2" />
+    <!-- 8 Gear Spokes -->
+    <line x1="-150" y1="0" x2="150" y2="0" stroke="#D4AF37" stroke-width="1.5" />
+    <line x1="0" y1="-150" x2="0" y2="150" stroke="#D4AF37" stroke-width="1.5" />
+    <line x1="-106" y1="-106" x2="106" y2="106" stroke="#D4AF37" stroke-width="1.5" />
+    <line x1="-106" y1="106" x2="106" y2="-106" stroke="#D4AF37" stroke-width="1.5" />
+  </g>
+
+  <!-- Heavy Industrial Manufacturing Factory Complex Silhouettes -->
+  <!-- Background Factory Ridge -->
+  <path d="M-50,490 L120,490 L140,430 L220,430 L240,490 L320,490 L320,380 L350,380 L350,490 L420,490 L460,400 L560,400 L600,490 L750,490 L780,360 L820,360 L850,490 L1050,490 L1100,420 L1250,420 L1250,675 L-50,675 Z" fill="#071322" opacity="0.8" />
+
+  <!-- Modern Architectural Industrial Facilities (Foreground) -->
+  <g transform="translate(80, 260)">
+    <!-- Main Plant 1 -->
+    <polygon points="120,240 280,160 420,220 260,300" fill="#0C2038" stroke="#D4AF37" stroke-width="1.5" />
+    <polygon points="120,240 260,300 260,380 120,320" fill="#081524" stroke="#475569" stroke-width="1" />
+    <polygon points="260,300 420,220 420,300 260,380" fill="#0B1A2C" stroke="#475569" stroke-width="1" />
+    <!-- Skylight Sawtooth Roof on Plant -->
+    <polygon points="170,215 220,190 240,200 190,225" fill="url(#richGold)" opacity="0.7" />
+    <polygon points="230,185 280,160 300,170 250,195" fill="url(#richGold)" opacity="0.7" />
+    <polygon points="290,155 340,130 360,140 310,165" fill="url(#richGold)" opacity="0.7" />
+
+    <!-- Isometric Shipping Container Stacks (Localization / Import Substitution) -->
+    <!-- Container 1 -->
+    <polygon points="460,260 540,220 590,240 510,280" fill="#B91C1C" opacity="0.85" stroke="#FECACA" stroke-width="1" />
+    <polygon points="460,260 510,280 510,320 460,300" fill="#991B1B" />
+    <polygon points="510,280 590,240 590,280 510,320" fill="#7F1D1D" />
+
+    <!-- Container 2 -->
+    <polygon points="460,215 540,175 590,195 510,235" fill="url(#richGold)" stroke="#FFFFFF" stroke-width="1" />
+    <polygon points="460,215 510,235 510,260 460,240" fill="#B38B3F" />
+    <polygon points="510,235 590,195 590,220 510,260" fill="#8C6826" />
+
+    <!-- Container 3 (sovereign teal) -->
+    <polygon points="550,235 630,195 680,215 600,255" fill="#0F766E" stroke="#99F6E4" stroke-width="1" />
+    <polygon points="550,235 600,255 600,295 550,275" fill="#0B534E" />
+    <polygon points="600,255 680,215 680,255 600,295" fill="#083F3A" />
+  </g>
+
+  <!-- Modern Cargo Crane Silhouette (Port / Localization Hub) -->
+  <g transform="translate(850, 240)" opacity="0.7" stroke="#D4AF37" stroke-width="2">
+    <!-- Crane Tower -->
+    <line x1="80" y1="240" x2="110" y2="80" />
+    <line x1="140" y1="240" x2="110" y2="80" />
+    <!-- Bracing -->
+    <line x1="88" y1="200" x2="132" y2="200" stroke-width="1" />
+    <line x1="96" y1="160" x2="124" y2="160" stroke-width="1" />
+    <line x1="104" y1="120" x2="116" y2="120" stroke-width="1" />
+    <!-- Jib Arm -->
+    <line x1="20" y1="80" x2="220" y2="80" stroke-width="3" />
+    <!-- Cable & Hook -->
+    <line x1="180" y1="80" x2="180" y2="160" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="3 3" />
+    <rect x="172" y="160" width="16" height="12" fill="#D4AF37" />
+  </g>
+
+  <!-- Golden Horizon Light Beam -->
+  <line x1="0" y1="490" x2="1200" y2="490" stroke="url(#goldGlowHoriz)" stroke-width="3" />
+  <line x1="0" y1="492" x2="1200" y2="492" stroke="#FFFFFF" stroke-width="0.8" opacity="0.4" />
+</svg>

@@ -1,0 +1,863 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Egypt Industrial Initiatives Platform API",
+  "version": "1.1.0"
+ },
+ "servers": [
+  {
+   "url": "http://localhost:4000"
+  },
+  {
+   "url": "https://api.industry.gov.eg"
+  }
+ ],
+ "paths": {
+  "/api/v1/health": {
+   "get": {
+    "summary": "Health",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/users/me": {
+   "get": {
+    "summary": "Current user",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/auth/switch-user": {
+   "post": {
+    "summary": "Demo switch",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/auth/login": {
+   "post": {
+    "summary": "Login JWT",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/auth/refresh": {
+   "post": {
+    "summary": "Rotate JWT",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/auth/logout": {
+   "post": {
+    "summary": "Logout",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/auth/change-password": {
+   "post": {
+    "summary": "Change password",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/auth/verify-email": {
+   "post": {
+    "summary": "Verify email (P0-4)",
+    "responses": {
+     "200": {
+      "description": "verified"
+     }
+    }
+   }
+  },
+  "/api/v1/auth/resend-verification": {
+   "post": {
+    "summary": "Resend verification",
+    "responses": {
+     "200": {
+      "description": "sent"
+     }
+    }
+   }
+  },
+  "/api/v1/users": {
+   "get": {
+    "summary": "List users protected",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "post": {
+    "summary": "Create user",
+    "responses": {
+     "201": {
+      "description": "created"
+     }
+    }
+   }
+  },
+  "/api/v1/users/{id}": {
+   "put": {
+    "summary": "Update user NEW",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "delete": {
+    "summary": "Delete user NEW",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/organizations": {
+   "get": {
+    "summary": "List orgs",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "post": {
+    "summary": "Create org",
+    "responses": {
+     "201": {
+      "description": "created"
+     }
+    }
+   }
+  },
+  "/api/v1/organizations/{id}": {
+   "put": {
+    "summary": "Update org",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/initiatives": {
+   "get": {
+    "summary": "List",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "post": {
+    "summary": "Create",
+    "responses": {
+     "201": {
+      "description": "created"
+     }
+    }
+   }
+  },
+  "/api/v1/initiatives/{id}": {
+   "get": {
+    "summary": "Get",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "put": {
+    "summary": "Update",
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "409": {
+      "description": "conflict — expectedUpdatedAt is stale"
+     }
+    }
+   },
+   "delete": {
+    "summary": "Delete",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/initiatives/{id}/customization": {
+   "get": {
+    "summary": "Get custom",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "put": {
+    "summary": "Put custom",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/initiatives/{id}/kpis": {
+   "get": {
+    "summary": "Get initiative KPIs (ministry_admin | initiative_manager only)",
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "403": {
+      "description": "forbidden"
+     }
+    }
+   },
+   "put": {
+    "summary": "Replace initiative KPIs { kpis: KpiShape[] }",
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "400": {
+      "description": "validation error"
+     },
+     "403": {
+      "description": "forbidden"
+     }
+    }
+   }
+  },
+  "/api/v1/initiatives/{id}/workflow": {
+   "get": {
+    "summary": "Get wf",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "put": {
+    "summary": "Put wf strict",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/factories": {
+   "get": {
+    "summary": "List factories (audit roles)",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/factories/register": {
+   "post": {
+    "summary": "Public factory self-registration (JWT)",
+    "responses": {
+     "201": {
+      "description": "created"
+     }
+    }
+   }
+  },
+  "/api/v1/factories/mine": {
+   "get": {
+    "summary": "Current user factory",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/factories/{id}": {
+   "get": {
+    "summary": "Get factory",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "put": {
+    "summary": "Put factory whitelist",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/factories/{id}/details-files": {
+   "get": {
+    "summary": "List files",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "post": {
+    "summary": "Upload PDF",
+    "responses": {
+     "201": {
+      "description": "created"
+     }
+    }
+   }
+  },
+  "/api/v1/factories/{id}/details-files/{fileId}": {
+   "delete": {
+    "summary": "Delete",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/applications": {
+   "get": {
+    "summary": "List apps",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   },
+   "post": {
+    "summary": "Create app",
+    "responses": {
+     "201": {
+      "description": "created"
+     }
+    }
+   }
+  },
+  "/api/v1/applications/{id}": {
+   "get": {
+    "summary": "Get app",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/applications/{id}/decisions": {
+   "post": {
+    "summary": "Decide the current stage (only the organization that owns it; officials decide the ministry intake stage only)",
+    "responses": {
+     "200": {
+      "description": "decision recorded"
+     },
+     "400": {
+      "description": "VALIDATION_ERROR | COMMENTS_REQUIRED | ACTION_NOT_ALLOWED"
+     },
+     "403": {
+      "description": "NOT_ASSIGNED (other organization, officials monitoring, auditor)"
+     },
+     "404": {
+      "description": "not found"
+     },
+     "409": {
+      "description": "APPLICATION_CLOSED"
+     },
+     "429": {
+      "description": "rate limited"
+     }
+    }
+   }
+  },
+  "/api/v1/dashboard/summary": {
+   "get": {
+    "summary": "KPIs",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/reports/applications.csv": {
+   "get": {
+    "summary": "CSV apps",
+    "responses": {
+     "200": {
+      "description": "csv"
+     }
+    }
+   }
+  },
+  "/api/v1/reports/initiatives.csv": {
+   "get": {
+    "summary": "CSV inits",
+    "responses": {
+     "200": {
+      "description": "csv"
+     }
+    }
+   }
+  },
+  "/api/v1/audit-logs": {
+   "get": {
+    "summary": "Audit",
+    "responses": {
+     "200": {
+      "description": "ok"
+     }
+    }
+   }
+  },
+  "/api/v1/applications/{id}/messages": {
+   "get": {
+    "summary": "List application messages",
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     }
+    }
+   },
+   "post": {
+    "summary": "Send application message",
+    "responses": {
+     "201": {
+      "description": "created"
+     },
+     "400": {
+      "description": "validation error"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     },
+     "429": {
+      "description": "rate limited"
+     }
+    }
+   }
+  },
+  "/api/v1/chat/conversations": {
+   "get": {
+    "summary": "Directory of every other eligible organization + the pair conversation summary",
+    "tags": [
+     "chat"
+    ],
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "401": {
+      "description": "unauthorized"
+     },
+     "403": {
+      "description": "forbidden (factory owners)"
+     }
+    }
+   }
+  },
+  "/api/v1/chat/unread": {
+   "get": {
+    "summary": "Unread chat summary for the caller side (bell / badges)",
+    "tags": [
+     "chat"
+    ],
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "403": {
+      "description": "forbidden"
+     }
+    }
+   }
+  },
+  "/api/v1/chat/conversations/{orgId}/messages": {
+   "get": {
+    "summary": "List messages of the conversation with peer organization {orgId} (cursor: before / after, limit<=50)",
+    "tags": [
+     "chat"
+    ],
+    "parameters": [
+     {
+      "name": "orgId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "before",
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "after",
+      "in": "query",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "schema": {
+       "type": "integer",
+       "maximum": 50
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "org not found / not eligible"
+     }
+    }
+   },
+   "post": {
+    "summary": "Send to peer organization {orgId} (multipart body + files[] <=5, or JSON {body}); auditor → 403 READ_ONLY",
+    "tags": [
+     "chat"
+    ],
+    "parameters": [
+     {
+      "name": "orgId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "multipart/form-data": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "body": {
+          "type": "string",
+          "maxLength": 4000
+         },
+         "files": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+           "type": "string",
+           "format": "binary"
+          }
+         }
+        }
+       }
+      },
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "body": {
+          "type": "string",
+          "maxLength": 4000
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "created"
+     },
+     "400": {
+      "description": "validation error / invalid file type / file too large"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "org not found / not eligible"
+     },
+     "429": {
+      "description": "rate limited"
+     }
+    }
+   }
+  },
+  "/api/v1/chat/conversations/{orgId}/read": {
+   "post": {
+    "summary": "Mark conversation read for the caller side (re-arms entity email reminder)",
+    "tags": [
+     "chat"
+    ],
+    "parameters": [
+     {
+      "name": "orgId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     }
+    }
+   }
+  },
+  "/api/v1/chat/attachments/{id}": {
+   "get": {
+    "summary": "Download chat attachment (inline=1 for images/PDF)",
+    "tags": [
+     "chat"
+    ],
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "inline",
+      "in": "query",
+      "schema": {
+       "type": "string",
+       "enum": [
+        "1"
+       ]
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "file"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     }
+    }
+   }
+  },
+  "/api/v1/chat/oversight": {
+   "get": {
+    "summary": "Conversations between OTHER organizations (officials / auditor, read-only)",
+    "tags": [
+     "chat"
+    ],
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "403": {
+      "description": "forbidden"
+     }
+    }
+   }
+  },
+  "/api/v1/chat/oversight/{conversationId}/messages": {
+   "get": {
+    "summary": "Read a conversation between two other organizations (read-only)",
+    "tags": [
+     "chat"
+    ],
+    "parameters": [
+     {
+      "name": "conversationId",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     }
+    }
+   }
+  },
+  "/api/v1/initiatives/{id}/duplicate": {
+   "post": {
+    "summary": "Duplicate initiative as draft (data + customization + workflow + KPIs)",
+    "responses": {
+     "201": {
+      "description": "created"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     }
+    }
+   }
+  },
+  "/api/v1/audit-logs/export": {
+   "post": {
+    "summary": "Log a client-side export in the audit log { summaryAr }",
+    "responses": {
+     "201": {
+      "description": "logged"
+     },
+     "400": {
+      "description": "validation error"
+     },
+     "403": {
+      "description": "forbidden"
+     }
+    }
+   }
+  },
+  "/api/v1/banners": {
+   "get": {
+    "summary": "Home page ad banners live now (public). ?scope=all → every banner incl. inactive/scheduled/expired (officials only)",
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "403": {
+      "description": "forbidden (scope=all)"
+     }
+    }
+   },
+   "post": {
+    "summary": "Create home banner (officials) { imageUrl, titleAr/En?, subtitleAr/En?, ctaLabelAr/En?, linkType: none|initiative|url, linkTarget?, placement: before_about|before_steps|before_cta, active?, startsAt?, endsAt? }",
+    "responses": {
+     "201": {
+      "description": "created"
+     },
+     "400": {
+      "description": "validation error / limit reached"
+     },
+     "403": {
+      "description": "forbidden"
+     }
+    }
+   }
+  },
+  "/api/v1/banners/reorder": {
+   "post": {
+    "summary": "Reorder home banners { ids: string[] } (officials)",
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "400": {
+      "description": "validation error"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     }
+    }
+   }
+  },
+  "/api/v1/banners/{id}": {
+   "put": {
+    "summary": "Update home banner (officials) — partial body, same fields as create",
+    "responses": {
+     "200": {
+      "description": "ok"
+     },
+     "400": {
+      "description": "validation error"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     }
+    }
+   },
+   "delete": {
+    "summary": "Delete home banner (officials)",
+    "responses": {
+     "200": {
+      "description": "deleted"
+     },
+     "403": {
+      "description": "forbidden"
+     },
+     "404": {
+      "description": "not found"
+     }
+    }
+   }
+  }
+ }
+}

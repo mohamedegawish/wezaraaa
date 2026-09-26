@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <defs>
+    <!-- Background Gradient: Industrial Sovereign Charcoal to Neutral Steel -->
+    <linearGradient id="modBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050C16" />
+      <stop offset="40%" stop-color="#0C1626" />
+      <stop offset="80%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#3F4A5C" />
+    </linearGradient>
+
+    <!-- Egyptian Gold Precision Gradient -->
+    <linearGradient id="goldTech" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#9E7B35" />
+    </linearGradient>
+
+    <!-- Teal Pulse Gradient -->
+    <linearGradient id="cyanLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2DD4BF" stop-opacity="0.1" />
+      <stop offset="50%" stop-color="#2DD4BF" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#2DD4BF" stop-opacity="0.1" />
+    </linearGradient>
+
+    <pattern id="cadGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2DD4BF" stroke-width="0.5" stroke-opacity="0.12" />
+    </pattern>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="675" fill="url(#modBg)" />
+  <rect width="1200" height="675" fill="url(#cadGrid)" />
+
+  <!-- Abstract Precision Caliper & Concentric Radial Nodes -->
+  <circle cx="880" cy="240" r="180" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="12 12" opacity="0.3" />
+  <circle cx="880" cy="240" r="120" stroke="#2DD4BF" stroke-width="1" stroke-dasharray="6 8" opacity="0.4" />
+  <circle cx="880" cy="240" r="60" fill="url(#goldTech)" opacity="0.15" />
+
+  <!-- High-Tech Automated Production Robotic Arm (Vector Art) -->
+  <g transform="translate(680, 140)">
+    <!-- Base Turret -->
+    <rect x="160" y="340" width="80" height="40" rx="6" fill="#0A1828" stroke="#D4AF37" stroke-width="2" />
+    <circle cx="200" cy="340" r="28" fill="#142B44" stroke="#2DD4BF" stroke-width="2" />
+    
+    <!-- Arm Segment 1 -->
+    <path d="M190,320 L140,180 L175,170 L215,315 Z" fill="#0E2338" stroke="#D4AF37" stroke-width="1.5" />
+    <!-- Pivot Joint 1 -->
+    <circle cx="155" cy="175" r="22" fill="#1B3B5E" stroke="#2DD4BF" stroke-width="2" />
+    <circle cx="155" cy="175" r="8" fill="#D4AF37" />
+
+    <!-- Arm Segment 2 (Forearm) -->
+    <path d="M165,160 L280,70 L295,85 L180,180 Z" fill="#142C47" stroke="#2DD4BF" stroke-width="1.5" />
+    <!-- Pivot Joint 2 -->
+    <circle cx="285" cy="78" r="16" fill="#0B1A2C" stroke="#D4AF37" stroke-width="2" />
+
+    <!-- Tool Head / Precision Laser End-Effector -->
+    <path d="M295,80 L350,95 L345,120 L290,105 Z" fill="#D4AF37" opacity="0.9" />
+    <!-- Laser Beam Target Line -->
+    <line x1="350" y1="108" x2="420" y2="180" stroke="#D4AF37" stroke-width="2.5" stroke-dasharray="4 3" />
+    <circle cx="420" cy="180" r="6" fill="#D4AF37" opacity="0.8" />
+  </g>
+
+  <!-- Digital Conveyor & Smart Production Flow -->
+  <g transform="translate(100, 360)">
+    <!-- Conveyor Track Perspective -->
+    <polygon points="0,220 540,110 570,115 20,235" fill="#0C1B2E" stroke="#C5A059" stroke-width="1.5" />
+    <!-- Conveyor Rollers -->
+    <line x1="60" y1="210" x2="80" y2="215" stroke="#2DD4BF" stroke-width="2" />
+    <line x1="120" y1="198" x2="140" y2="203" stroke="#2DD4BF" stroke-width="2" />
+    <line x1="180" y1="186" x2="200" y2="191" stroke="#2DD4BF" stroke-width="2" />
+    <line x1="240" y1="174" x2="260" y2="179" stroke="#2DD4BF" stroke-width="2" />
+    <line x1="300" y1="162" x2="320" y2="167" stroke="#2DD4BF" stroke-width="2" />
+    <line x1="360" y1="150" x2="380" y2="155" stroke="#2DD4BF" stroke-width="2" />
+    <line x1="420" y1="138" x2="440" y2="143" stroke="#2DD4BF" stroke-width="2" />
+    <line x1="480" y1="126" x2="500" y2="131" stroke="#2DD4BF" stroke-width="2" />
+
+    <!-- Isometric Product Units on Line -->
+    <polygon points="140,165 190,135 220,150 170,180" fill="url(#goldTech)" stroke="#FFFFFF" stroke-width="1" opacity="0.9" />
+    <polygon points="140,165 170,180 170,210 140,195" fill="#B38B3F" opacity="0.9" />
+    <polygon points="170,180 220,150 220,180 170,210" fill="#8C6826" opacity="0.9" />
+
+    <polygon points="280,135 330,105 360,120 310,150" fill="url(#goldTech)" stroke="#FFFFFF" stroke-width="1" opacity="0.9" />
+    <polygon points="280,135 310,150 310,180 280,165" fill="#B38B3F" opacity="0.9" />
+    <polygon points="310,150 360,120 360,150 310,180" fill="#8C6826" opacity="0.9" />
+  </g>
+
+  <!-- High-Tech Data Stream & Network Curves -->
+  <path d="M-50,420 C200,380 400,480 750,400 C1000,340 1150,410 1250,380" fill="none" stroke="url(#cyanLine)" stroke-width="3" />
+  <path d="M-50,450 C250,410 480,520 800,440 C1020,380 1140,430 1250,410" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.7" />
+
+  <!-- Industrial Gear Geometry Accent -->
+  <g transform="translate(1020, 460)" opacity="0.35">
+    <circle cx="0" cy="0" r="90" stroke="#C5A059" stroke-width="3" fill="none" stroke-dasharray="14 8" />
+    <circle cx="0" cy="0" r="50" stroke="#2DD4BF" stroke-width="1.5" fill="none" />
+    <circle cx="0" cy="0" r="20" fill="#C5A059" />
+  </g>
+</svg>

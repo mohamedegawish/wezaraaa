@@ -1,0 +1,61 @@
+/* Theme overrides — simplified, no dark mode */
+:root {
+  --surface: var(--bg-surface);
+  --surface-2: var(--bg-hover);
+  --text-on-dark: var(--text-main);
+  --text-on-dark-dim: var(--text-muted);
+  --white: #FFFFFF;
+  --on-dark: #111827;
+  --on-dark-dim: #6B7280;
+  --on-dark-faint: #9CA3AF;
+  --focus-ring: rgba(200, 16, 46, 0.15);
+  --hero-scrim: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+  --hero-scrim-soft: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
+}
+
+/* — Egyptian flag accents — جذابة ورفيعة */
+.flag-divider { height: 2px; width: 100%; background: var(--egypt-flag-ribbon); border-radius: 9999px; opacity: 1; }
+
+/* Cards */
+.card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); }
+.card:hover { box-shadow: var(--shadow-sm); }
+
+/* Buttons */
+.btn { border-radius: var(--radius-md); font-weight: 600; }
+.btn-primary { background: var(--egypt-red); color: white; }
+.btn-primary:hover { background: var(--egypt-red-dark); }
+
+/* Modal */
+.modal-content { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); }
+.modal-header { border-bottom: 1px solid var(--border-subtle); }
+.modal-footer { border-top: 1px solid var(--border-subtle); background: var(--bg-muted); }
+
+/* Focus */
+.focus-ring:focus { outline: none; border-color: var(--egypt-red); box-shadow: 0 0 0 3px var(--focus-ring); }
+
+/* Tables */
+.eng-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.eng-table th { background: var(--bg-muted); border-bottom: 1px solid var(--border-subtle); text-align: start; padding: 8px 12px; font-weight: 600; color: var(--text-secondary); font-size: 11px; letter-spacing: 0.04em; }
+.eng-table td { border-bottom: 1px solid var(--border-subtle); padding: 8px 12px; color: var(--text-main); }
+.eng-table tr:hover td { background: var(--bg-hover); }
+
+/* Error box */
+.error-box { background: var(--status-rejected-bg); color: var(--status-rejected); border: 1px solid var(--status-rejected-border); border-radius: var(--radius-md); padding: 0.6rem 0.9rem; font-size: 0.85rem; }
+
+/* Hero scrim */
+.hero-scrim { background: var(--hero-scrim); }
+.hero-scrim-soft { background: var(--hero-scrim-soft); }
+
+/* Badge variants */
+.badge-approved { background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; }
+.badge-pending { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+.badge-rejected { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
+.badge-draft { background: #F3F4F6; color: #4B5563; border: 1px solid #E5E7EB; }
+.badge-rework { background: #FEF3C7; color: #B45309; border: 1px solid #FCD34D; }
+.badge-gold { background: #FEFCE8; color: #854D0E; border: 1px solid #FEF08A; }
+.badge-teal { background: #F0FDFA; color: #115E59; border: 1px solid #99F6E4; }
+.badge-info { background: #EFF6FF; color: #1E40AF; border: 1px solid #BFDBFE; }
+
+/* Utilities */
+.num-ltr { direction: ltr; unicode-bidi: embed; font-variant-numeric: tabular-nums; }
+.text-on-dark-strong { color: var(--on-dark); }

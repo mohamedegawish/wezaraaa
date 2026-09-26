@@ -1,0 +1,8 @@
+# Frontend image context (frontend/Dockerfile does COPY . .).
+# Exclude heavy/generated/secret files so only src + config + lockfile ship.
+node_modules
+dist
+.env
+.env.*
+*.log
+coverage

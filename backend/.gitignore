@@ -1,0 +1,64 @@
+# Backend .gitignore
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+*.local
+
+# Environment files (SENSITIVE - NEVER COMMIT)
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test coverage
+coverage/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Backups
+backups/
+*.backup
+
+# Uploads
+uploads/
+
+# Certificates
+certs/
+*.pem
+*.key
+*.crt
+
+# Build cache
+.cache/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Turbo
+.turbo/
+
+# Lock files (keep package-lock.json)
+# package-lock.json

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" fill="none">
+  <defs>
+    <!-- Background Gradient: Sovereign Egyptian Navy to Deep Sovereign Teal -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050C16" />
+      <stop offset="45%" stop-color="#0B1D38" />
+      <stop offset="80%" stop-color="#12403C" />
+      <stop offset="100%" stop-color="#0F766E" />
+    </linearGradient>
+
+    <!-- Solar Gold Radiant Gradient -->
+    <linearGradient id="goldGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" stop-opacity="0.85" />
+      <stop offset="40%" stop-color="#D4AF37" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#C5A059" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- PV Panel Cells Gradient (deep teal-slate) -->
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16403C" />
+      <stop offset="60%" stop-color="#102E2E" />
+      <stop offset="100%" stop-color="#081417" />
+    </linearGradient>
+
+    <!-- Gold Accent Line -->
+    <linearGradient id="goldLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C5A059" stop-opacity="0" />
+      <stop offset="50%" stop-color="#D4AF37" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#C5A059" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky & Canvas -->
+  <rect width="1200" height="675" fill="url(#skyGrad)" />
+
+  <!-- Abstract Solar Radiant Orb & Concentric Rings -->
+  <circle cx="950" cy="160" r="160" fill="url(#goldGlow)" />
+  <circle cx="950" cy="160" r="220" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.4" />
+  <circle cx="950" cy="160" r="280" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4 6" opacity="0.2" />
+  <circle cx="950" cy="160" r="360" stroke="#99F6E4" stroke-width="0.75" opacity="0.15" />
+
+  <!-- Industrial Geometric Isometric Grid (Rooftop PV Arrays) -->
+  <g opacity="0.45" stroke="#94A3B8" stroke-width="0.75">
+    <line x1="0" y1="420" x2="1200" y2="420" />
+    <line x1="0" y1="480" x2="1200" y2="480" />
+    <line x1="0" y1="550" x2="1200" y2="550" />
+    <line x1="0" y1="630" x2="1200" y2="630" />
+    <!-- Diagonal perspective rays -->
+    <line x1="200" y1="675" x2="600" y2="380" />
+    <line x1="450" y1="675" x2="700" y2="380" />
+    <line x1="700" y1="675" x2="800" y2="380" />
+    <line x1="950" y1="675" x2="900" y2="380" />
+  </g>
+
+  <!-- Modern Solar Panels Isometric Field -->
+  <!-- Array 1 (Left Forefront) -->
+  <g transform="translate(180, 360)">
+    <!-- Panel 1 -->
+    <polygon points="0,90 140,20 230,55 90,135" fill="url(#panelGrad)" stroke="#2DD4BF" stroke-width="1.5" />
+    <line x1="45" y1="112" x2="185" y2="37" stroke="#2DD4BF" stroke-width="0.75" opacity="0.7" />
+    <line x1="70" y1="55" x2="160" y2="95" stroke="#C5A059" stroke-width="0.8" opacity="0.8" />
+
+    <!-- Panel 2 -->
+    <polygon points="120,70 260,0 350,35 210,115" fill="url(#panelGrad)" stroke="#2DD4BF" stroke-width="1.5" />
+    <line x1="165" y1="92" x2="305" y2="17" stroke="#2DD4BF" stroke-width="0.75" opacity="0.7" />
+    <line x1="190" y1="35" x2="280" y2="75" stroke="#C5A059" stroke-width="0.8" opacity="0.8" />
+
+    <!-- Panel 3 -->
+    <polygon points="240,50 380,-20 470,15 330,95" fill="url(#panelGrad)" stroke="#2DD4BF" stroke-width="1.5" />
+    <line x1="285" y1="72" x2="425" y2="-3" stroke="#2DD4BF" stroke-width="0.75" opacity="0.7" />
+    <line x1="310" y1="15" x2="400" y2="55" stroke="#C5A059" stroke-width="0.8" opacity="0.8" />
+
+    <!-- Panel Row 2 -->
+    <polygon points="-50,160 90,90 180,125 40,205" fill="url(#panelGrad)" stroke="#2DD4BF" stroke-width="1.5" />
+    <polygon points="70,140 210,70 300,105 160,185" fill="url(#panelGrad)" stroke="#2DD4BF" stroke-width="1.5" />
+    <polygon points="190,120 330,50 420,85 280,165" fill="url(#panelGrad)" stroke="#2DD4BF" stroke-width="1.5" />
+  </g>
+
+  <!-- Clean Energy Wave / Circuit Conductor (Gold) -->
+  <path d="M-50,560 C250,520 400,610 700,530 C1000,450 1100,500 1250,460" fill="none" stroke="url(#goldLine)" stroke-width="4" opacity="0.85" />
+  <path d="M-50,580 C230,550 420,630 720,550 C980,480 1120,530 1250,490" fill="none" stroke="#2DD4BF" stroke-width="2" opacity="0.5" />
+
+  <!-- Industrial Skyline Silhouette (Subtle in Background) -->
+  <path d="M720,440 L720,340 L770,340 L770,360 L810,360 L810,310 L840,310 L840,440 L880,440 L880,330 L930,330 L930,440 L970,440 L970,290 L980,290 L980,440 L1040,440 L1040,360 L1090,360 L1090,440 Z" fill="#071526" opacity="0.7" />
+
+  <!-- Energy Pulses (Floating Micro Nodes) -->
+  <circle cx="340" cy="460" r="4" fill="#D4AF37" />
+  <circle cx="560" cy="420" r="3" fill="#2DD4BF" />
+  <circle cx="780" cy="380" r="5" fill="#D4AF37" opacity="0.8" />
+  <circle cx="920" cy="430" r="3.5" fill="#2DD4BF" />
+</svg>
