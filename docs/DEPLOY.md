@@ -6,7 +6,7 @@
 1. **+ New → Application** → اختار الريبو من GitHub (لو الريبو private استخدم **GitHub App**).
 2. **Build Pack:** `Dockerfile` — Base Directory: `/` — Dockerfile Location: `/Dockerfile`.
 3. **Ports Exposes:** `4000`.
-4. **Domains:** `https://your-domain.com` (الـ DNS لازم يشاور على سيرفر Coolify).
+4. **Domains:** `https://www.industrial.talentooo.com,https://industrial.talentooo.com` — ومن **Direction** اختار **Redirect to www**. (الاتنين لازم يشاوروا بـ A record على IP سيرفر Coolify.)
 
 ### 2) التخزين الدائم (إجباري — من غيره الداتا تتمسح مع كل deploy)
 **Persistent Storage → + Add → Volume Mount**
@@ -19,8 +19,8 @@
 | المتغير | القيمة | ملاحظة |
 |---|---|---|
 | `JWT_SECRET` | ناتج `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"` | **إجباري** — السيرفر يرفض الإقلاع بدونه |
-| `CORS_ORIGIN` | `https://your-domain.com` | نفس الدومين |
-| `APP_URL` | `https://your-domain.com` | الرابط اللي بيظهر في الإيميلات |
+| `CORS_ORIGIN` | `https://www.industrial.talentooo.com,https://industrial.talentooo.com` | الدومينين، من غير / في الآخر |
+| `APP_URL` | `https://www.industrial.talentooo.com` | الرابط اللي بيظهر في الإيميلات |
 | `SEED_ON_BOOT` | `1` في أول deploy فقط، ثم `0` | يزرع الجهات والحسابات الأساسية لو القاعدة فاضية |
 | `GMAIL_USER` / `GMAIL_APP_PASSWORD` | اختياري | لتفعيل الإيميلات (انظر §5-ج و§5-د) |
 | `MAIL_FROM_NAME` | اختياري | اسم المُرسل |
