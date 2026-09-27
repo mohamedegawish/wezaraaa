@@ -10,7 +10,7 @@ export type BannerLinkType = (typeof BANNER_LINK_TYPES)[number];
 
 export interface HomeBanner {
   id: string;
-  /** صورة مرفوعة → مسار /api/v1/banners/:id/image?v=… (لا تُرسل داخل JSON)؛ غير ذلك كما خُزنت. */
+  /** صورة مرفوعة → مسار /api/v1/highlights/:id/image?v=… (لا تُرسل داخل JSON)؛ غير ذلك كما خُزنت. */
   imageUrl: string;
   titleAr: string;
   titleEn: string;
@@ -40,7 +40,7 @@ const WRITABLE = [
 type Row = Record<string, any>;
 
 export function bannerImagePath(id: string, updatedAt: string): string {
-  return `/api/v1/banners/${encodeURIComponent(id)}/image?v=${encodeURIComponent(updatedAt)}`;
+  return `/api/v1/highlights/${encodeURIComponent(id)}/image?v=${encodeURIComponent(updatedAt)}`;
 }
 
 function toBanner(r: Row): HomeBanner {
@@ -103,7 +103,7 @@ function toColumn(field: (typeof WRITABLE)[number], v: unknown): string | number
 
 export function createBanner(patch: BannerPatch & { imageUrl: string }): HomeBanner {
   const db = getDb();
-  const id = newId('banner');
+  const id = newId('hl');
   const now = nowIso();
   const maxOrder = (db.prepare('SELECT COALESCE(MAX(sortOrder), 0) AS m FROM home_banners').get() as { m: number }).m;
   const values = { active: true, ...patch } as Record<string, unknown>;

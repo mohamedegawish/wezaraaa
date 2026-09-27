@@ -780,7 +780,7 @@
     }
    }
   },
-  "/api/v1/banners": {
+  "/api/v1/highlights": {
    "get": {
     "summary": "Home page ad banners live now (public). ?scope=all → every banner incl. inactive/scheduled/expired (officials only)",
     "responses": {
@@ -810,7 +810,7 @@
     }
    }
   },
-  "/api/v1/banners/reorder": {
+  "/api/v1/highlights/reorder": {
    "post": {
     "summary": "Reorder home banners { ids: string[] } (officials)",
     "responses": {
@@ -829,7 +829,7 @@
     }
    }
   },
-  "/api/v1/banners/{id}/image": {
+  "/api/v1/highlights/{id}/image": {
    "get": {
     "summary": "Uploaded banner image as binary (public, long cache — the listed imageUrl carries ?v=updatedAt)",
     "responses": {
@@ -842,7 +842,7 @@
     }
    }
   },
-  "/api/v1/banners/{id}": {
+  "/api/v1/highlights/{id}": {
    "put": {
     "summary": "Update home banner (officials) — partial body, same fields as create",
     "responses": {

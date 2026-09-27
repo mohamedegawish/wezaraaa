@@ -129,19 +129,19 @@ export const api = {
   },
   // بانرات الصفحة الرئيسية — المعروض الآن عام؛ scope 'all' والتعديل للمسؤولين فقط.
   listBanners(scope?: 'all'): Promise<ListHomeBannersRes> {
-    return apiFetch<ListHomeBannersRes>('/api/v1/banners', { query: { scope }, ...ctx() });
+    return apiFetch<ListHomeBannersRes>('/api/v1/highlights', { query: { scope }, ...ctx() });
   },
   createBanner(req: UpsertHomeBannerReq): Promise<HomeBannerRes> {
-    return apiFetch<HomeBannerRes>('/api/v1/banners', { method: 'POST', body: req, ...ctx() });
+    return apiFetch<HomeBannerRes>('/api/v1/highlights', { method: 'POST', body: req, ...ctx() });
   },
   updateBanner(id: string, req: UpsertHomeBannerReq): Promise<HomeBannerRes> {
-    return apiFetch<HomeBannerRes>(`/api/v1/banners/${encodeURIComponent(id)}`, { method: 'PUT', body: req, ...ctx() });
+    return apiFetch<HomeBannerRes>(`/api/v1/highlights/${encodeURIComponent(id)}`, { method: 'PUT', body: req, ...ctx() });
   },
   deleteBanner(id: string) {
-    return apiFetch<{ message: string; status: 'ok' }>(`/api/v1/banners/${encodeURIComponent(id)}`, { method: 'DELETE', ...ctx() });
+    return apiFetch<{ message: string; status: 'ok' }>(`/api/v1/highlights/${encodeURIComponent(id)}`, { method: 'DELETE', ...ctx() });
   },
   reorderBanners(ids: string[]): Promise<ListHomeBannersRes> {
-    return apiFetch<ListHomeBannersRes>('/api/v1/banners/reorder', { method: 'POST', body: { ids }, ...ctx() });
+    return apiFetch<ListHomeBannersRes>('/api/v1/highlights/reorder', { method: 'POST', body: { ids }, ...ctx() });
   },
   /** توثيق تصدير تم في المتصفح (Excel) في سجل التدقيق */
   logExport(req: LogExportReq) {

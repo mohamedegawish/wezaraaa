@@ -30,7 +30,7 @@ export function resolveCoverUrl(path: string): string {
   return path;
 }
 
-// ملفات يخدمها الباك نفسه (مثل صور البانرات /api/v1/banners/:id/image) تحتاج API_BASE مع الاستضافة المقسمة.
+// ملفات يخدمها الباك نفسه (مثل صور البانرات /api/v1/highlights/:id/image) تحتاج API_BASE مع الاستضافة المقسمة.
 export function resolveApiAssetUrl(path: string): string {
   return path.startsWith('/api/') ? `${API_BASE}${path}` : path;
 }

@@ -150,7 +150,7 @@ function audit(req: AuthedRequest, actionType: string, entityId: string, summary
   });
 }
 
-publicBannersRouter.get('/banners', (req, res, next) => {
+publicBannersRouter.get('/highlights', (req, res, next) => {
   // ?scope=all (قائمة الإدارة الكاملة) تكمل إلى auth ثم bannersRouter — حتى تعمل إعادة تدوير التوكن (401).
   if (req.query.scope === 'all') return next();
   return okMessage(res, 200, 'ok', listLiveBanners());
@@ -158,7 +158,7 @@ publicBannersRouter.get('/banners', (req, res, next) => {
 
 // الصورة المرفوعة تُخدم ثنائياً بكاش طويل (الرابط يحمل ?v=updatedAt فيتجدد مع كل تعديل).
 // عامة لأن <img> لا يرسل Bearer؛ معرفات البانرات UUID غير قابلة للتخمين.
-publicBannersRouter.get('/banners/:id/image', (req, res) => {
+publicBannersRouter.get('/highlights/:id/image', (req, res) => {
   const raw = getBannerRawImage(req.params.id);
   const m = raw ? DATA_URL_RE.exec(raw) : null;
   if (!m) return apiError(res, 404, 'NOT_FOUND', 'الصورة غير موجودة.', 'Image not found.');
@@ -166,11 +166,11 @@ publicBannersRouter.get('/banners/:id/image', (req, res) => {
   return res.type(m[1]).send(Buffer.from(m[2], 'base64'));
 });
 
-bannersRouter.get('/banners', requireRole(...ADMIN_ROLES), (_req, res) => {
+bannersRouter.get('/highlights', requireRole(...ADMIN_ROLES), (_req, res) => {
   return okMessage(res, 200, 'ok', listBanners());
 });
 
-bannersRouter.post('/banners', requireRole(...ADMIN_ROLES), (req: AuthedRequest, res) => {
+bannersRouter.post('/highlights', requireRole(...ADMIN_ROLES), (req: AuthedRequest, res) => {
   if (countBanners() >= MAX_BANNERS) {
     return apiError(res, 400, 'LIMIT_REACHED', `الحد الأقصى ${MAX_BANNERS} بانراً — احذف بانراً قديماً أولاً.`, `Maximum ${MAX_BANNERS} banners.`);
   }
@@ -184,7 +184,7 @@ bannersRouter.post('/banners', requireRole(...ADMIN_ROLES), (req: AuthedRequest,
   return okMessage(res, 201, 'تمت إضافة البانر', created);
 });
 
-bannersRouter.post('/banners/reorder', requireRole(...ADMIN_ROLES), (req: AuthedRequest, res) => {
+bannersRouter.post('/highlights/reorder', requireRole(...ADMIN_ROLES), (req: AuthedRequest, res) => {
   const ids = (req.body ?? {}).ids as unknown;
   if (!Array.isArray(ids) || ids.some((x) => typeof x !== 'string') || new Set(ids).size !== ids.length) {
     return apiError(res, 400, 'VALIDATION_ERROR', 'قائمة الترتيب غير صالحة.', 'ids must be an array of unique strings.', [{ field: 'ids', issue: 'unique string[]' }]);
@@ -201,7 +201,7 @@ bannersRouter.post('/banners/reorder', requireRole(...ADMIN_ROLES), (req: Authed
   return okMessage(res, 200, 'تم حفظ الترتيب', listBanners());
 });
 
-bannersRouter.put('/banners/:id', requireRole(...ADMIN_ROLES), (req: AuthedRequest, res) => {
+bannersRouter.put('/highlights/:id', requireRole(...ADMIN_ROLES), (req: AuthedRequest, res) => {
   const current = getBannerById(req.params.id);
   if (!current) return apiError(res, 404, 'NOT_FOUND', 'البانر غير موجود.', 'Banner not found.');
   const parsed = parseBannerBody((req.body ?? {}) as Record<string, unknown>, current);
@@ -214,7 +214,7 @@ bannersRouter.put('/banners/:id', requireRole(...ADMIN_ROLES), (req: AuthedReque
   return okMessage(res, 200, 'تم حفظ البانر', updated);
 });
 
-bannersRouter.delete('/banners/:id', requireRole(...ADMIN_ROLES), (req: AuthedRequest, res) => {
+bannersRouter.delete('/highlights/:id', requireRole(...ADMIN_ROLES), (req: AuthedRequest, res) => {
   const current = getBannerById(req.params.id);
   if (!current) return apiError(res, 404, 'NOT_FOUND', 'البانر غير موجود.', 'Banner not found.');
   deleteBanner(current.id);

@@ -118,6 +118,8 @@ function ensureMigrated(db: DatabaseSync): void {
     db.exec('CREATE INDEX IF NOT EXISTS idx_email_outbox_due ON email_outbox(status, nextAttemptAt)');
     db.exec('CREATE INDEX IF NOT EXISTS idx_email_outbox_ref ON email_outbox(refType, refId)');
   } catch { /* locked/older sqlite */ }
+  // معرفات البانرات تظهر في رابط الصورة — «banner-» تحجبه مانعات الإعلانات، فالبادئة صارت «hl-».
+  try { db.exec("UPDATE home_banners SET id = 'hl-' || substr(id, 8) WHERE id LIKE 'banner-%'"); } catch { /* older sqlite */ }
   renameMinistry(db);
 }
 

@@ -211,7 +211,7 @@ CREATE INDEX IF NOT EXISTS idx_email_outbox_due ON email_outbox(status, nextAtte
 CREATE INDEX IF NOT EXISTS idx_email_outbox_ref ON email_outbox(refType, refId);
 
 -- بانرات الإعلانات في الصفحة الرئيسية (يديرها المسؤولون من «بانرات الرئيسية»).
--- imageUrl: data:image/… (مرفوعة، تُخدم ثنائياً من /banners/:id/image) أو https:// أو مسار نسبي /…
+-- imageUrl: data:image/… (مرفوعة، تُخدم ثنائياً من /highlights/:id/image) أو https:// أو مسار نسبي /…
 -- startsAt/endsAt: ISO أو '' (بلا حد) — «المعروض الآن» = active + داخل النافذة الزمنية.
 CREATE TABLE IF NOT EXISTS home_banners (
   id          TEXT PRIMARY KEY,

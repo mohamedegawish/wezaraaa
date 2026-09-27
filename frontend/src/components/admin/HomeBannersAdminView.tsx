@@ -80,6 +80,14 @@ function bannerStatus(b: HomeBannerShape, now: string): LiveStatus {
   return 'live';
 }
 
+/** هل يُعرض الرابط كصورة فعلاً؟ (رابط صفحة موقع أو موقع يمنع التضمين = لا) */
+function imageLoads(src: string, timeoutMs = 10000): Promise<boolean> {
+  return Promise.race([
+    loadImage(src).then(() => true, () => false),
+    new Promise<boolean>(resolve => window.setTimeout(() => resolve(false), timeoutMs)),
+  ]);
+}
+
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -129,6 +137,9 @@ export const HomeBannersAdminView: React.FC = () => {
   const [draft, setDraft] = useState<Draft | null>(null); // null = النموذج مغلق
   const [formError, setFormError] = useState('');
   const [imageBusy, setImageBusy] = useState(false);
+  // روابط صور فشل تحميلها (المعاينة + صور القائمة) — للتنبيه بدل صورة فارغة.
+  const [brokenImages, setBrokenImages] = useState<ReadonlySet<string>>(() => new Set());
+  const markBroken = (url: string) => setBrokenImages(prev => (prev.has(url) ? prev : new Set(prev).add(url)));
   const [previewAr, setPreviewAr] = useState(isAr);
 
   const errText = (e: unknown) => {
@@ -182,6 +193,9 @@ export const HomeBannersAdminView: React.FC = () => {
 
   const patchDraft = (p: Partial<Draft>) => setDraft(d => (d ? { ...d, ...p } : d));
 
+  const notAnImageAr = 'رابط الصورة لا يعرض صورة. استخدم رابطاً مباشراً لملف صورة (ينتهي عادةً بـ ‎.jpg أو ‎.png أو ‎.webp) وليس رابط صفحة موقع، أو ارفع الصورة من جهازك. لو تريد أن يفتح البانر موقعاً، ضع رابطه في «عند الضغط على البانر».';
+  const notAnImageEn = 'The image link does not show an image. Use a direct link to an image file (usually ending in .jpg, .png or .webp), not a web page — or upload the image. To make the banner open a website, put that link under “When the banner is clicked”.';
+
   const save = async () => {
     if (!draft) return;
     const fail = (ar: string, en: string) => setFormError(isAr ? ar : en);
@@ -189,6 +203,13 @@ export const HomeBannersAdminView: React.FC = () => {
     if (draft.linkType === 'initiative' && !draft.linkTarget) return fail('اختر المبادرة التي يفتحها البانر.', 'Choose the initiative the banner opens.');
     if (draft.linkType === 'url' && !/^https?:\/\//i.test(draft.linkTarget.trim())) return fail('الرابط الخارجي يجب أن يبدأ بـ https://', 'The external link must start with https://');
     if (draft.startDate && draft.endDate && draft.endDate < draft.startDate) return fail('تاريخ الانتهاء قبل تاريخ البدء.', 'End date is before start date.');
+    const external = /^https?:\/\//i.test(draft.imageUrl.trim());
+    if (external) {
+      setBusy(true);
+      const ok = await imageLoads(draft.imageUrl.trim());
+      setBusy(false);
+      if (!ok) { markBroken(draft.imageUrl); return fail(notAnImageAr, notAnImageEn); }
+    }
 
     const req: UpsertHomeBannerReq = {
       imageUrl: draft.imageUrl.trim(),
@@ -362,7 +383,8 @@ export const HomeBannersAdminView: React.FC = () => {
                       return (
                         <div key={b.id} style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap', padding: '0.75rem', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-lg)', background: 'var(--bg-surface)', opacity: status === 'live' ? 1 : 0.8 }}>
                           <div style={{ width: '220px', maxWidth: '100%', aspectRatio: '4 / 1', borderRadius: 'var(--radius-md)', overflow: 'hidden', background: 'var(--bg-muted)', flexShrink: 0, border: '1px solid var(--border-subtle)' }}>
-                            <img src={resolveApiAssetUrl(b.imageUrl)} alt="" loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                            <img src={resolveApiAssetUrl(b.imageUrl)} alt="" loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                              onError={() => markBroken(b.imageUrl)} />
                           </div>
 
                           <div style={{ flex: 1, minWidth: '200px', display: 'grid', gap: '0.35rem' }}>
@@ -371,6 +393,9 @@ export const HomeBannersAdminView: React.FC = () => {
                                 {title || (isAr ? 'بدون عنوان (صورة فقط)' : 'Untitled (image only)')}
                               </strong>
                               {statusBadge(status, b)}
+                              {brokenImages.has(b.imageUrl) && (
+                                <Badge tone="rejected">{isAr ? 'الصورة لا تظهر للزوار — عدّل رابط الصورة' : 'Image does not load — fix the image link'}</Badge>
+                              )}
                             </div>
                             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                               <span style={metaChip}><Link2 size={13} />{linkSummary(b)}</span>
@@ -443,10 +468,11 @@ export const HomeBannersAdminView: React.FC = () => {
                 </div>
               </div>
               <div dir={previewAr ? 'rtl' : 'ltr'}>
-                <div className={`home-banner${bannerHasText(draft, previewAr) ? ' has-text' : ''}`} style={{ boxShadow: 'none' }}>
+                <div className={`home-feature${bannerHasText(draft, previewAr) ? ' has-text' : ''}`} style={{ boxShadow: 'none' }}>
                   {draft.imageUrl ? (
-                    <div className="home-banner-slide is-active">
-                      <BannerVisual banner={draft} isAr={previewAr} showCta={draft.linkType !== 'none'} eager />
+                    <div className="home-feature-slide is-active">
+                      <BannerVisual banner={draft} isAr={previewAr} showCta={draft.linkType !== 'none'} eager
+                        onImageError={() => markBroken(draft.imageUrl)} />
                     </div>
                   ) : (
                     <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.35rem', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
@@ -473,7 +499,7 @@ export const HomeBannersAdminView: React.FC = () => {
                   className="form-control"
                   dir="ltr"
                   style={{ flex: 1, minWidth: '220px' }}
-                  placeholder={isAr ? 'أو الصق رابط صورة https://…' : 'or paste an image link https://…'}
+                  placeholder={isAr ? 'أو رابط مباشر لملف صورة https://….jpg' : 'or a direct image file link https://….jpg'}
                   value={/^https?:\/\//i.test(draft.imageUrl) ? draft.imageUrl : ''}
                   onChange={e => patchDraft({ imageUrl: e.target.value })}
                 />
@@ -483,6 +509,9 @@ export const HomeBannersAdminView: React.FC = () => {
                   ? 'المقاس المقترح 1600×400 بكسل (نسبة 4:1). الصورة تملأ البانر وقد تُقص أطرافها على الموبايل — اجعل المحتوى المهم في المنتصف. تُضغط الصورة تلقائياً قبل الرفع.'
                   : 'Suggested size 1600×400 px (4:1). The image fills the banner and its edges may be cropped on mobile — keep key content centered. Images are compressed automatically.'}
               </small>
+              {draft.imageUrl && brokenImages.has(draft.imageUrl) && (
+                <ErrorBox message={isAr ? notAnImageAr : notAnImageEn} style={{ marginTop: '0.5rem' }} />
+              )}
             </div>
 
             {/* المكان والظهور */}

@@ -20,29 +20,29 @@ const PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCA
 type Banner = { id: string; imageUrl: string; titleAr: string; placement: string; active: boolean; sortOrder: number; linkType: string; linkTarget: string; startsAt: string; endsAt: string };
 
 const create = (body: Record<string, unknown>, user = ADMIN) =>
-  jfetch(`${base}/banners`, { method: 'POST', headers: H(user), body });
-const publicList = async () => (await jfetch(`${base}/banners`)).json.data as Banner[];
-const adminList = async () => (await jfetch(`${base}/banners?scope=all`, { headers: H(ADMIN) })).json.data as Banner[];
+  jfetch(`${base}/highlights`, { method: 'POST', headers: H(user), body });
+const publicList = async () => (await jfetch(`${base}/highlights`)).json.data as Banner[];
+const adminList = async () => (await jfetch(`${base}/highlights?scope=all`, { headers: H(ADMIN) })).json.data as Banner[];
 
 describe('home banners', () => {
   let first = '';
 
   it('public list is empty on a fresh DB', async () => {
-    const r = await jfetch(`${base}/banners`);
+    const r = await jfetch(`${base}/highlights`);
     assert.equal(r.status, 200);
     assert.deepEqual(r.json.data, []);
   });
 
   it('only officials can create (guest 401, reviewer / auditor 403)', async () => {
-    assert.equal((await jfetch(`${base}/banners`, { method: 'POST', body: { imageUrl: PNG } })).status, 401);
+    assert.equal((await jfetch(`${base}/highlights`, { method: 'POST', body: { imageUrl: PNG } })).status, 401);
     assert.equal((await create({ imageUrl: PNG }, 'user-ida')).status, 403);
     assert.equal((await create({ imageUrl: PNG }, 'user-auditor')).status, 403);
   });
 
   it('scope=all needs an official', async () => {
-    assert.equal((await jfetch(`${base}/banners?scope=all`)).status, 401);
-    assert.equal((await jfetch(`${base}/banners?scope=all`, { headers: H('user-factory-sewedy') })).status, 403);
-    assert.equal((await jfetch(`${base}/banners?scope=all`, { headers: H(MANAGER) })).status, 200);
+    assert.equal((await jfetch(`${base}/highlights?scope=all`)).status, 401);
+    assert.equal((await jfetch(`${base}/highlights?scope=all`, { headers: H('user-factory-sewedy') })).status, 403);
+    assert.equal((await jfetch(`${base}/highlights?scope=all`, { headers: H(MANAGER) })).status, 200);
   });
 
   it('validates image, link, placement and dates', async () => {
@@ -76,7 +76,8 @@ describe('home banners', () => {
     first = b.id;
     assert.equal(b.placement, 'before_about');
     assert.equal(b.active, true);
-    assert.match(b.imageUrl, /^\/api\/v1\/banners\/banner-[^/]+\/image\?v=/, 'data URL is not echoed in JSON');
+    assert.match(b.imageUrl, /^\/api\/v1\/highlights\/hl-[^/]+\/image\?v=/, 'data URL is not echoed in JSON');
+    assert.ok(!/banner/i.test(b.imageUrl), 'ad blockers block any URL containing "banner"');
 
     const img = await fetch(`${base.replace('/api/v1', '')}${b.imageUrl}`);
     assert.equal(img.status, 200);
@@ -99,7 +100,7 @@ describe('home banners', () => {
 
   it('partial update keeps the image when the served URL is echoed back', async () => {
     const before = (await adminList()).find(b => b.id === first)!;
-    const r = await jfetch(`${base}/banners/${first}`, {
+    const r = await jfetch(`${base}/highlights/${first}`, {
       method: 'PUT', headers: H(MANAGER),
       body: { imageUrl: before.imageUrl, titleAr: 'عنوان جديد', placement: 'before_cta', linkType: 'none' },
     });
@@ -114,17 +115,17 @@ describe('home banners', () => {
 
   it('reorders (full list only) and deletes', async () => {
     const ids = (await adminList()).map(b => b.id);
-    assert.equal((await jfetch(`${base}/banners/reorder`, { method: 'POST', headers: H(ADMIN), body: { ids: ids.slice(1) } })).status, 400);
-    assert.equal((await jfetch(`${base}/banners/reorder`, { method: 'POST', headers: H(ADMIN), body: { ids: [...ids.slice(1), 'banner-nope'] } })).status, 404);
+    assert.equal((await jfetch(`${base}/highlights/reorder`, { method: 'POST', headers: H(ADMIN), body: { ids: ids.slice(1) } })).status, 400);
+    assert.equal((await jfetch(`${base}/highlights/reorder`, { method: 'POST', headers: H(ADMIN), body: { ids: [...ids.slice(1), 'hl-nope'] } })).status, 404);
     const reversed = [...ids].reverse();
-    const r = await jfetch(`${base}/banners/reorder`, { method: 'POST', headers: H(ADMIN), body: { ids: reversed } });
+    const r = await jfetch(`${base}/highlights/reorder`, { method: 'POST', headers: H(ADMIN), body: { ids: reversed } });
     assert.equal(r.status, 200);
     assert.deepEqual((r.json.data as Banner[]).map(b => b.id), reversed);
 
-    assert.equal((await jfetch(`${base}/banners/${first}`, { method: 'DELETE', headers: H('user-ida') })).status, 403);
-    assert.equal((await jfetch(`${base}/banners/${first}`, { method: 'DELETE', headers: H(ADMIN) })).status, 200);
-    assert.equal((await jfetch(`${base}/banners/${first}`, { method: 'DELETE', headers: H(ADMIN) })).status, 404);
-    assert.equal((await fetch(`${base}/banners/${first}/image`)).status, 404);
+    assert.equal((await jfetch(`${base}/highlights/${first}`, { method: 'DELETE', headers: H('user-ida') })).status, 403);
+    assert.equal((await jfetch(`${base}/highlights/${first}`, { method: 'DELETE', headers: H(ADMIN) })).status, 200);
+    assert.equal((await jfetch(`${base}/highlights/${first}`, { method: 'DELETE', headers: H(ADMIN) })).status, 404);
+    assert.equal((await fetch(`${base}/highlights/${first}/image`)).status, 404);
     assert.deepEqual(await publicList(), []);
   });
 
@@ -141,5 +142,16 @@ describe('home banners', () => {
     const rows = (r.json as { data: Array<{ entityType: string; actionType: string }> }).data;
     const acts = new Set(rows.filter(x => x.entityType === 'banner').map(x => x.actionType));
     for (const a of ['create', 'update', 'delete']) assert.ok(acts.has(a), `missing audit ${a}`);
+  });
+
+  it('migrates legacy banner- ids to hl- on boot (ad blockers block /banner- URLs)', async () => {
+    const { getDb, closeDb } = await import('../src/db/sqlite.js');
+    const [one] = await adminList();
+    getDb().prepare("UPDATE home_banners SET id = 'banner-legacy-1' WHERE id = ?").run(one.id);
+    closeDb();
+    getDb(); // reopen → ensureMigrated
+    const ids = (await adminList()).map(b => b.id);
+    assert.ok(ids.includes('hl-legacy-1'));
+    assert.ok(ids.every(id => !id.startsWith('banner-')));
   });
 });

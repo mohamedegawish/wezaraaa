@@ -119,7 +119,8 @@ export function createApp() {
   v1.use('/initiatives', publicReadLimiter);
   v1.use(publicInitiativesRouter);
   // بانرات الصفحة الرئيسية: المعروض الآن + الصور للزوار؛ ?scope=all والتعديل يكملان إلى auth.
-  v1.use('/banners', publicReadLimiter);
+  // المسار /highlights عمداً: مانعات الإعلانات تحجب أي رابط فيه «banner» (ERR_BLOCKED_BY_CLIENT).
+  v1.use('/highlights', publicReadLimiter);
   v1.use(publicBannersRouter);
   // API-only frontend: public factory self-registration shares the auth abuse surface.
   const publicLimiter = rateLimit({

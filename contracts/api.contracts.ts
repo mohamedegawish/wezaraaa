@@ -899,15 +899,15 @@ export interface AuditShape {
 // ----------------------------------------------------------------------------
 // 7) بانرات الإعلانات في الصفحة الرئيسية
 // ----------------------------------------------------------------------------
-// GET /api/v1/banners → { data: HomeBannerShape[] } المعروض الآن (عام، بدون مصادقة)
-// GET /api/v1/banners?scope=all → كل البانرات بما فيها المخفية/المجدولة/المنتهية (المسؤولون فقط)
-// GET /api/v1/banners/:id/image → الصورة المرفوعة ثنائياً (كاش طويل؛ الرابط يحمل ?v=updatedAt)
+// GET /api/v1/highlights → { data: HomeBannerShape[] } المعروض الآن (عام، بدون مصادقة)
+// GET /api/v1/highlights?scope=all → كل البانرات بما فيها المخفية/المجدولة/المنتهية (المسؤولون فقط)
+// GET /api/v1/highlights/:id/image → الصورة المرفوعة ثنائياً (كاش طويل؛ الرابط يحمل ?v=updatedAt)
 export type BannerPlacement = 'before_about' | 'before_steps' | 'before_cta';
 export type BannerLinkType = 'none' | 'initiative' | 'url';
 
 export interface HomeBannerShape {
   id: string;
-  /** صورة مرفوعة → '/api/v1/banners/:id/image?v=…' (أضف API_BASE)؛ أو https://… أو مسار نسبي /… */
+  /** صورة مرفوعة → '/api/v1/highlights/:id/image?v=…' (أضف API_BASE)؛ أو https://… أو مسار نسبي /… */
   imageUrl: string;
   titleAr: string;
   titleEn: string;
@@ -928,7 +928,7 @@ export interface HomeBannerShape {
   updatedAt: string;
 }
 
-// POST /api/v1/banners (imageUrl مطلوب، الحد 12 بانراً) · PUT /api/v1/banners/:id (جزئي)
+// POST /api/v1/highlights (imageUrl مطلوب، الحد 12 بانراً) · PUT /api/v1/highlights/:id (جزئي)
 export interface UpsertHomeBannerReq {
   /** data:image/(png|jpeg|webp|gif);base64,… ≤ 1.5M حرف، أو https://…، أو /مسار. في التعديل: أرسلها فقط عند التغيير. */
   imageUrl?: string;
@@ -958,7 +958,7 @@ export interface ListHomeBannersRes {
   data: HomeBannerShape[];
 }
 
-// POST /api/v1/banners/reorder — كل المعرفات بالترتيب الجديد → ListHomeBannersRes
+// POST /api/v1/highlights/reorder — كل المعرفات بالترتيب الجديد → ListHomeBannersRes
 export interface ReorderHomeBannersReq {
   ids: string[];
 }
@@ -1022,10 +1022,10 @@ export const ROUTES = {
   reportsApplicationsCsv: 'GET /api/v1/reports/applications.csv',
   reportsInitiativesCsv: 'GET /api/v1/reports/initiatives.csv',
   auditLogs: 'GET /api/v1/audit-logs',
-  listBanners: 'GET /api/v1/banners',
-  bannerImage: 'GET /api/v1/banners/:id/image',
-  createBanner: 'POST /api/v1/banners',
-  updateBanner: 'PUT /api/v1/banners/:id',
-  deleteBanner: 'DELETE /api/v1/banners/:id',
-  reorderBanners: 'POST /api/v1/banners/reorder',
+  listBanners: 'GET /api/v1/highlights',
+  bannerImage: 'GET /api/v1/highlights/:id/image',
+  createBanner: 'POST /api/v1/highlights',
+  updateBanner: 'PUT /api/v1/highlights/:id',
+  deleteBanner: 'DELETE /api/v1/highlights/:id',
+  reorderBanners: 'POST /api/v1/highlights/reorder',
 } as const;
