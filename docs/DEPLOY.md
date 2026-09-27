@@ -32,7 +32,7 @@
 | `JWT_SECRET` | ناتج `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"` | **إجباري** — السيرفر يرفض الإقلاع بدونه |
 | `CORS_ORIGIN` | `https://www.industrial.talentooo.com,https://industrial.talentooo.com` | الدومينين، من غير / في الآخر |
 | `APP_URL` | `https://www.industrial.talentooo.com` | الرابط اللي بيظهر في الإيميلات |
-| `SEED_ON_BOOT` | `1` في أول deploy فقط، ثم `0` | يزرع الجهات والحسابات الأساسية لو القاعدة فاضية |
+| `SEED_ON_BOOT` | متحطهوش (الافتراضي `1`) | بيزرع القاعدة لو فاضية بس، فآمن تسيبه على طول. `0` = قاعدة نظيفة من غير حسابات ديمو |
 | `GMAIL_USER` / `GMAIL_APP_PASSWORD` | اختياري | لتفعيل الإيميلات (انظر §5-ج و§5-د) |
 | `MAIL_FROM_NAME` | اختياري | اسم المُرسل |
 
@@ -47,7 +47,11 @@
 [server] seed-on-boot=seeded
 [server] listening on http://localhost:4000 — prefix /api/v1 (env=production)
 ```
-بعد أول تشغيل ناجح: غيّر `SEED_ON_BOOT` لـ `0` واعمل **Restart**.
+**البيانات بتتحدث تلقائياً:** مع كل deploy السيرفر بيطبّق أي تحديث جديد للبذرة على القاعدة الحية، زي الحسابات الجديدة وبيانات مبادرة شمس الصناعة الكاملة، وبيطبعه في الـ Logs:
+```
+[server] seed updates: applied seed_users_v2, seed_shams_content_v1
+```
+كل تحديث بيتطبق مرة واحدة بس. بيضيف الناقص ويملا الحقول الفاضية، ومبيكتبش فوق حاجة عدّلها الأدمن، ومبيرجّعش حساب اتمسح. في الـ deploy اللي بعده هتلاقي `seed updates: up to date`.
 الدخول الأول: `tarek.mansour@industry.gov.eg` / `Egypt@2026`، **وغيّر كلمة المرور فوراً** (كل حسابات البذرة بنفس الكلمة، وهي مكتوبة في الريبو).
 
 أي `git push` على `main` بيعمل deploy تلقائي (فعّل **Auto Deploy** في Coolify).

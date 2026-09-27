@@ -37,6 +37,7 @@ ENV NODE_ENV=production \
     DB_PATH=/data/app.db \
     UPLOAD_DIR=/data/uploads \
     BACKUP_DIR=/data/backups \
+    SEED_ON_BOOT=1 \
     SERVE_FRONTEND=1 \
     FRONTEND_DIST=/app/public \
     TRUST_PROXY=1 \

@@ -41,6 +41,32 @@ describe('shams el-senaa seed (official document)', () => {
     assert.equal(d.customization?.page?.layout, 'spotlight');
   });
 
+  it('carries the rest of the official document (targets, financing, eligibility, criteria, path, KPIs)', async () => {
+    const r = await jfetch(`${base}/initiatives/init-solar-2026`);
+    assert.equal(r.status, 200);
+    const d = r.json.data as {
+      objectives: unknown[]; eligibilityRequirements: unknown[]; selectionCriteria: unknown[];
+      financialTerms: Record<string, unknown>; executionNotesAr: string; executionNotesEn: string;
+    };
+    assert.equal(d.objectives.length, 7);
+    assert.equal(d.eligibilityRequirements.length, 13);
+    assert.equal(d.selectionCriteria.length, 10);
+    assert.equal(d.financialTerms.financingType, 'bank_loans');
+    assert.equal(d.financialTerms.maxDurationYears, 5);
+    assert.equal(d.financialTerms.maxFinancingPerClientEGP, 100_000_000);
+    assert.equal(d.financialTerms.maxFinancingPerGroupEGP, 200_000_000);
+    assert.ok(d.executionNotesAr.includes('التقديم') && d.executionNotesAr.includes('الربط والتشغيل'));
+    assert.ok(d.executionNotesEn.length > 0);
+    assert.equal('kpis' in d, false, 'KPIs are admin-only — never in the public read');
+
+    const k = await jfetch(`${base}/initiatives/init-solar-2026/kpis`, { headers: H(ADMIN) });
+    assert.equal(k.status, 200);
+    const kpis = k.json.data as Array<{ id: string; unit: string; targetValue?: number }>;
+    assert.equal(kpis.length, 16);
+    assert.equal(new Set(kpis.map((x) => x.id)).size, 16);
+    assert.equal(kpis.find((x) => x.unit === 'MW')?.targetValue, 1000);
+  });
+
   it('has the ministry intake + 8 ordered stages with unique ids and existing orgs', async () => {
     const r = await jfetch(`${base}/initiatives/init-solar-2026/workflow`, { headers: H(ADMIN) });
     assert.equal(r.status, 200);

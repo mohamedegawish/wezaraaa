@@ -14,8 +14,9 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       CORS_ORIGIN: ${CORS_ORIGIN}
       APP_URL: ${APP_URL}
-      # 1 on the very first deploy only (seeds an empty DB), then 0.
-      SEED_ON_BOOT: ${SEED_ON_BOOT:-0}
+      # Seeds an EMPTY DB only (demo accounts + initiatives); later boots apply versioned seed
+      # updates (new accounts / Shams content) without touching edited data. 0 = clean empty DB.
+      SEED_ON_BOOT: ${SEED_ON_BOOT:-1}
       # Message center — Gmail reminders (empty GMAIL_* = email disabled)
       GMAIL_USER: ${GMAIL_USER:-}
       GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:-}

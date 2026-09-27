@@ -20,10 +20,16 @@ const ORGS = [
   { id: 'org-eehc', code: 'EEHC', nameAr: 'الشركة القابضة لكهرباء مصر', nameEn: 'Egyptian Electricity Holding Company', type: 'utility', active: 1, contactEmail: 'grid-connect@eehc.gov.eg' },
   { id: 'org-apex-solar', code: 'APEX_SOLAR', nameAr: 'أبيكس لحلول الطاقة الشمسية', nameEn: 'Apex Solar Energy Solutions', type: 'provider', active: 1, contactEmail: 'projects@apexsolar.eg' },
   { id: 'org-factory-1', code: 'FACTORY_1', nameAr: 'مصنع النيل للأغذية', nameEn: 'Nile Foods', type: 'factory', active: 1, contactEmail: 'factory@nile.eg' },
+  // مصانع الديمو (كانت في seed-data.json فقط) — لكل مصنع جهة + مالك.
+  { id: 'org-ghazl', code: 'GHAZL_MAHALLA', nameAr: 'مصنع الغزل والنسيج بالمحلة الكبرى', nameEn: 'El-Mahalla Textiles Factory', type: 'factory', active: 1, contactEmail: 'info@ghazl-textile.eg' },
+  { id: 'org-chem', code: 'SUEZ_CHEM', nameAr: 'شركة السويس للصناعات الكيماوية', nameEn: 'Suez Chemical Industries Co.', type: 'factory', active: 1, contactEmail: 'info@suezchem.eg' },
+  { id: 'org-ceramic', code: 'CERAMIC_10TH', nameAr: 'شركة العاشر للسيراميك والأدوات الصحية', nameEn: '10th of Ramadan Ceramics Co.', type: 'factory', active: 1, contactEmail: 'info@ceramic10.eg' },
 ] as const;
 
+type SeedUser = { id: string; name: string; nameEn: string; email: string; role: string; organizationId: string; factoryId?: string };
+
 // One account per platform role so every persona works out of the box.
-const USERS = [
+const USERS: readonly SeedUser[] = [
   { id: 'user-admin', name: 'م. طارق منصور', nameEn: 'Eng. Tarek Mansour', email: 'tarek.mansour@industry.gov.eg', role: 'ministry_admin', organizationId: 'org-ministry' },
   { id: 'user-manager', name: 'د. سارة عادل', nameEn: 'Dr. Sara Adel', email: 'sara.adel@industry.gov.eg', role: 'initiative_manager', organizationId: 'org-ministry' },
   { id: 'user-ida', name: 'د. أحمد الشريف', nameEn: 'Dr. Ahmed El-Sherif', email: 'a.sherif@ida.gov.eg', role: 'ida_reviewer', organizationId: 'org-ida' },
@@ -32,11 +38,16 @@ const USERS = [
   { id: 'user-solar', name: 'م. كريم نبيل', nameEn: 'Eng. Karim Nabil', email: 'k.nabil@apexsolar.eg', role: 'solar_provider', organizationId: 'org-apex-solar' },
   // مراحل «موافقة شركة الكهرباء» و«الربط والتشغيل» مسندة لـ EEHC — تحتاج حساباً يقرر فيها (assignedRole = ida_reviewer).
   { id: 'user-eehc', name: 'م. هشام رضوان', nameEn: 'Eng. Hesham Radwan', email: 'h.radwan@eehc.gov.eg', role: 'ida_reviewer', organizationId: 'org-eehc' },
-  { id: 'user-factory-sewedy', name: 'م. مصطفى السويدي', nameEn: 'Eng. Mostafa El-Sewedy', email: 'm.sewedy@elsewedy-ind.com', role: 'factory_owner', organizationId: 'org-factory-1' },
+  { id: 'user-factory-sewedy', name: 'م. مصطفى السويدي', nameEn: 'Eng. Mostafa El-Sewedy', email: 'm.sewedy@elsewedy-ind.com', role: 'factory_owner', organizationId: 'org-factory-1', factoryId: 'factory-sewedy' },
   { id: 'user-auditor', name: 'أ. هبة فاروق', nameEn: 'Ms. Heba Farouk', email: 'heba.farouk@audit.gov.eg', role: 'auditor', organizationId: 'org-ministry' },
   // Legacy demo ids (kept for old curl/docs compatibility)
-  { id: 'user-factory-1', name: 'مصنع النيل', nameEn: 'Nile Factory', email: 'factory@nile.eg', role: 'factory_owner', organizationId: 'org-factory-1' },
-] as const;
+  { id: 'user-factory-1', name: 'مصنع النيل', nameEn: 'Nile Factory', email: 'factory@nile.eg', role: 'factory_owner', organizationId: 'org-factory-1', factoryId: 'factory-1' },
+  // v2 (seed_users_v2): حسابات seed-data.json — مراجع ائتمان ثانٍ + ملاك مصانع الديمو.
+  { id: 'user-bank2', name: 'أ. دينا سمير', nameEn: 'Ms. Dina Samir', email: 'dina.samir@nbe.com.eg', role: 'bank_reviewer', organizationId: 'org-nbe' },
+  { id: 'user-ghazl', name: 'م. كريم الشوربجي', nameEn: 'Eng. Karim El-Shorbagy', email: 'karim.elshorbagy@ghazl-textile.eg', role: 'factory_owner', organizationId: 'org-ghazl', factoryId: 'factory-ghazl' },
+  { id: 'user-chem', name: 'د. هاني رمزي', nameEn: 'Dr. Hany Ramzy', email: 'hany.ramzy@suezchem.eg', role: 'factory_owner', organizationId: 'org-chem', factoryId: 'factory-chem' },
+  { id: 'user-ceramic', name: 'م. ماجد فهمي', nameEn: 'Eng. Maged Fahmy', email: 'maged.fahmy@ceramic10.eg', role: 'factory_owner', organizationId: 'org-ceramic', factoryId: 'factory-ceramic' },
+];
 
 const FACTORIES = [
   {
@@ -73,6 +84,42 @@ const FACTORIES = [
       roofAreaSqMeters: 6500, annualEnergyConsumptionMWh: 1800, monthlyElectricityBillEGP: 340000,
     },
   },
+  {
+    id: 'factory-ghazl',
+    data: {
+      id: 'factory-ghazl', nameAr: 'مصنع الغزل والنسيج بالمحلة الكبرى', nameEn: 'El-Mahalla Textiles Factory',
+      sector: 'الغزل والنسيج', sectorEn: 'Textiles & Spinning',
+      governorate: 'الغربية', governorateEn: 'Gharbia', industrialZone: 'المنطقة الصناعية بالمحلة الكبرى',
+      commercialRegistrationNumber: 'CR-771204-GH', industrialRegistrationNumber: 'IND-55210-EGY',
+      taxIdNumber: 'TAX-771-204-556', employeesCount: 860,
+      roofAreaSqMeters: 22000, annualEnergyConsumptionMWh: 6100, monthlyElectricityBillEGP: 1150000,
+      contactPerson: 'م. كريم الشوربجي', contactPhone: '+20 122 345 6789', contactEmail: 'karim.elshorbagy@ghazl-textile.eg',
+    },
+  },
+  {
+    id: 'factory-chem',
+    data: {
+      id: 'factory-chem', nameAr: 'شركة السويس للصناعات الكيماوية', nameEn: 'Suez Chemical Industries Co.',
+      sector: 'الصناعات الكيماوية', sectorEn: 'Chemical Industries',
+      governorate: 'السويس', governorateEn: 'Suez', industrialZone: 'المنطقة الصناعية بالعين السخنة',
+      commercialRegistrationNumber: 'CR-309977-SU', industrialRegistrationNumber: 'IND-78113-EGY',
+      taxIdNumber: 'TAX-309-977-410', employeesCount: 340,
+      roofAreaSqMeters: 9500, annualEnergyConsumptionMWh: 3900, monthlyElectricityBillEGP: 740000,
+      contactPerson: 'د. هاني رمزي', contactPhone: '+20 100 987 6543', contactEmail: 'hany.ramzy@suezchem.eg',
+    },
+  },
+  {
+    id: 'factory-ceramic',
+    data: {
+      id: 'factory-ceramic', nameAr: 'شركة العاشر للسيراميك والأدوات الصحية', nameEn: '10th of Ramadan Ceramics Co.',
+      sector: 'صناعات مواد البناء والخزف', sectorEn: 'Building Materials & Ceramics',
+      governorate: 'الشرقية', governorateEn: 'Sharqia', industrialZone: 'المنطقة الصناعية C4 بالعاشر من رمضان',
+      commercialRegistrationNumber: 'CR-512830-SH', industrialRegistrationNumber: 'IND-66402-EGY',
+      taxIdNumber: 'TAX-512-830-209', employeesCount: 510,
+      roofAreaSqMeters: 17500, annualEnergyConsumptionMWh: 5200, monthlyElectricityBillEGP: 985000,
+      contactPerson: 'م. ماجد فهمي', contactPhone: '+20 128 112 3344', contactEmail: 'maged.fahmy@ceramic10.eg',
+    },
+  },
 ] as const;
 
 const DEFAULT_CUSTOMIZATION = {
@@ -100,6 +147,83 @@ function solarWorkflow() {
     ],
   };
 }
+
+const bi = (textAr: string, textEn: string) => ({ textAr, textEn });
+
+/**
+ * مبادرة شمس الصناعة — بقية بيانات الوثيقة الرسمية (docs/assets/احد-المبادرات/مبادرة شمس الصناعة.docx):
+ * المستهدفات، المحددات المالية، اشتراطات التأهيل (13)، معايير الاختيار (10)، مسار التنفيذ، مؤشرات الأداء (16).
+ * يُطبَّق عبر applySeedUpdates (seed_shams_content_v1) — يملأ الحقول الفارغة فقط.
+ */
+const SHAMS_CONTENT = {
+  objectives: [
+    bi('إضافة قدرات تصل إلى نحو 1000 ميجاوات من الطاقة الشمسية لخدمة نحو 7000 مصنع وفق الجاهزية الفنية والتمويلية.', 'Add up to about 1,000 MW of solar capacity serving about 7,000 factories, according to technical and financing readiness.'),
+    bi('خفض تكلفة الكهرباء وتقليل الكهرباء المسحوبة من الشبكة خلال ساعات النهار.', 'Cut electricity costs and reduce power drawn from the grid during daylight hours.'),
+    bi('تقليل الطلب على الكهرباء المنتجة باستخدام الوقود الأحفوري وخفض البصمة الكربونية.', 'Reduce demand for fossil-fuel-generated electricity and cut the carbon footprint.'),
+    bi('رفع تنافسية المنتجات المصرية، خاصة المنتجات الموجهة للتصدير.', 'Raise the competitiveness of Egyptian products, especially export-oriented ones.'),
+    bi('دعم توطين صناعة الألواح الشمسية والمعدات والمكونات المرتبطة بالطاقة الشمسية.', 'Support localizing the manufacture of solar panels and related equipment and components.'),
+    bi('خلق طلب مستدام على المنتج المحلي المطابق للمواصفات الدولية.', 'Create sustained demand for local products that meet international specifications.'),
+    bi('دعم نقل التكنولوجيا والاستثمار في صناعات الطاقة المتجددة.', 'Support technology transfer and investment in renewable energy industries.'),
+  ],
+  eligibilityRequirements: [
+    bi('سجل تجاري وسجل صناعي ورخصة تشغيل سارية.', 'Valid commercial register, industrial register, and operating license.'),
+    bi('فواتير الكهرباء لآخر 12 شهرًا.', 'Electricity bills for the last 12 months.'),
+    bi('القدرة التعاقدية وأقصى حمل.', 'Contracted capacity and peak load.'),
+    bi('بيانات الاستهلاك وملف الأحمال متى كان متاحًا.', 'Consumption data and load profile, where available.'),
+    bi('ساعات وأيام التشغيل.', 'Operating hours and days.'),
+    bi('بيان المساحات المتاحة.', 'Statement of available areas.'),
+    bi('إثبات حق الملكية أو الاستخدام طوال مدة التمويل والتشغيل.', 'Proof of ownership or right of use for the full financing and operation period.'),
+    bi('تقرير إنشائي معتمد بصلاحية الأسطح والمنشآت لتحمل الألواح والهياكل وأحمال الرياح.', 'Certified structural report confirming roofs and structures can bear the panels, mounting structures, and wind loads.'),
+    bi('بيانات المحولات ولوحات التوزيع ونقاط الربط ومتطلبات الحماية والقياس.', 'Data on transformers, distribution panels, connection points, and protection and metering requirements.'),
+    bi('دراسة فنية واقتصادية توضح قدرة المحطة والإنتاج السنوي ونسبة الاستهلاك الذاتي والتكلفة والوفر وفترة الاسترداد.', 'Technical and economic study showing plant capacity, annual output, self-consumption share, cost, savings, and payback period.'),
+    bi('استخدام معدات مطابقة للمواصفات.', 'Use of equipment that complies with specifications.'),
+    bi('التنفيذ من خلال شركات متخصصة ومؤهلة وفق القواعد المعتمدة.', 'Implementation through specialized, qualified companies under the approved rules.'),
+    bi('اجتياز التقييم الائتماني لدى البنك الممول.', 'Passing the credit assessment at the financing bank.'),
+  ],
+  selectionCriteria: [
+    bi('الجاهزية الفنية والإنشائية.', 'Technical and structural readiness.'),
+    bi('توافر التراخيص والسجلات السارية.', 'Valid licenses and registers in place.'),
+    bi('انتظام الوضع الائتماني والمصرفي.', 'A sound credit and banking standing.'),
+    bi('ارتفاع أحمال التشغيل النهارية بما يحقق أكبر نسبة من الاستهلاك الذاتي.', 'High daytime operating loads that maximize self-consumption.'),
+    bi('توافر المساحات المناسبة.', 'Availability of suitable space.'),
+    bi('تناسب قدرة المحطة مع الاستهلاك الفعلي.', 'Plant capacity matched to actual consumption.'),
+    bi('المصانع المصدرة أو المستهدفة للتصدير.', 'Exporting factories or factories targeting export.'),
+    bi('المصانع التي يحقق خفض البصمة الكربونية بها أثرًا على القدرة التنافسية والتصديرية.', 'Factories where cutting the carbon footprint improves competitiveness and exports.'),
+    bi('الالتزام بمعايير المكون المحلي.', 'Commitment to local-component standards.'),
+    bi('مراعاة التوزيع القطاعي والجغرافي للمشروعات.', 'Balanced sectoral and geographic distribution of projects.'),
+  ],
+  financialTerms: {
+    financingType: 'bank_loans', currency: 'EGP', maxDurationYears: 5,
+    maxFinancingPerClientEGP: 100_000_000, maxFinancingPerGroupEGP: 200_000_000,
+    beneficiariesAr: 'منشآت القطاع الصناعي الخاص المستوفية للاشتراطات والمعايير المصرفية.',
+    beneficiariesEn: 'Private-sector industrial facilities that meet the banking requirements and standards.',
+    purposeAr: 'تمويل إنشاء وتركيب محطات طاقة شمسية للمصانع المستفيدة.',
+    purposeEn: 'Financing the construction and installation of solar power plants for beneficiary factories.',
+    notesAr: 'الحد الأقصى لقيمة المبادرة 12.5 مليار جنيه تُتاح في صورة قروض من الجهاز المصرفي، ويوجَّه التمويل بالعملة المحلية وفقًا للقواعد المصرفية المنظمة.',
+    notesEn: 'The initiative is capped at EGP 12.5 billion, made available as loans from the banking sector and extended in local currency under the governing banking rules.',
+  },
+  executionNotesAr: 'المسار المقترح: التقديم ← استكمال المستندات ← التقييم الفني ← موافقة جهة الكهرباء المختصة ← التقييم الائتماني ← التعاقد ← التنفيذ ← الفحص والاختبارات ← الربط والتشغيل. وتتم المراجعة الفنية والائتمانية بالتوازي كلما أمكن، مع إنشاء لوحة متابعة مركزية إلكترونية تسمح بمتابعة تقدم المبادرة والمشروعات ومؤشرات الأداء بصورة منتظمة.',
+  executionNotesEn: 'Proposed path: application → document completion → technical evaluation → approval by the competent electricity authority → credit assessment → contracting → implementation → inspection and testing → grid connection and commissioning. Technical and credit reviews run in parallel whenever possible, and a central electronic monitoring dashboard tracks the progress of the initiative, its projects, and its performance indicators on a regular basis.',
+  // ADMIN ONLY (GET /initiatives/:id/kpis). المستهدف مذكور في الوثيقة للقدرة (1000 ميجاوات) وقيمة التمويل (12.5 مليار) فقط.
+  kpis: [
+    { id: 'kpi-sh-01', nameAr: 'عدد المصانع المتقدمة', nameEn: 'Factories applied', unit: 'count' },
+    { id: 'kpi-sh-02', nameAr: 'عدد المصانع المؤهلة', nameEn: 'Factories qualified', unit: 'count' },
+    { id: 'kpi-sh-03', nameAr: 'عدد المصانع الممولة', nameEn: 'Factories financed', unit: 'count' },
+    { id: 'kpi-sh-04', nameAr: 'عدد المشروعات التي دخلت التشغيل', nameEn: 'Projects in operation', unit: 'count' },
+    { id: 'kpi-sh-05', nameAr: 'إجمالي القدرات الشمسية المركبة والمشغلة', nameEn: 'Installed and operating solar capacity', unit: 'MW', targetValue: 1000 },
+    { id: 'kpi-sh-06', nameAr: 'الطاقة الشمسية المنتجة والمستهلكة ذاتيًا', nameEn: 'Solar energy produced and self-consumed', unit: 'MWh' },
+    { id: 'kpi-sh-07', nameAr: 'خفض الكهرباء المسحوبة من الشبكة', nameEn: 'Reduction in power drawn from the grid', unit: 'MWh' },
+    { id: 'kpi-sh-08', nameAr: 'خفض فواتير الكهرباء', nameEn: 'Reduction in electricity bills', unit: 'EGP' },
+    { id: 'kpi-sh-09', nameAr: 'الوفر المالي المحقق للمصانع', nameEn: 'Financial savings for factories', unit: 'EGP' },
+    { id: 'kpi-sh-10', nameAr: 'الوفر في الوقود التقليدي المستخدم في توليد الكهرباء', nameEn: 'Conventional fuel saved in power generation', unit: 'toe' },
+    { id: 'kpi-sh-11', nameAr: 'خفض الانبعاثات الكربونية', nameEn: 'Carbon emissions reduction', unit: 'tCO2' },
+    { id: 'kpi-sh-12', nameAr: 'حجم التمويلات المنفذة', nameEn: 'Financing disbursed', unit: 'EGP', targetValue: 12_500_000_000 },
+    { id: 'kpi-sh-13', nameAr: 'انتظام السداد', nameEn: 'Repayment regularity', unit: 'percent' },
+    { id: 'kpi-sh-14', nameAr: 'نسبة المكون المحلي', nameEn: 'Local-component share', unit: 'percent' },
+    { id: 'kpi-sh-15', nameAr: 'متوسط مدة تنفيذ المشروع', nameEn: 'Average project implementation time', unit: 'days' },
+    { id: 'kpi-sh-16', nameAr: 'التوزيع الجغرافي والقطاعي للمشروعات', nameEn: 'Geographic and sectoral distribution of projects', unit: 'count' },
+  ],
+};
 
 const INITIATIVES = [
   // Legacy minimal id kept for old curl/docs + contract examples.
@@ -321,7 +445,80 @@ function seedDemoChat(db: ReturnType<typeof getDb>): void {
   thread('chat-demo-ida-imc', 'org-ida', 'org-imc', idaImc, { 'org-ida': idaImc[1].at, 'org-imc': idaImc[1].at });
 }
 
-export function seedIfEmpty(): { seeded: boolean } {
+/**
+ * الجهات + الحسابات + المصانع (INSERT OR IGNORE — لا يلمس صفاً موجوداً ولا كلمة مرور غيّرها صاحبها).
+ * كل حساب مزروع بكلمة البذرة ومُجبر على تغييرها عند أول دخول. يعيد هاش كلمة البذرة.
+ */
+function insertBaseRows(db: ReturnType<typeof getDb>, now: string): string {
+  const orgStmt = db.prepare(
+    'INSERT OR IGNORE INTO organizations (id, code, nameAr, nameEn, type, active, contactEmail, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  );
+  for (const o of ORGS) orgStmt.run(o.id, o.code, o.nameAr, o.nameEn, o.type, o.active, o.contactEmail, now, now);
+
+  const facStmt = db.prepare(
+    'INSERT OR IGNORE INTO factories (id, data, createdAt, updatedAt) VALUES (?, ?, ?, ?)',
+  );
+  for (const f of FACTORIES) facStmt.run(f.id, JSON.stringify(f.data), now, now);
+
+  const defaultHash = hashPassword(SEED_DEFAULT_PASSWORD);
+  const userStmt = db.prepare(
+    'INSERT OR IGNORE INTO users (id, name, nameEn, email, role, organizationId, factoryId, passwordHash, mustChangePassword, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)',
+  );
+  for (const u of USERS) userStmt.run(u.id, u.name, u.nameEn, u.email, u.role, u.organizationId, u.factoryId ?? '', defaultHash, now, now);
+  // مالكو المصانع في قواعد قديمة زُرعوا بلا factoryId — اربطهم (لا يغيّر ربطاً موجوداً).
+  const linkStmt = db.prepare("UPDATE users SET factoryId = ? WHERE id = ? AND (factoryId IS NULL OR factoryId = '')");
+  for (const u of USERS) if (u.factoryId) linkStmt.run(u.factoryId, u.id);
+  return defaultHash;
+}
+
+/**
+ * تحديثات البذرة المرقّمة لقواعد أنشأتها هذه البذرة (seeded_v1) — تعمل مع كل إقلاع حتى مع
+ * SEED_ON_BOOT=0، فتصل البيانات الجديدة للقاعدة الحية تلقائياً مع كل deploy. كل نسخة تُطبَّق مرة
+ * واحدة (علم في meta) وتضيف الناقص/تملأ الفارغ فقط: لا تكتب فوق تعديل أدمن، ولا تعيد حساباً حُذف.
+ * قاعدة فارغة (إنتاج نظيف بلا بذرة) لا تُلمس. يعيد أسماء التحديثات المطبقة الآن.
+ */
+export function applySeedUpdates(): string[] {
+  const db = getDb();
+  const has = (key: string) => (db.prepare('SELECT value FROM meta WHERE key = ?').get(key) as { value?: string } | undefined)?.value === '1';
+  if (!has('seeded_v1')) return [];
+  const now = nowIso();
+  const applied: string[] = [];
+  const mark = (key: string) => {
+    db.prepare("INSERT OR REPLACE INTO meta (key, value) VALUES (?, '1')").run(key);
+    applied.push(key);
+  };
+
+  // v2: حسابات seed-data.json (مراجع ائتمان ثانٍ + 3 مصانع ديمو بجهاتها وملّاكها).
+  if (!has('seed_users_v2')) {
+    db.exec('BEGIN IMMEDIATE');
+    try {
+      insertBaseRows(db, now);
+      mark('seed_users_v2');
+      db.exec('COMMIT');
+    } catch (e) {
+      try { db.exec('ROLLBACK'); } catch { /* noop */ }
+      throw e;
+    }
+  }
+
+  // شمس الصناعة: بقية بيانات الوثيقة الرسمية — تملأ الحقول الفارغة فقط.
+  if (!has('seed_shams_content_v1')) {
+    const cols = Object.keys(SHAMS_CONTENT) as Array<keyof typeof SHAMS_CONTENT>;
+    const row = db.prepare(`SELECT ${cols.join(', ')} FROM initiatives WHERE id = ?`).get('init-solar-2026') as Record<string, string | null> | undefined;
+    if (row) {
+      const isEmpty = (v: string | null) => !v || !v.trim() || v === '[]' || v === '{}';
+      const fill = cols.filter((c) => isEmpty(row[c]));
+      if (fill.length) {
+        const vals = fill.map((c) => { const v = SHAMS_CONTENT[c]; return typeof v === 'string' ? v : JSON.stringify(v); });
+        db.prepare(`UPDATE initiatives SET ${fill.map((c) => `${c} = ?`).join(', ')}, updatedAt = ? WHERE id = ?`).run(...vals, now, 'init-solar-2026');
+      }
+    }
+    mark('seed_shams_content_v1');
+  }
+  return applied;
+}
+
+export function seedIfEmpty(): { seeded: boolean; updates: string[] } {
   const db = getDb();
   const now = nowIso();
   // PROD FIX: backfill كلمات المرور للقواعد القديمة حتى لو مزروعة من قبل (لا تعتمد على seeded flag).
@@ -396,35 +593,15 @@ export function seedIfEmpty(): { seeded: boolean } {
   } catch { /* pre-migration DB — ignore */ }
   // الحوكمة: «المراجعة الأولية — الوزارة» أول كل مسار + إعادة الطلبات المصعّدة قديماً لجهة مرحلتها (idempotent).
   try { alignWorkflowsAndAssignments(); } catch { /* pre-migration DB */ }
-  if (seededFlag?.value === '1' && orgCount > 0) return { seeded: false };
+  if (seededFlag?.value === '1' && orgCount > 0) return { seeded: false, updates: applySeedUpdates() };
 
   db.exec('BEGIN IMMEDIATE');
   try {
-    const orgStmt = db.prepare(
-      'INSERT OR IGNORE INTO organizations (id, code, nameAr, nameEn, type, active, contactEmail, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-    );
-    for (const o of ORGS) orgStmt.run(o.id, o.code, o.nameAr, o.nameEn, o.type, o.active, o.contactEmail, now, now);
-
-    const defaultHash = hashPassword(SEED_DEFAULT_PASSWORD);
-    const userStmt = db.prepare(
-      'INSERT OR IGNORE INTO users (id, name, nameEn, email, role, organizationId, passwordHash, mustChangePassword, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)',
-    );
-    for (const u of USERS) userStmt.run(u.id, u.name, u.nameEn, u.email, u.role, u.organizationId, defaultHash, now, now);
-    // P0-FIX: ربط مالكي المصانع بعد الإدخال مباشرة (الربط المبكر قبل الإدخال لا يؤثر في DB جديدة).
-    try {
-      const linkStmt = db.prepare("UPDATE users SET factoryId = ? WHERE id = ? AND (factoryId IS NULL OR factoryId = '')");
-      linkStmt.run('factory-sewedy', 'user-factory-sewedy');
-      linkStmt.run('factory-1', 'user-factory-1');
-    } catch { /* pre-migration DB — ensureMigrated creates the column first */ }
+    const defaultHash = insertBaseRows(db, now);
     // Backfill: existing DBs created before passwordHash column — set default hash where empty.
     try {
       db.prepare("UPDATE users SET passwordHash = ? WHERE passwordHash IS NULL OR passwordHash = ''").run(defaultHash);
     } catch { /* column may not exist on very old DB before migration — ensureMigrated handles */ }
-
-    const facStmt = db.prepare(
-      'INSERT OR IGNORE INTO factories (id, data, createdAt, updatedAt) VALUES (?, ?, ?, ?)',
-    );
-    for (const f of FACTORIES) facStmt.run(f.id, JSON.stringify(f.data), now, now);
 
     const initStmt = db.prepare(
       `INSERT OR IGNORE INTO initiatives
@@ -455,7 +632,7 @@ export function seedIfEmpty(): { seeded: boolean } {
     try { db.exec('ROLLBACK'); } catch { /* noop */ }
     throw e;
   }
-  return { seeded: true };
+  return { seeded: true, updates: applySeedUpdates() };
 }
 
 /** Dangerous: wipes all data and reseeds (used by db:reset script only — REFUSES in production). */

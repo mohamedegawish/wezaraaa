@@ -10,7 +10,9 @@ Egypt@2026
 
 كل الحسابات المزروعة تعمل بهذه الكلمة، وتُجبر على تغييرها عند أول دخول ناجح (الفرونت يفتح `ChangePasswordModal` تلقائياً). من غيّر كلمته لا يُطلب منه مجدداً (backfill لمرة واحدة يفحص الهاش).
 
-## الحسابات المزروعة (9)
+## الحسابات المزروعة (14)
+
+المصدر: `backend/src/db/seed.ts` (`USERS`). القاعدة الفاضية بتتزرع بيهم في أول إقلاع (`SEED_ON_BOOT=1`، وده الافتراضي في الـ Dockerfile والـ compose). القواعد اللي اتزرعت قبل كده بتاخد الحسابات الجديدة تلقائياً في الإقلاع اللي بعده (`applySeedUpdates` → `seed_users_v2`)، وده بيحصل حتى مع `SEED_ON_BOOT=0`.
 
 | البريد | الدور | الجهة | الاستخدام |
 |---|---|---|---|
@@ -19,10 +21,15 @@ Egypt@2026
 | `a.sherif@ida.gov.eg` | ida_reviewer | IDA | مراجع تراخيص/أهلية |
 | `mona.kamal@imc-egypt.org` | imc_reviewer | IMC | مراجع فني |
 | `yasser.fawzy@nbe.com.eg` | bank_reviewer | البنك الأهلي | مراجع ائتماني |
+| `dina.samir@nbe.com.eg` | bank_reviewer | البنك الأهلي | مراجع ائتماني ثانٍ |
 | `k.nabil@apexsolar.eg` | solar_provider | أبيكس للطاقة | مقدم خدمة/منفذ |
-| `m.sewedy@elsewedy-ind.com` | factory_owner | مصنع السويدي | مالك مصنع (مصنع-sewedy) — جرّب به التقديم ومبادراتي |
-| `factory@nile.eg` | factory_owner | مصنع النيل | مالك مصنع ثانٍ (factory-1) — لاختبار العزل |
+| `h.radwan@eehc.gov.eg` | ida_reviewer | الشركة القابضة للكهرباء | مراحل «موافقة شركة الكهرباء» و«الربط والتشغيل» |
 | `heba.farouk@audit.gov.eg` | auditor | وزارة الصناعة | مدقق (قراءة + سجلات) |
+| `m.sewedy@elsewedy-ind.com` | factory_owner | مصنع السويدي | مالك مصنع (factory-sewedy) — جرّب به التقديم ومبادراتي |
+| `factory@nile.eg` | factory_owner | مصنع النيل | مالك مصنع ثانٍ (factory-1) — لاختبار العزل |
+| `karim.elshorbagy@ghazl-textile.eg` | factory_owner | غزل المحلة | مالك مصنع (factory-ghazl) |
+| `hany.ramzy@suezchem.eg` | factory_owner | السويس للكيماويات | مالك مصنع (factory-chem) |
+| `maged.fahmy@ceramic10.eg` | factory_owner | العاشر للسيراميك | مالك مصنع (factory-ceramic) |
 
 ## المصانع والجهات والمبادرات
 
