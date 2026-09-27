@@ -14,18 +14,11 @@ import {
   Network,
   Activity,
   Target,
-  Inbox,
-  ListOrdered,
-  MapPinned,
-  LayoutDashboard,
-  Wallet,
-  Users,
-  BarChart3,
 } from 'lucide-react';
 
 /**
  * PlatformAbout — تعريف المنصة في الصفحة الرئيسية:
- * عن المنصة (الرؤية + شركاء المنظومة + من الفكرة إلى الأثر) · الأهداف الرئيسية · مكونات المنصة.
+ * عن المنصة (الرؤية + شركاء المنظومة + من الفكرة إلى الأثر) · الأهداف الرئيسية.
  * كل النصوص Ar/En عبر language. التنسيق في globals.css (home-*).
  */
 export const PlatformAbout: React.FC = () => {
@@ -90,75 +83,6 @@ export const PlatformAbout: React.FC = () => {
     },
   ];
 
-  const components: {
-    icon: React.ReactNode;
-    titleAr: string;
-    titleEn: string;
-    descAr: string;
-    descEn: string;
-    tagsAr?: string[];
-    tagsEn?: string[];
-  }[] = [
-    {
-      icon: <Database size={20} />,
-      titleAr: 'قاعدة البيانات الوطنية',
-      titleEn: 'National database',
-      descAr: 'قاعدة بيانات وطنية موحدة للمبادرات الصناعية.',
-      descEn: 'A unified national database of industrial initiatives.',
-    },
-    {
-      icon: <Inbox size={20} />,
-      titleAr: 'بوابة تقديم المبادرات',
-      titleEn: 'Submission portal',
-      descAr: 'لتقديم المبادرات من الجهات الحكومية والقطاع الخاص والمستثمرين.',
-      descEn: 'For initiatives submitted by government bodies, the private sector and investors.',
-    },
-    {
-      icon: <ListOrdered size={20} />,
-      titleAr: 'التقييم وترتيب الأولويات',
-      titleEn: 'Evaluation & prioritisation',
-      descAr: 'نظام لتقييم المبادرات وترتيب أولوياتها وفق معايير واضحة.',
-      descEn: 'A system that scores and ranks initiatives against clear criteria.',
-    },
-    {
-      icon: <MapPinned size={20} />,
-      titleAr: 'الخريطة التفاعلية',
-      titleEn: 'Interactive map',
-      descAr: 'خريطة للفرص والمبادرات الصناعية حسب المحافظات والقطاعات.',
-      descEn: 'A map of industrial opportunities and initiatives by governorate and sector.',
-    },
-    {
-      icon: <LayoutDashboard size={20} />,
-      titleAr: 'لوحة متابعة التنفيذ',
-      titleEn: 'Execution dashboard',
-      descAr: 'منظومة متابعة التنفيذ (Dashboard) لمتخذي القرار.',
-      descEn: 'An execution-tracking dashboard for decision makers.',
-    },
-    {
-      icon: <Wallet size={20} />,
-      titleAr: 'دليل التمويل والحوافز',
-      titleEn: 'Financing & incentives',
-      descAr: 'قاعدة بيانات للتمويل والحوافز والجهات الداعمة.',
-      descEn: 'A database of financing, incentives and supporting entities.',
-    },
-    {
-      icon: <Users size={20} />,
-      titleAr: 'ربط المستثمرين والشركاء',
-      titleEn: 'Investor matching',
-      descAr: 'منظومة لربط المبادرات بالمستثمرين والشركاء.',
-      descEn: 'Connects initiatives with investors and partners.',
-    },
-    {
-      icon: <BarChart3 size={20} />,
-      titleAr: 'مؤشرات قياس الأثر',
-      titleEn: 'Impact indicators',
-      descAr: 'قياس أثر كل مبادرة عبر مؤشرات واضحة:',
-      descEn: 'Measures each initiative through clear indicators:',
-      tagsAr: ['الاستثمار', 'الإنتاج', 'الصادرات', 'فرص العمل', 'المكوّن المحلي', 'نقل التكنولوجيا'],
-      tagsEn: ['Investment', 'Production', 'Exports', 'Jobs', 'Local content', 'Technology transfer'],
-    },
-  ];
-
   const sectionTitle: React.CSSProperties = {
     fontFamily: isAr ? 'var(--font-display-ar)' : 'var(--font-display-en)',
     fontSize: '1.25rem',
@@ -216,32 +140,6 @@ export const PlatformAbout: React.FC = () => {
               <span className="home-card-icon">{g.icon}</span>
               <h3 className="home-card-title">{isAr ? g.titleAr : g.titleEn}</h3>
               <p className="home-card-desc">{isAr ? g.descAr : g.descEn}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* مكونات المنصة */}
-      <section aria-label={isAr ? 'مكونات المنصة' : 'Platform components'} className="home-section">
-        <div className="section-anchor">
-          <h2 style={sectionTitle}>{isAr ? 'مكونات المنصة' : 'Platform components'}</h2>
-        </div>
-        <div className="home-grid home-grid-4">
-          {components.map((c, idx) => (
-            <div key={c.titleEn} className="home-card">
-              <div className="home-card-head">
-                <span className="home-card-icon">{c.icon}</span>
-                <span className="home-card-num num-ltr">{String(idx + 1).padStart(2, '0')}</span>
-              </div>
-              <h3 className="home-card-title">{isAr ? c.titleAr : c.titleEn}</h3>
-              <p className="home-card-desc">{isAr ? c.descAr : c.descEn}</p>
-              {c.tagsAr && c.tagsEn && (
-                <div className="home-card-tags">
-                  {(isAr ? c.tagsAr : c.tagsEn).map(t => (
-                    <span key={t} className="home-card-tag">{t}</span>
-                  ))}
-                </div>
-              )}
             </div>
           ))}
         </div>

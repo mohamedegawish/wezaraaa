@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   FileText,
   HelpCircle,
-  Clock,
   Percent,
   Landmark,
   BarChart3,
@@ -27,7 +26,6 @@ import {
 } from 'lucide-react';
 import { benefitIcon } from '../ui/benefitIcons';
 import type { BilingualItem, FinancingType } from '../../types';
-import { STAGE_COLORS } from '../../utils/theme';
 import { PreEligibilityModal } from './PreEligibilityModal';
 import { formatBillions, formatEGP } from '../../utils/format';
 
@@ -249,7 +247,8 @@ export const InitiativeDetailPage: React.FC = () => {
 
   const custom = { ...DEFAULT_CUSTOMIZATION, ...(initiative.customization || {}) };
   const page = readPageConfig(initiative);
-  const visibleSections = page.sections.filter(s => s.visible).sort((a, b) => a.order - b.order);
+  // مقطع «مسار العمل والمراحل» (timeline) لم يعد يُعرض للعامة — يبقى في الإعدادات المحفوظة فقط لضبط ترتيب المقاطع الأخرى
+  const visibleSections = page.sections.filter(s => s.visible && s.id !== 'timeline').sort((a, b) => a.order - b.order);
   const isComingSoon = initiative.status === 'coming_soon';
   const cover = resolveCoverUrl(initiative.coverImage);
 
@@ -495,54 +494,6 @@ export const InitiativeDetailPage: React.FC = () => {
                 </div>
               ); })}
             </div>
-          </section>
-        );
-      }
-      case 'timeline': {
-        const stages = [...(initiative.workflow?.stages ?? [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-        const execNotes = ((isAr ? initiative.executionNotesAr : initiative.executionNotesEn) || initiative.executionNotesAr || initiative.executionNotesEn || '').trim();
-        if (!stages.length && !execNotes) return null;
-        return (
-          <section key={s.id}>
-            {title}
-            {bodyPara}
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {stages.map((st, idx) => {
-                const color = STAGE_COLORS[idx % STAGE_COLORS.length] ?? 'var(--stage-fallback)';
-                return (
-                  <div key={st.id}>
-                    <div className="card" style={{ padding: '0.9rem 1rem', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', flexWrap: 'wrap' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', flex: '1 1 240px', minWidth: 0 }}>
-                        <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: color, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, flexShrink: 0 }}>{idx + 1}</div>
-                        <div style={{ minWidth: 0 }}>
-                          <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-main)' }}>{isAr ? st.nameAr : st.nameEn}</div>
-                          {(st.descriptionAr || st.descriptionEn) && (
-                            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.55 }}>{isAr ? st.descriptionAr : st.descriptionEn}</div>
-                          )}
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'end', flexShrink: 0 }}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.73rem', fontWeight: 700, color: 'var(--text-muted)' }}>
-                          <Clock size={12} /><span>{st.slaDays} {isAr ? 'أيام عمل' : 'days'}</span>
-                        </span>
-                        <div style={{ fontSize: '0.73rem', color: 'var(--gov-primary-700)', fontWeight: 600, marginTop: '0.15rem' }}>{st.assignedOrgNameAr}</div>
-                      </div>
-                    </div>
-                    {idx < stages.length - 1 && (
-                      <div style={{ display: 'flex', justifyContent: 'center', padding: '0.2rem 0' }}>
-                        <div style={{ width: '2px', height: '18px', borderLeft: '1px dashed var(--eng-steel)' }} />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-            {execNotes && (
-              <div style={{ display: 'flex', gap: '0.55rem', alignItems: 'flex-start', marginTop: stages.length ? '0.8rem' : 0, padding: '0.8rem 1rem', borderRadius: 'var(--radius-md)', background: 'var(--gov-gold-light)', border: '1px solid var(--gov-gold-border)' }}>
-                <HelpCircle size={16} style={{ color: 'var(--gov-gold-dark)', flexShrink: 0, marginTop: '0.2rem' }} />
-                <p style={{ margin: 0, fontSize: '0.86rem', color: 'var(--gov-primary-900)', lineHeight: 1.8, whiteSpace: 'pre-line' }}>{execNotes}</p>
-              </div>
-            )}
           </section>
         );
       }
