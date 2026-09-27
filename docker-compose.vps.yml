@@ -1,0 +1,66 @@
+# MANUAL VPS compose: api + frontend + nginx TLS proxy (own certbot certs on the host).
+# Not for Coolify (its proxy owns 80/443) — Coolify uses ./docker-compose.yml or ./Dockerfile.
+# Use: put COMPOSE_FILE=docker-compose.vps.yml in the root .env, then plain `docker compose ...`.
+# Values come from root .env (see .env.example).
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DB_PATH: /data/app.db
+      UPLOAD_DIR: /data/uploads
+      CORS_ORIGIN: ${CORS_ORIGIN}
+      JWT_SECRET: ${JWT_SECRET}
+      SEED_ON_BOOT: ${SEED_ON_BOOT:-0}
+      ALLOW_DEMO_AUTH: "0"
+      TRUST_PROXY: "1"
+      SERVE_FRONTEND: "0"
+      # Message center — Gmail reminders (empty GMAIL_* = reminders disabled)
+      GMAIL_USER: ${GMAIL_USER:-}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:-}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME:-منصة المبادرات الصناعية}
+      APP_URL: ${APP_URL:-}
+      CHAT_REMINDER_DELAY_MIN: ${CHAT_REMINDER_DELAY_MIN:-15}
+      CHAT_MAX_FILE_MB: ${CHAT_MAX_FILE_MB:-20}
+    volumes:
+      - api-data:/data
+    expose:
+      - "4000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:4000/api/v1/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-https://api.industry.gov.eg}
+    restart: unless-stopped
+    expose:
+      - "80"
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf.sample:/etc/nginx/conf.d/default.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - ./certbot-www:/var/www/certbot:ro
+    depends_on:
+      api:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+
+volumes:
+  api-data:

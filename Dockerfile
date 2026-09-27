@@ -1,7 +1,8 @@
 # SINGLE-SERVICE image (Coolify / any one-container host): frontend + API on ONE domain.
 # The API serves the built SPA (SERVE_FRONTEND=1) and the SPA calls /api/v1 on the same
 # origin — no CORS, no second domain, no nginx. TLS is terminated by the host proxy
-# (Coolify's Traefik). The split api+frontend+nginx setup stays in docker-compose.yml.
+# (Coolify's Traefik). Coolify can build it directly (Dockerfile build pack) or via
+# docker-compose.yml (Docker Compose build pack). Split api+frontend+nginx: docker-compose.vps.yml.
 # See docs/DEPLOY.md → «النشر على Coolify».
 
 # ── 1) frontend build (VITE_API_URL empty = same-origin) ─────────────────────

@@ -26,7 +26,7 @@ describe('hosting readiness (deploy gate)', () => {
   });
 
   it('deploy files exist with required content', () => {
-    const compose = fs.readFileSync(`${ROOT}/docker-compose.yml`, 'utf8');
+    const compose = fs.readFileSync(`${ROOT}/docker-compose.vps.yml`, 'utf8');
     for (const s of ['context: .', 'dockerfile: ./backend/Dockerfile', 'JWT_SECRET', 'condition: service_healthy', 'api-data', 'frontend:', 'nginx:']) {
       assert.ok(compose.includes(s), `compose missing: ${s}`);
     }
@@ -56,6 +56,14 @@ describe('hosting readiness (deploy gate)', () => {
     for (const s of ['**/node_modules', '**/dist', '**/.env', '**/.env.*', 'data', 'backend/data', '**/*.db']) {
       assert.ok(dRoot.includes(s), `root .dockerignore missing: ${s}`);
     }
+    // Coolify compose: one service from the root Dockerfile — no host ports, no repo bind mounts
+    // (Coolify's proxy owns 80/443 and repo files are not on the host; the nginx mount failed there).
+    const coolify = fs.readFileSync(`${ROOT}/docker-compose.yml`, 'utf8');
+    for (const s of ['dockerfile: ./Dockerfile', 'JWT_SECRET', 'app-data:/data']) {
+      assert.ok(coolify.includes(s), `coolify compose missing: ${s}`);
+    }
+    assert.ok(!/^\s*ports:/m.test(coolify), 'coolify compose must not publish host ports');
+    assert.ok(!/^\s*-\s*\.\//m.test(coolify), 'coolify compose must not bind-mount repo files');
     // Single-service image (Coolify): SPA built same-origin + served by the API, data on /data.
     const sDocker = fs.readFileSync(`${ROOT}/Dockerfile`, 'utf8');
     for (const s of ['VITE_SAME_ORIGIN=1', 'SERVE_FRONTEND=1', 'FRONTEND_DIST=/app/public', 'DB_PATH=/data/app.db', 'COPY contracts ./contracts', 'COPY contracts /build/contracts', 'HEALTHCHECK']) {

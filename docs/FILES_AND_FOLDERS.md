@@ -13,7 +13,8 @@
 | `contracts/` | العقد | `api.contracts.ts` (الأنواع + `ROUTES`) + `openapi.json` (30+ مساراً). أي تغيير يبدأ هنا |
 | `docs/` | توثيق | الأدلة: هذا الملف + `CREDENTIALS_AND_SEED_DATA.md` + `API_CONTRACTS.md` + الهوية + خطط النشر |
 | `seed-data.json` | بذرة محمولة | نسخة JSON من البذرة للعرض/الاختبار (`seed:file`) |
-| `docker-compose.yml` | نشر | `api + frontend + nginx` للإنتاج (TLS عبر certbot) |
+| `docker-compose.yml` | نشر | Coolify: service واحد `app` من الـ `Dockerfile` في الجذر (volume على `/data`) |
+| `docker-compose.vps.yml` | نشر | VPS يدوي: `api + frontend + nginx` (TLS عبر certbot) |
 | `DEPLOY.md` / `PRODUCTION_FIX_PLAN.md` (داخل `docs/`) | نشر | خطوات VPS وسجل مراحل الإنتاج |
 
 ## الفرونت `frontend/src/`

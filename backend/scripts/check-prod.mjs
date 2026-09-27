@@ -17,7 +17,8 @@ need(path.join(root, 'frontend', 'dist', 'index.html'), 'frontend/dist (run fron
 // Deploy files
 need(path.join(root, 'backend', 'Dockerfile'), 'backend Dockerfile');
 need(path.join(root, 'frontend', 'Dockerfile'), 'frontend Dockerfile');
-need(path.join(root, 'docker-compose.yml'), 'compose');
+need(path.join(root, 'docker-compose.yml'), 'compose (Coolify, single service)');
+need(path.join(root, 'docker-compose.vps.yml'), 'compose (manual VPS + nginx)');
 need(path.join(root, 'Dockerfile'), 'single-service Dockerfile (Coolify)');
 need(path.join(root, 'nginx.conf.sample'), 'nginx sample');
 need(path.join(root, '.env.example'), 'root .env.example');
@@ -44,12 +45,20 @@ try {
   fail.push('openapi invalid: ' + e.message);
 }
 // Compose sanity (text checks, no yaml dep)
-const compose = fs.existsSync(path.join(root, 'docker-compose.yml'))
-  ? fs.readFileSync(path.join(root, 'docker-compose.yml'), 'utf8') : '';
+const readText = (f) => (fs.existsSync(path.join(root, f)) ? fs.readFileSync(path.join(root, f), 'utf8') : '');
+const compose = readText('docker-compose.vps.yml');
 for (const s of ['context: .', 'dockerfile: ./backend/Dockerfile', 'JWT_SECRET', 'condition: service_healthy', 'api-data']) {
-  if (!compose.includes(s)) fail.push(`compose missing: ${s}`);
-  else ok.push(`compose has ${s.split(':')[0]}`);
+  if (!compose.includes(s)) fail.push(`vps compose missing: ${s}`);
+  else ok.push(`vps compose has ${s.split(':')[0]}`);
 }
+// Coolify compose: one service from the root Dockerfile + persistent /data, and NO host
+// ports / repo bind mounts (Coolify's proxy owns 80/443; repo files are not on the host).
+const coolify = readText('docker-compose.yml');
+for (const s of ['dockerfile: ./Dockerfile', 'JWT_SECRET', 'app-data:/data']) {
+  if (!coolify.includes(s)) fail.push(`coolify compose missing: ${s}`);
+}
+if (/^\s*ports:/m.test(coolify) || /^\s*-\s*\.\//m.test(coolify)) fail.push('coolify compose must not publish host ports or bind-mount repo files');
+else ok.push('coolify compose single-service');
 // Root .env checks (only --strict or when file exists)
 const envPath = path.join(root, '.env');
 if (fs.existsSync(envPath) || strict) {

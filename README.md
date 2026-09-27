@@ -55,7 +55,7 @@ VITE_API_URL=http://localhost:4000
 ## النشر
 
 - **Coolify (موصى به):** حاوية واحدة من [`Dockerfile`](Dockerfile) في الجذر، والباك بيخدم الفرونت على نفس الدومين. الخطوات كاملة في **[docs/DEPLOY.md](docs/DEPLOY.md#النشر-على-coolify-الطريقة-الموصى-بها)** (Volume على `/data` + `JWT_SECRET` + الدومين).
-- **VPS يدوي:** `docker-compose.yml` (api + frontend + nginx/TLS)، في نفس الملف.
+- **VPS يدوي:** `docker-compose.vps.yml` (api + frontend + nginx/TLS)، في نفس الملف.
 
 ## الأدلة
 

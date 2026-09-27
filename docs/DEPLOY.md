@@ -3,12 +3,23 @@
 حاوية واحدة من `Dockerfile` اللي في جذر المشروع. الباك بيخدم الفرونت على نفس الدومين (`SERVE_FRONTEND=1`)، وCoolify (Traefik) بيعمل HTTPS لوحده. مفيش nginx ولا certbot ولا دومين تاني للـ API.
 
 ### 1) إنشاء التطبيق
-1. **+ New → Application** → اختار الريبو من GitHub (لو الريبو private استخدم **GitHub App**).
-2. **Build Pack:** `Dockerfile` — Base Directory: `/` — Dockerfile Location: `/Dockerfile`.
-3. **Ports Exposes:** `4000`.
-4. **Domains:** `https://www.industrial.talentooo.com,https://industrial.talentooo.com` — ومن **Direction** اختار **Redirect to www**. (الاتنين لازم يشاوروا بـ A record على IP سيرفر Coolify.)
+**+ New → Application** → اختار الريبو من GitHub (لو الريبو private استخدم **GitHub App**). وبعدين اختار **واحد** من الـ Build Packs دول، والاتنين بيبنوا نفس الصورة:
 
-### 2) التخزين الدائم (إجباري — من غيره الداتا تتمسح مع كل deploy)
+**أ) Build Pack: `Dockerfile`**
+1. Base Directory: `/` — Dockerfile Location: `/Dockerfile`.
+2. **Ports Exposes:** `4000`.
+3. **Domains:** `https://www.industrial.talentooo.com,https://industrial.talentooo.com` — ومن **Direction** اختار **Redirect to www**.
+4. التخزين: الخطوة 2 تحت.
+
+**ب) Build Pack: `Docker Compose`** (بيستخدم [`docker-compose.yml`](../docker-compose.yml)، وده service واحد اسمه `app`)
+1. Docker Compose Location: `/docker-compose.yml`. لو الـ app كان معمول قبل كده بالـ compose القديم، دوس **Reload Compose File** عشان يظهر الـ service `app` بس.
+2. **Domains** بتاعة الـ service `app`، **بالبورت 4000 في الآخر** (ده بورت الحاوية مش البورت العام):
+   `https://www.industrial.talentooo.com:4000,https://industrial.talentooo.com:4000`
+3. التخزين معمول تلقائياً (volume اسمه `app-data` على `/data`)، فاسكب الخطوة 2.
+
+الـ DNS: الدومينين لازم يشاوروا بـ A record على IP سيرفر Coolify.
+
+### 2) التخزين الدائم (Build Pack `Dockerfile` بس — إجباري، ومن غيره الداتا تتمسح مع كل deploy)
 **Persistent Storage → + Add → Volume Mount**
 - Destination Path: `/data`
 
@@ -67,6 +78,9 @@ CONFIRM=YES node dist/db/seed-file-cli.js
 ## 1) ملف البيئة (مرة واحدة)
 ```bash
 cp .env.example .env
+# ستاك الـ VPS (api + frontend + nginx) في docker-compose.vps.yml — السطر ده بيخلي كل أوامر
+# `docker compose` تحت (والكرون) تستخدمه تلقائياً. (docker-compose.yml هو نسخة Coolify.)
+echo "COMPOSE_FILE=docker-compose.vps.yml" >> .env
 node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"  # ولّد مفتاحا
 # ضع ناتج الأمر في .env: JWT_SECRET=...
 # راجع CORS_ORIGIN (دوميناتك الصريحة) و VITE_API_URL (رابط الـ API العلني)
