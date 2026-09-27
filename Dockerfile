@@ -6,10 +6,12 @@
 
 # ── 1) frontend build (VITE_API_URL empty = same-origin) ─────────────────────
 FROM node:22-alpine AS web
-WORKDIR /web
+WORKDIR /build/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 COPY frontend/ ./
+# Keep the repo layout: src/api/schemas.ts re-exports ../../../contracts/api.contracts.
+COPY contracts /build/contracts
 ENV VITE_API_URL= \
     VITE_SAME_ORIGIN=1
 RUN npm run build
@@ -45,7 +47,7 @@ COPY --from=api /app/contracts ./contracts
 COPY --from=api /app/scripts ./scripts
 # شعار الوزارة المضمّن في بريد المنصة الرسمي (cid:platform-logo)
 COPY --from=api /app/assets ./assets
-COPY --from=web /web/dist ./public
+COPY --from=web /build/frontend/dist ./public
 # Demo dataset for the optional one-off: CONFIRM=YES node dist/db/seed-file-cli.js
 COPY seed-data.json ./seed-data.json
 # /data = persistent volume (SQLite + uploads). Pre-owned by `node` so a fresh named

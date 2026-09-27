@@ -35,8 +35,8 @@ services:
 
   frontend:
     build:
-      context: ./frontend
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: ./frontend/Dockerfile
       args:
         VITE_API_URL: ${VITE_API_URL:-https://api.industry.gov.eg}
     restart: unless-stopped

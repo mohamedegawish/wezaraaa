@@ -38,6 +38,10 @@ describe('hosting readiness (deploy gate)', () => {
     assert.ok(bDocker.includes('COPY contracts'), 'backend image must ship contracts/openapi.json');
     const fDocker = fs.readFileSync(`${ROOT}/frontend/Dockerfile`, 'utf8');
     assert.ok(fDocker.includes('VITE_API_URL'), 'frontend image must bake VITE_API_URL');
+    // frontend/src/api/schemas.ts re-exports ../../../contracts — a frontend-only build context fails tsc.
+    assert.ok(fs.readFileSync(`${ROOT}/frontend/src/api/schemas.ts`, 'utf8').includes('contracts/api.contracts'));
+    assert.ok(fDocker.includes('COPY contracts /app/contracts'), 'frontend image must ship contracts next to frontend/');
+    assert.ok(compose.includes('dockerfile: ./frontend/Dockerfile'), 'compose frontend must build from repo root');
     for (const f of [`${ROOT}/.env.example`, `${ROOT}/backend/.env.production.example`, `${ROOT}/frontend/.env.production.example`, `${ROOT}/docs/DEPLOY.md`]) {
       assert.ok(fs.existsSync(f), `missing ${f}`);
     }
@@ -54,7 +58,7 @@ describe('hosting readiness (deploy gate)', () => {
     }
     // Single-service image (Coolify): SPA built same-origin + served by the API, data on /data.
     const sDocker = fs.readFileSync(`${ROOT}/Dockerfile`, 'utf8');
-    for (const s of ['VITE_SAME_ORIGIN=1', 'SERVE_FRONTEND=1', 'FRONTEND_DIST=/app/public', 'DB_PATH=/data/app.db', 'COPY contracts', 'HEALTHCHECK']) {
+    for (const s of ['VITE_SAME_ORIGIN=1', 'SERVE_FRONTEND=1', 'FRONTEND_DIST=/app/public', 'DB_PATH=/data/app.db', 'COPY contracts ./contracts', 'COPY contracts /build/contracts', 'HEALTHCHECK']) {
       assert.ok(sDocker.includes(s), `single-service Dockerfile missing: ${s}`);
     }
     const dFront = fs.readFileSync(`${ROOT}/frontend/.dockerignore`, 'utf8');
