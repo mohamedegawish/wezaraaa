@@ -1,6 +1,6 @@
 import { createApp } from './app.js';
 import { config } from './config.js';
-import { closeDb } from './db/sqlite.js';
+import { closeDb, getDb } from './db/sqlite.js';
 import { applySeedUpdates, seedIfEmpty } from './db/seed.js';
 import { startChatReminderJob, stopChatReminderJob } from './jobs/chatReminders.js';
 import { startMailQueue, stopMailQueue } from './jobs/mailQueue.js';
@@ -14,6 +14,10 @@ if (config.seedOnBoot) {
   // Versioned seed updates still reach a DB this seed created; an empty DB stays empty.
   seedUpdates = applySeedUpdates();
   console.log('[server] seed-on-boot disabled (SEED_ON_BOOT=0) — no fresh seed on an empty DB');
+  const users = (getDb().prepare('SELECT COUNT(*) AS c FROM users').get() as { c: number }).c;
+  if (users === 0) {
+    console.warn('[server] WARNING: database is EMPTY and SEED_ON_BOOT=0 — there are no accounts, nobody can log in. Remove SEED_ON_BOOT (default 1) or set it to 1, then restart.');
+  }
 }
 console.log(`[server] seed updates: ${seedUpdates.length ? `applied ${seedUpdates.join(', ')}` : 'up to date'}`);
 
