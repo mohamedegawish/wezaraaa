@@ -19,6 +19,7 @@ import { applicationsRouter } from './routes/applications.js';
 import { messagesRouter } from './routes/messages.js';
 import { chatRouter } from './routes/chat.js';
 import { auditRouter, dashboardRouter, reportsRouter } from './routes/system.js';
+import { bannersRouter, publicBannersRouter } from './routes/banners.js';
 
 export function createApp() {
   const app = express();
@@ -117,6 +118,9 @@ export function createApp() {
   // Scope limiter to /initiatives only — mounting as (limiter, router) would count every v1 request.
   v1.use('/initiatives', publicReadLimiter);
   v1.use(publicInitiativesRouter);
+  // بانرات الصفحة الرئيسية: المعروض الآن + الصور للزوار؛ ?scope=all والتعديل يكملان إلى auth.
+  v1.use('/banners', publicReadLimiter);
+  v1.use(publicBannersRouter);
   // API-only frontend: public factory self-registration shares the auth abuse surface.
   const publicLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -139,6 +143,7 @@ export function createApp() {
   v1.use(dashboardRouter);
   v1.use(reportsRouter);
   v1.use(auditRouter);
+  v1.use(bannersRouter);
 
   app.use('/api/v1', v1);
 

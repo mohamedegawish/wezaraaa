@@ -30,6 +30,11 @@ export function resolveCoverUrl(path: string): string {
   return path;
 }
 
+// ملفات يخدمها الباك نفسه (مثل صور البانرات /api/v1/banners/:id/image) تحتاج API_BASE مع الاستضافة المقسمة.
+export function resolveApiAssetUrl(path: string): string {
+  return path.startsWith('/api/') ? `${API_BASE}${path}` : path;
+}
+
 // PROD-GUARD: نبّه بصوت عالٍ إن خرجت نسخة إنتاج بدون VITE_API_URL — وضع نفس-المنشأ
 // يعمل فقط مع SERVE_FRONTEND=1، ويفشل بصمت مع الاستضافة المقسمة (nginx منفصل).
 // VITE_SAME_ORIGIN=1 = نفس-المنشأ مقصود (صورة الحاوية الواحدة في جذر المشروع/Coolify) — لا تحذير.

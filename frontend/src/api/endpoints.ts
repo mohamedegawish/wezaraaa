@@ -14,6 +14,7 @@ import type {
   ChatConversationsRes, ChatMessageShape, ChatMessagesRes, ChatReadMarkers, ChatUnreadSummary,
   ChatOversightItem, ChatOversightMessagesRes,
   GetKpisRes, UpdateKpisReq, UpdateKpisRes, DuplicateInitiativeRes, LogExportReq,
+  HomeBannerRes, ListHomeBannersRes, UpsertHomeBannerReq,
 } from './schemas';
 
 function ctx() {
@@ -125,6 +126,22 @@ export const api = {
   /** نسخة كاملة كمسودة (البيانات + التخصيص + المراحل + المؤشرات) */
   duplicateInitiative(initiativeId: string): Promise<DuplicateInitiativeRes> {
     return apiFetch<DuplicateInitiativeRes>(`/api/v1/initiatives/${initiativeId}/duplicate`, { method: 'POST', ...ctx() });
+  },
+  // بانرات الصفحة الرئيسية — المعروض الآن عام؛ scope 'all' والتعديل للمسؤولين فقط.
+  listBanners(scope?: 'all'): Promise<ListHomeBannersRes> {
+    return apiFetch<ListHomeBannersRes>('/api/v1/banners', { query: { scope }, ...ctx() });
+  },
+  createBanner(req: UpsertHomeBannerReq): Promise<HomeBannerRes> {
+    return apiFetch<HomeBannerRes>('/api/v1/banners', { method: 'POST', body: req, ...ctx() });
+  },
+  updateBanner(id: string, req: UpsertHomeBannerReq): Promise<HomeBannerRes> {
+    return apiFetch<HomeBannerRes>(`/api/v1/banners/${encodeURIComponent(id)}`, { method: 'PUT', body: req, ...ctx() });
+  },
+  deleteBanner(id: string) {
+    return apiFetch<{ message: string; status: 'ok' }>(`/api/v1/banners/${encodeURIComponent(id)}`, { method: 'DELETE', ...ctx() });
+  },
+  reorderBanners(ids: string[]): Promise<ListHomeBannersRes> {
+    return apiFetch<ListHomeBannersRes>('/api/v1/banners/reorder', { method: 'POST', body: { ids }, ...ctx() });
   },
   /** توثيق تصدير تم في المتصفح (Excel) في سجل التدقيق */
   logExport(req: LogExportReq) {

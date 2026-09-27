@@ -897,6 +897,73 @@ export interface AuditShape {
 }
 
 // ----------------------------------------------------------------------------
+// 7) بانرات الإعلانات في الصفحة الرئيسية
+// ----------------------------------------------------------------------------
+// GET /api/v1/banners → { data: HomeBannerShape[] } المعروض الآن (عام، بدون مصادقة)
+// GET /api/v1/banners?scope=all → كل البانرات بما فيها المخفية/المجدولة/المنتهية (المسؤولون فقط)
+// GET /api/v1/banners/:id/image → الصورة المرفوعة ثنائياً (كاش طويل؛ الرابط يحمل ?v=updatedAt)
+export type BannerPlacement = 'before_about' | 'before_steps' | 'before_cta';
+export type BannerLinkType = 'none' | 'initiative' | 'url';
+
+export interface HomeBannerShape {
+  id: string;
+  /** صورة مرفوعة → '/api/v1/banners/:id/image?v=…' (أضف API_BASE)؛ أو https://… أو مسار نسبي /… */
+  imageUrl: string;
+  titleAr: string;
+  titleEn: string;
+  subtitleAr: string;
+  subtitleEn: string;
+  ctaLabelAr: string;
+  ctaLabelEn: string;
+  linkType: BannerLinkType;
+  /** initiative → معرف المبادرة، url → رابط http(s)، none → '' */
+  linkTarget: string;
+  placement: BannerPlacement;
+  sortOrder: number;
+  active: boolean;
+  /** ISO أو '' = بلا حد */
+  startsAt: string;
+  endsAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// POST /api/v1/banners (imageUrl مطلوب، الحد 12 بانراً) · PUT /api/v1/banners/:id (جزئي)
+export interface UpsertHomeBannerReq {
+  /** data:image/(png|jpeg|webp|gif);base64,… ≤ 1.5M حرف، أو https://…، أو /مسار. في التعديل: أرسلها فقط عند التغيير. */
+  imageUrl?: string;
+  titleAr?: string;
+  titleEn?: string;
+  subtitleAr?: string;
+  subtitleEn?: string;
+  ctaLabelAr?: string;
+  ctaLabelEn?: string;
+  linkType?: BannerLinkType;
+  linkTarget?: string;
+  placement?: BannerPlacement;
+  active?: boolean;
+  startsAt?: string;
+  endsAt?: string;
+}
+
+export interface HomeBannerRes {
+  message: string;
+  status: 'ok';
+  data: HomeBannerShape;
+}
+
+export interface ListHomeBannersRes {
+  message: string;
+  status: 'ok';
+  data: HomeBannerShape[];
+}
+
+// POST /api/v1/banners/reorder — كل المعرفات بالترتيب الجديد → ListHomeBannersRes
+export interface ReorderHomeBannersReq {
+  ids: string[];
+}
+
+// ----------------------------------------------------------------------------
 // ROUTES — جدول واحد يقرأه الفريقان (مصدر أسماء المسارات)
 // ----------------------------------------------------------------------------
 export const ROUTES = {
@@ -955,4 +1022,10 @@ export const ROUTES = {
   reportsApplicationsCsv: 'GET /api/v1/reports/applications.csv',
   reportsInitiativesCsv: 'GET /api/v1/reports/initiatives.csv',
   auditLogs: 'GET /api/v1/audit-logs',
+  listBanners: 'GET /api/v1/banners',
+  bannerImage: 'GET /api/v1/banners/:id/image',
+  createBanner: 'POST /api/v1/banners',
+  updateBanner: 'PUT /api/v1/banners/:id',
+  deleteBanner: 'DELETE /api/v1/banners/:id',
+  reorderBanners: 'POST /api/v1/banners/reorder',
 } as const;

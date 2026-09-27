@@ -787,6 +787,9 @@
      "200": {
       "description": "ok"
      },
+     "401": {
+      "description": "unauthorized (scope=all)"
+     },
      "403": {
       "description": "forbidden (scope=all)"
      }
@@ -822,6 +825,19 @@
      },
      "404": {
       "description": "not found"
+     }
+    }
+   }
+  },
+  "/api/v1/banners/{id}/image": {
+   "get": {
+    "summary": "Uploaded banner image as binary (public, long cache — the listed imageUrl carries ?v=updatedAt)",
+    "responses": {
+     "200": {
+      "description": "image bytes"
+     },
+     "404": {
+      "description": "not found / not an uploaded image"
      }
     }
    }

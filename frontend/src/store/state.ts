@@ -15,7 +15,7 @@ import {
 } from '../types';
 import { api, RegisterFactoryReq } from '../api/endpoints';
 import { refreshSession, getAccessToken, clearTokens } from '../api/client';
-import type { ChatUnreadSummary } from '../api/schemas';
+import type { ChatUnreadSummary, HomeBannerShape } from '../api/schemas';
 
 const STORAGE_KEY_LANG = 'egypt_ind_lang_v1';
 const STORAGE_KEY_USER = 'egypt_ind_user_v1';
@@ -131,6 +131,7 @@ export function mapServerAudit(row: Record<string, unknown>): AuditLogEntry {
     if (entity === 'application') return 'APPLICATION';
     if (entity === 'initiative' || entity === 'workflow') return 'INITIATIVE';
     if (entity === 'factory') return 'FACTORY';
+    if (entity === 'banner') return 'BANNER';
     return 'ORGANIZATION';
   })();
   return {
@@ -169,6 +170,8 @@ class PlatformStore {
   public auditLogs: AuditLogEntry[] = [];
   public heroSlides: HeroSlide[] = defaultHeroSlides();
   public heroSliderInterval: number = 3000;
+  /** بانرات الصفحة الرئيسية المعروضة الآن (من الباك — تديرها الإدارة من «بانرات الرئيسية»). */
+  public homeBanners: HomeBannerShape[] = [];
 
   public activeView: string = 'home';
   public selectedInitiativeId: string | null = null;
@@ -236,6 +239,18 @@ class PlatformStore {
     this.applyInitiativeDefaults();
   }
 
+  private async loadHomeBanners(): Promise<void> {
+    try {
+      this.homeBanners = (await api.listBanners()).data ?? [];
+    } catch { this.homeBanners = []; }
+  }
+
+  /** بعد تعديلات الإدارة حتى تظهر في الصفحة الرئيسية فوراً. */
+  public async reloadHomeBanners(): Promise<void> {
+    await this.loadHomeBanners();
+    this.notify();
+  }
+
   private async boot(): Promise<void> {
     // 1) Restore session FIRST — access in memory, refresh as httpOnly cookie (P0-1).
     // الترتيب مهم: قائمة المبادرات تختلف بالهوية (المسودة/المؤرشفة للإدارة فقط)، فتحميلها
@@ -258,8 +273,8 @@ class PlatformStore {
     } else {
       this.clearSession();
     }
-    // 2) Initiatives — public for guests; admins/auditor also get draft/archived.
-    await this.loadInitiatives();
+    // 2) Initiatives — public for guests; admins/auditor also get draft/archived. Banners are public.
+    await Promise.all([this.loadInitiatives(), this.loadHomeBanners()]);
     // 3) Role-scoped data for logged-in users.
     if (this.isLoggedIn) await this.loadRoleData();
     this.notify();
@@ -648,6 +663,7 @@ export function usePlatformStore() {
     applications: store.applications,
     auditLogs: store.auditLogs,
     heroSlides: store.heroSlides,
+    homeBanners: store.homeBanners,
     activeView: store.activeView,
     selectedInitiativeId: store.selectedInitiativeId,
     selectedApplicationId: store.selectedApplicationId,
@@ -673,6 +689,7 @@ export function usePlatformStore() {
     openChat: (orgId?: string) => store.openChat(orgId),
     consumeChatFocus: () => store.consumeChatFocus(),
     refreshMyFactory: () => store.refreshMyFactory(),
+    reloadHomeBanners: () => store.reloadHomeBanners(),
     heroSliderInterval: store.heroSliderInterval,
     setHeroSliderInterval: (ms: number) => store.setHeroSliderInterval(ms),
     getActiveHeroSlides: () => store.getActiveHeroSlides(),

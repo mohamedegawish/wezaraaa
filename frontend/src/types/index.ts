@@ -579,7 +579,7 @@ export interface AuditLogEntry {
   userOrgAr: string;
   userOrgEn: string;
   actionType: 'CREATE' | 'UPDATE' | 'DELETE' | 'APPROVE' | 'REJECT' | 'REWORK' | 'ASSIGN' | 'EXPORT' | 'LOGIN';
-  entityType: 'APPLICATION' | 'INITIATIVE' | 'WORKFLOW' | 'ORGANIZATION' | 'FACTORY';
+  entityType: 'APPLICATION' | 'INITIATIVE' | 'WORKFLOW' | 'ORGANIZATION' | 'FACTORY' | 'BANNER';
   entityId: string;
   summaryAr: string;
   summaryEn: string;

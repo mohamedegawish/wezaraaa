@@ -644,7 +644,7 @@ export function resetAndSeed(): void {
   // Temporarily drop append-only guards (dev only), wipe, then restore via schema re-exec.
   try { db.exec('DROP TRIGGER IF EXISTS audit_no_delete; DROP TRIGGER IF EXISTS audit_no_update;'); } catch { /* noop */ }
   db.exec(
-    'DELETE FROM refresh_tokens; DELETE FROM audit_logs; DELETE FROM details_files; DELETE FROM applications; DELETE FROM factories; DELETE FROM initiatives; DELETE FROM users; DELETE FROM organizations; DELETE FROM meta;',
+    'DELETE FROM refresh_tokens; DELETE FROM audit_logs; DELETE FROM details_files; DELETE FROM applications; DELETE FROM factories; DELETE FROM initiatives; DELETE FROM users; DELETE FROM organizations; DELETE FROM home_banners; DELETE FROM meta;',
   );
   seedIfEmpty();
   // Re-enable append-only guards (dev reset dropped them)

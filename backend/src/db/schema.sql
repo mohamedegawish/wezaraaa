@@ -210,6 +210,29 @@ CREATE TABLE IF NOT EXISTS email_outbox (
 CREATE INDEX IF NOT EXISTS idx_email_outbox_due ON email_outbox(status, nextAttemptAt);
 CREATE INDEX IF NOT EXISTS idx_email_outbox_ref ON email_outbox(refType, refId);
 
+-- بانرات الإعلانات في الصفحة الرئيسية (يديرها المسؤولون من «بانرات الرئيسية»).
+-- imageUrl: data:image/… (مرفوعة، تُخدم ثنائياً من /banners/:id/image) أو https:// أو مسار نسبي /…
+-- startsAt/endsAt: ISO أو '' (بلا حد) — «المعروض الآن» = active + داخل النافذة الزمنية.
+CREATE TABLE IF NOT EXISTS home_banners (
+  id          TEXT PRIMARY KEY,
+  imageUrl    TEXT NOT NULL,
+  titleAr     TEXT NOT NULL DEFAULT '',
+  titleEn     TEXT NOT NULL DEFAULT '',
+  subtitleAr  TEXT NOT NULL DEFAULT '',
+  subtitleEn  TEXT NOT NULL DEFAULT '',
+  ctaLabelAr  TEXT NOT NULL DEFAULT '',
+  ctaLabelEn  TEXT NOT NULL DEFAULT '',
+  linkType    TEXT NOT NULL DEFAULT 'none' CHECK (linkType IN ('none','initiative','url')),
+  linkTarget  TEXT NOT NULL DEFAULT '',
+  placement   TEXT NOT NULL DEFAULT 'before_about' CHECK (placement IN ('before_about','before_steps','before_cta')),
+  sortOrder   INTEGER NOT NULL DEFAULT 0,
+  active      INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  startsAt    TEXT NOT NULL DEFAULT '',
+  endsAt      TEXT NOT NULL DEFAULT '',
+  createdAt   TEXT NOT NULL,
+  updatedAt   TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS audit_logs (
   id         TEXT PRIMARY KEY,
   timestamp  TEXT NOT NULL,

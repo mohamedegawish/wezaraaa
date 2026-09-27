@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
   MessagesSquare,
   Layers,
+  Megaphone,
 } from 'lucide-react';
 
 interface Item {
@@ -43,6 +44,12 @@ const GROUPS: { titleAr: string; titleEn: string; items: Item[] }[] = [
     titleAr: 'التواصل', titleEn: 'Communication',
     items: [
       { id: 'chat', labelAr: 'مركز المراسلات', labelEn: 'Message Center', icon: MessagesSquare },
+    ],
+  },
+  {
+    titleAr: 'واجهة المنصة', titleEn: 'Site content',
+    items: [
+      { id: 'admin-banners', labelAr: 'بانرات الرئيسية', labelEn: 'Home banners', icon: Megaphone },
     ],
   },
   {

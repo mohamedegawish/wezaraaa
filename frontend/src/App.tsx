@@ -21,6 +21,7 @@ import { AccountsView } from './components/admin/AccountsView';
 import { AuditLogsView } from './components/admin/AuditLogsView';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { MinistryOverviewView } from './components/admin/MinistryOverviewView';
+import { HomeBannersAdminView } from './components/admin/HomeBannersAdminView';
 import { LoginView } from './components/auth/LoginView';
 import { ShieldCheck, ShieldAlert, ArrowRight, ArrowLeft } from 'lucide-react';
 import { EgyptianEagle } from './components/common/EgyptianEagle';
@@ -105,6 +106,7 @@ const AppContent: React.FC = () => {
             {activeView === 'admin-accounts' && <AdminLayout><AccountsView /></AdminLayout>}
             {activeView === 'admin-audit-logs' && <AdminLayout><AuditLogsView /></AdminLayout>}
             {activeView === 'admin-reports' && <AdminLayout><ReportsStudioView /></AdminLayout>}
+            {activeView === 'admin-banners' && <AdminLayout><HomeBannersAdminView /></AdminLayout>}
             {activeView === 'ministry-overview' && <AdminLayout><MinistryOverviewView /></AdminLayout>}
             {/* مركز المراسلات: المسؤولون ↔ الجهات (المصانع ممنوعة عبر ROLE_PERMISSIONS + الباك) */}
             {activeView === 'chat' && <AdminLayout><ChatCenterView /></AdminLayout>}

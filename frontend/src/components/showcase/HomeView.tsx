@@ -16,10 +16,12 @@ import {
 import { HomeHero } from './HomeHero';
 import { PlatformAbout } from './PlatformAbout';
 import { NewsTicker } from './NewsTicker';
+import { HomeBanners } from './HomeBanners';
 
 /**
  * HomeView — الصفحة التعريفية: شريط أخبار المبادرات + هيرو تحريري + عن المنصة (الأهداف والمكونات) +
  * كيف تعمل المنصة + الفئات + دعوة ختامية. كل النصوص Ar/En عبر language.
+ * بانرات الإعلانات (HomeBanners) في ثلاثة أماكن تختارها الإدارة: قبل «عن المنصة» / «كيف تعمل» / الدعوة الختامية.
  */
 export const HomeView: React.FC = () => {
   const { language, initiatives, isLoggedIn, navigate } = usePlatformStore();
@@ -95,7 +97,11 @@ export const HomeView: React.FC = () => {
 
       <HomeHero activeCount={activeCount} targetFactories={targetFactories} />
 
+      <HomeBanners placement="before_about" />
+
       <PlatformAbout />
+
+      <HomeBanners placement="before_steps" />
 
       {/* كيف تعمل المنصة */}
       <section aria-label={isAr ? 'كيف تعمل المنصة' : 'How it works'} className="home-section">
@@ -140,6 +146,8 @@ export const HomeView: React.FC = () => {
           ))}
         </div>
       </section>
+
+      <HomeBanners placement="before_cta" />
 
       {/* دعوة ختامية */}
       <section
