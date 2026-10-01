@@ -33,7 +33,7 @@ export function initiativeCompleteness(i: Initiative): { items: CompletenessItem
     { key: 'dates', ar: 'تاريخ الإطلاق', en: 'Launch date', tab: 'financial', done: !!(i.startDate ?? '').trim() },
     { key: 'partners', ar: 'الجهات المشاركة', en: 'Participating entities', tab: 'targeting', done: (i.participatingOrgs ?? []).length > 0 },
     { key: 'requirements', ar: 'اشتراطات التأهيل', en: 'Eligibility requirements', tab: 'requirements', done: (i.eligibilityRequirements ?? []).length > 0 },
-    { key: 'docs', ar: 'المستندات المطلوب رفعها', en: 'Documents to upload', tab: 'requirements', done: (i.requiredDocsList ?? []).length > 0 },
+    { key: 'docs', ar: 'المستندات المطلوب رفعها', en: 'Documents to upload', tab: 'documents', done: (i.requiredDocsList ?? []).length > 0 },
     { key: 'criteria', ar: 'معايير اختيار المصانع', en: 'Selection criteria', tab: 'criteria', done: (i.selectionCriteria ?? []).length > 0 },
     { key: 'stages', ar: 'مراحل تنفيذ حقيقية (بعد المراجعة الأولية)', en: 'Real execution stages', tab: 'execution',
       done: stages.length > 1 && !stages.some(s => PLACEHOLDER_STAGE.test(s.nameAr ?? '') || PLACEHOLDER_STAGE.test(s.nameEn ?? '')) },

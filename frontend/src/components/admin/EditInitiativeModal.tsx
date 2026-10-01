@@ -40,6 +40,8 @@ import {
   HelpCircle,
   Gauge,
   FileInput,
+  FileText,
+  FileUp,
   Settings2,
   Lock,
   ExternalLink,
@@ -69,9 +71,21 @@ const INDUSTRIAL_IMAGE_PRESETS = [
   { id: 'heavy-industry', labelAr: 'مجمع تصنيع وتعميق محلي', labelEn: 'Heavy Manufacturing & Localization', url: resolveCoverUrl('/covers/import-substitution-2026.jpg') }
 ];
 
-// التابات بنفس ترتيب وثيقة المبادرة الرسمية (الهدف ← المحددات المالية ← الاشتراطات ← المعايير ← المسار ← المؤشرات)
+// قوالب المستندات الصناعية الشائعة للإضافة السريعة بنقرة واحدة
+const COMMON_DOC_PRESETS = [
+  { code: 'CR_COPY', titleAr: 'سجل تجاري ساري', titleEn: 'Valid Commercial Register', mandatory: true },
+  { code: 'IND_LIC', titleAr: 'سجل صناعي ورخصة تشغيل سارية', titleEn: 'Industrial Register & Operating License', mandatory: true },
+  { code: 'ELEC_BILLS_12', titleAr: 'فواتير الكهرباء لآخر 12 شهراً', titleEn: 'Last 12 Months Electricity Bills', mandatory: true },
+  { code: 'FIN_STATEMENTS_3Y', titleAr: 'القوائم المالية المدققة لآخر 3 سنوات', titleEn: 'Audited Financial Statements (Last 3 Years)', mandatory: true },
+  { code: 'STRUCT_REPORT', titleAr: 'تقرير إنشائي معتمد للمنشأة والأسطح', titleEn: 'Certified Structural Suitability Report', mandatory: false },
+  { code: 'FEASIBILITY_STUDY', titleAr: 'دراسة جدوى فنية واقتصادية معتمدة', titleEn: 'Technical & Economic Feasibility Study', mandatory: false },
+  { code: 'TAX_CARD', titleAr: 'البطاقة الضريبية وشهادة التسجيل بالقيمة المضافة', titleEn: 'Tax Card & VAT Registration Certificate', mandatory: true },
+  { code: 'DEED_OR_LEASE', titleAr: 'إثبات الملكية أو عقد إيجار ساري للمنشأة', titleEn: 'Property Deed or Valid Lease Agreement', mandatory: true },
+];
+
+// التابات بنفس ترتيب وثيقة المبادرة الرسمية (الهدف ← المحددات المالية ← الاشتراطات ← المستندات ← المعايير ← المسار ← المؤشرات)
 export type EditorTab = Tab;
-type Tab = 'basic' | 'goals' | 'financial' | 'targeting' | 'requirements' | 'criteria' | 'execution' | 'kpis'
+type Tab = 'basic' | 'goals' | 'financial' | 'targeting' | 'requirements' | 'documents' | 'criteria' | 'execution' | 'kpis'
   | 'benefits' | 'faqs' | 'eligibility' | 'form' | 'custom';
 
 type EligOption = { labelAr: string; labelEn: string; value: string; isEligible: boolean };
@@ -465,7 +479,8 @@ const EditInitiativeForm: React.FC<EditInitiativeModalProps> = ({ initiative, on
         { id: 'goals', ar: 'الهدف والمستهدفات', en: 'Goal & objectives', Icon: Target, count: objectives.length },
         { id: 'financial', ar: 'المحددات المالية', en: 'Financing', Icon: Banknote },
         { id: 'targeting', ar: 'الاستهداف والجهات', en: 'Targeting & partners', Icon: MapPin },
-        { id: 'requirements', ar: 'اشتراطات التأهيل', en: 'Eligibility req.', Icon: ClipboardCheck, count: requirements.length + docs.length },
+        { id: 'requirements', ar: 'اشتراطات التأهيل', en: 'Eligibility req.', Icon: ClipboardCheck, count: requirements.length },
+        { id: 'documents', ar: 'المستندات المطلوبة', en: 'Required docs', Icon: FileText, count: docs.length },
         { id: 'criteria', ar: 'معايير الاختيار', en: 'Selection criteria', Icon: ListChecks, count: criteria.length },
         { id: 'execution', ar: 'مسار التنفيذ', en: 'Execution path', Icon: Route, count: initiative?.workflow?.stages?.length },
         { id: 'kpis', ar: 'مؤشرات الأداء', en: 'KPIs', Icon: BarChart3, count: kpis.length },
@@ -473,10 +488,11 @@ const EditInitiativeForm: React.FC<EditInitiativeModalProps> = ({ initiative, on
     },
     {
       ar: 'التقديم والعرض', en: 'Application & showcase', tabs: [
+        { id: 'documents', ar: 'مستندات التقديم (PDF)', en: 'Upload docs (PDF)', Icon: FileUp, count: docs.length },
+        { id: 'form', ar: 'فورم التقديم', en: 'Application form', Icon: FileInput, count: sections.length },
+        { id: 'eligibility', ar: 'فحص الأهلية', en: 'Eligibility quiz', Icon: Gauge, count: eligibility.length },
         { id: 'benefits', ar: 'المزايا', en: 'Benefits', Icon: Gift, count: benefits.length },
         { id: 'faqs', ar: 'الأسئلة الشائعة', en: 'FAQs', Icon: HelpCircle, count: faqs.length },
-        { id: 'eligibility', ar: 'فحص الأهلية', en: 'Eligibility quiz', Icon: Gauge, count: eligibility.length },
-        { id: 'form', ar: 'فورم التقديم', en: 'Application form', Icon: FileInput, count: sections.length },
         { id: 'custom', ar: 'التخصيص وتصميم الصفحة', en: 'Customization', Icon: Settings2 },
       ],
     },
@@ -771,31 +787,250 @@ const EditInitiativeForm: React.FC<EditInitiativeModalProps> = ({ initiative, on
                   itemLabelAr="الاشتراط" itemLabelEn="Requirement" addLabelAr="إضافة اشتراط" addLabelEn="Add requirement"
                   emptyAr="لا توجد اشتراطات بعد." emptyEn="No requirements yet." />
               </SectionCard>
-              <SectionCard title={isAr ? 'المستندات المطلوب رفعها عند التقديم' : 'Documents to upload when applying'} count={docs.length} hint={isAr ? 'تظهر للمصنع في نموذج التقديم بأيقون رفع (PDF). المستند الإلزامي شرط لإرسال الطلب.' : 'Shown in the application form with an upload icon (PDF). Mandatory ones are required to submit.'}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <div style={{
+                background: 'var(--gov-primary-50)',
+                border: '1px solid var(--gov-primary-200)',
+                borderRadius: 'var(--radius-md)',
+                padding: '0.9rem 1.1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                flexWrap: 'wrap'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'var(--gov-primary-900)', color: 'var(--gov-gold-bright)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <FileUp size={18} />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: '0.88rem', color: 'var(--gov-primary-900)' }}>
+                      {isAr ? 'المستندات المطلوب من صاحب المصنع رفعها (PDF)' : 'Documents required from factory owner (PDF)'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      {isAr
+                        ? `محدد حالياً ${docs.length} مستند ليرفعها المصنع عند التقديم. يمكنك إدارتها وترتيبها وإضافة قوالب جاهزة من قسم المستندات المخصص.`
+                        : `${docs.length} document(s) configured. Manage, reorder, and add presets in the dedicated Documents tab.`}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={() => setActiveTab('documents')}
+                  style={{ gap: '0.35rem', fontWeight: 700 }}
+                >
+                  <FileText size={14} />
+                  <span>{isAr ? `إدارة المستندات المطلوبة (${docs.length})` : `Manage documents (${docs.length})`}</span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'documents' && (
+            <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{
+                background: 'linear-gradient(135deg, var(--gov-primary-950) 0%, var(--gov-primary-900) 100%)',
+                color: 'var(--on-dark)',
+                borderRadius: 'var(--radius-md)',
+                padding: '1.1rem 1.25rem',
+                border: '1px solid var(--gov-primary-800)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                flexWrap: 'wrap'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(255,255,255,0.12)', color: 'var(--gov-gold-bright)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <FileUp size={22} />
+                  </div>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 800, color: 'var(--gov-gold-bright)' }}>
+                      {isAr ? 'المستندات المطلوب من صاحب المصنع رفعها عند التقديم' : 'Required Documents for Factory Owner to Upload'}
+                    </h3>
+                    <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.5 }}>
+                      {isAr
+                        ? 'تظهر هذه المستندات لصاحب المصنع في الخطوة الأولى من نموذج التقديم ليرفعها بصيغة PDF. المستند «الإلزامي» يمنع إرسال الطلب بدونه.'
+                        : 'These documents appear directly in Step 1 of the application wizard as PDF uploads. Mandatory documents block submission if missing.'}
+                    </p>
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ fontSize: '0.82rem', fontWeight: 700, padding: '0.35rem 0.75rem', borderRadius: '9999px', background: 'rgba(255,255,255,0.15)', color: '#fff' }}>
+                    {isAr ? `${docs.length} مستند محدد` : `${docs.length} documents`}
+                  </span>
+                </div>
+              </div>
+
+              {/* Quick-add presets */}
+              <div style={{ background: 'var(--bg-app)', padding: '0.9rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-muted)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Plus size={13} />
+                  <span>{isAr ? 'إضافة سريعة من المستندات الصناعية الشائعة:' : 'Quick add common industrial documents:'}</span>
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                  {COMMON_DOC_PRESETS.map((p, pi) => {
+                    const alreadyAdded = docs.some(d => d.code === p.code || (d.titleAr && d.titleAr.trim() === p.titleAr.trim()));
+                    return (
+                      <button
+                        key={pi}
+                        type="button"
+                        disabled={alreadyAdded}
+                        onClick={() => setDocs([...docs, { ...p }])}
+                        style={{
+                          fontSize: '0.72rem',
+                          padding: '0.3rem 0.65rem',
+                          borderRadius: '9999px',
+                          cursor: alreadyAdded ? 'default' : 'pointer',
+                          border: alreadyAdded ? '1px solid var(--border-subtle)' : '1px solid var(--gov-primary-300)',
+                          background: alreadyAdded ? 'var(--bg-muted)' : 'var(--bg-surface)',
+                          color: alreadyAdded ? 'var(--text-muted)' : 'var(--gov-primary-900)',
+                          fontWeight: alreadyAdded ? 500 : 700,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.3rem',
+                          opacity: alreadyAdded ? 0.6 : 1,
+                        }}
+                      >
+                        {alreadyAdded ? '✓ ' : '+ '}{isAr ? p.titleAr : p.titleEn}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* List of documents */}
+              <SectionCard
+                title={isAr ? 'قائمة المستندات المطلوبة للمبادرة' : 'Initiative Configured Documents'}
+                count={docs.length}
+                hint={isAr ? 'تظهر للمصنع في نموذج التقديم بأيقون رفع (PDF). رتب المستندات أو عدّل أسماءها وحدد أي منها إلزامي.' : 'Reorder, rename, or toggle mandatory flag for applicants.'}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                   {docs.length === 0 && (
-                    <div style={{ padding: '0.9rem', textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)', border: '1px dashed var(--border-medium)', borderRadius: 'var(--radius-sm)', background: 'var(--bg-app)' }}>
-                      {isAr ? 'لا توجد مستندات مطلوبة بعد.' : 'No required documents yet.'}
+                    <div style={{ padding: '1.5rem', textAlign: 'center', fontSize: '0.85rem', color: 'var(--text-muted)', border: '1px dashed var(--border-medium)', borderRadius: 'var(--radius-sm)', background: 'var(--bg-app)' }}>
+                      <FileText size={24} style={{ margin: '0 auto 0.5rem auto', opacity: 0.5 }} />
+                      <div>{isAr ? 'لا توجد مستندات مطلوبة محددة لهذه المبادرة بعد.' : 'No required documents configured yet.'}</div>
+                      <div style={{ fontSize: '0.75rem', marginTop: '0.35rem' }}>{isAr ? 'اختر من الإضافة السريعة أعلاه أو اضغط «إضافة مستند جديد» أدناه.' : 'Pick from quick-add above or click "Add document" below.'}</div>
                     </div>
                   )}
+
                   {docs.map((d, i) => (
-                    <div key={i} style={{ border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', padding: '0.6rem 0.7rem', background: 'var(--bg-app)', display: 'grid', gridTemplateColumns: 'minmax(0,2fr) minmax(0,2fr) minmax(0,1fr) auto auto', gap: '0.5rem', alignItems: 'end' }}>
-                      <div className="form-group" style={{ margin: 0 }}><label className="form-label" style={{ fontSize: '0.75rem' }}>{isAr ? 'اسم المستند (عربي)' : 'Title (Arabic)'}</label>
-                        <input className="form-control" value={d.titleAr} onChange={e => setDocs(docs.map((x, j) => j === i ? { ...x, titleAr: e.target.value } : x))} /></div>
-                      <div className="form-group" style={{ margin: 0 }}><label className="form-label" style={{ fontSize: '0.75rem' }}>{isAr ? 'اسم المستند (إنجليزي)' : 'Title (English)'}</label>
-                        <input className="form-control" dir="ltr" value={d.titleEn} onChange={e => setDocs(docs.map((x, j) => j === i ? { ...x, titleEn: e.target.value } : x))} /></div>
-                      <div className="form-group" style={{ margin: 0 }}><label className="form-label" style={{ fontSize: '0.75rem' }}>{isAr ? 'رمز (اختياري)' : 'Code (optional)'}</label>
-                        <input className="form-control" dir="ltr" placeholder="CR_COPY" value={d.code} onChange={e => setDocs(docs.map((x, j) => j === i ? { ...x, code: e.target.value } : x))} /></div>
-                      <label style={{ display: 'flex', gap: '0.35rem', fontSize: '0.8rem', fontWeight: 700, alignItems: 'center', height: '38px', whiteSpace: 'nowrap' }}>
-                        <input type="checkbox" checked={!!d.mandatory} onChange={e => setDocs(docs.map((x, j) => j === i ? { ...x, mandatory: e.target.checked } : x))} style={{ width: '17px', height: '17px' }} />
-                        {isAr ? 'إلزامي' : 'Mandatory'}
+                    <div
+                      key={i}
+                      style={{
+                        border: '1px solid var(--border-subtle)',
+                        borderRadius: 'var(--radius-sm)',
+                        padding: '0.75rem 0.85rem',
+                        background: 'var(--bg-surface)',
+                        display: 'grid',
+                        gridTemplateColumns: 'auto minmax(0,2fr) minmax(0,2fr) minmax(0,1fr) auto auto',
+                        gap: '0.6rem',
+                        alignItems: 'end',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.03)'
+                      }}
+                    >
+                      {/* Move buttons & index */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '38px', gap: '2px' }}>
+                        <button
+                          type="button"
+                          disabled={i === 0}
+                          onClick={() => {
+                            const next = [...docs];
+                            [next[i], next[i - 1]] = [next[i - 1], next[i]];
+                            setDocs(next);
+                          }}
+                          style={{ border: 'none', background: 'transparent', padding: '0 2px', cursor: i === 0 ? 'default' : 'pointer', opacity: i === 0 ? 0.3 : 0.8 }}
+                          title={isAr ? 'تحريك لأعلى' : 'Move up'}
+                        >
+                          <ChevronUp size={14} />
+                        </button>
+                        <span style={{ fontSize: '0.68rem', fontWeight: 800, color: 'var(--text-muted)' }}>{i + 1}</span>
+                        <button
+                          type="button"
+                          disabled={i === docs.length - 1}
+                          onClick={() => {
+                            const next = [...docs];
+                            [next[i], next[i + 1]] = [next[i + 1], next[i]];
+                            setDocs(next);
+                          }}
+                          style={{ border: 'none', background: 'transparent', padding: '0 2px', cursor: i === docs.length - 1 ? 'default' : 'pointer', opacity: i === docs.length - 1 ? 0.3 : 0.8 }}
+                          title={isAr ? 'تحريك لأسفل' : 'Move down'}
+                        >
+                          <ChevronDown size={14} />
+                        </button>
+                      </div>
+
+                      {/* Arabic Title */}
+                      <div className="form-group" style={{ margin: 0 }}>
+                        <label className="form-label" style={{ fontSize: '0.75rem' }}>{isAr ? 'اسم المستند (عربي)' : 'Title (Arabic)'}</label>
+                        <input
+                          className="form-control"
+                          value={d.titleAr}
+                          placeholder={isAr ? 'مثال: السجل التجاري الساري' : 'Document name in Arabic'}
+                          onChange={e => setDocs(docs.map((x, j) => j === i ? { ...x, titleAr: e.target.value } : x))}
+                        />
+                      </div>
+
+                      {/* English Title */}
+                      <div className="form-group" style={{ margin: 0 }}>
+                        <label className="form-label" style={{ fontSize: '0.75rem' }}>{isAr ? 'اسم المستند (إنجليزي)' : 'Title (English)'}</label>
+                        <input
+                          className="form-control"
+                          dir="ltr"
+                          value={d.titleEn}
+                          placeholder="e.g. Valid Commercial Register"
+                          onChange={e => setDocs(docs.map((x, j) => j === i ? { ...x, titleEn: e.target.value } : x))}
+                        />
+                      </div>
+
+                      {/* Code */}
+                      <div className="form-group" style={{ margin: 0 }}>
+                        <label className="form-label" style={{ fontSize: '0.75rem' }}>{isAr ? 'رمز الكود' : 'Code'}</label>
+                        <input
+                          className="form-control"
+                          dir="ltr"
+                          placeholder="CR_COPY"
+                          value={d.code}
+                          onChange={e => setDocs(docs.map((x, j) => j === i ? { ...x, code: e.target.value } : x))}
+                        />
+                      </div>
+
+                      {/* Mandatory Checkbox */}
+                      <label style={{ display: 'flex', gap: '0.35rem', fontSize: '0.8rem', fontWeight: 700, alignItems: 'center', height: '38px', whiteSpace: 'nowrap', cursor: 'pointer', padding: '0 0.3rem' }}>
+                        <input
+                          type="checkbox"
+                          checked={!!d.mandatory}
+                          onChange={e => setDocs(docs.map((x, j) => j === i ? { ...x, mandatory: e.target.checked } : x))}
+                          style={{ width: '17px', height: '17px' }}
+                        />
+                        <span style={{ color: d.mandatory ? 'var(--egypt-red)' : 'var(--text-muted)' }}>
+                          {isAr ? 'إلزامي' : 'Mandatory'}
+                        </span>
                       </label>
-                      <button type="button" className="btn btn-secondary btn-sm" style={{ height: '38px', color: 'var(--gov-crimson)' }} onClick={() => setDocs(docs.filter((_, j) => j !== i))} aria-label={isAr ? 'حذف المستند' : 'Delete document'}><Trash2 size={14} /></button>
+
+                      {/* Delete */}
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        style={{ height: '38px', color: 'var(--gov-crimson)' }}
+                        onClick={() => setDocs(docs.filter((_, j) => j !== i))}
+                        aria-label={isAr ? 'حذف المستند' : 'Delete document'}
+                        title={isAr ? 'حذف هذا المستند' : 'Delete'}
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </div>
                   ))}
-                  <button type="button" className="btn btn-secondary" style={{ alignSelf: 'flex-start' }} onClick={() => setDocs([...docs, { code: '', titleAr: '', titleEn: '', mandatory: true }])}>
-                    <Plus size={14} /> {isAr ? 'إضافة مستند' : 'Add document'}
-                  </button>
+
+                  <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => setDocs([...docs, { code: `DOC_${docs.length + 1}`, titleAr: '', titleEn: '', mandatory: true }])}
+                    >
+                      <Plus size={14} /> {isAr ? 'إضافة مستند جديد' : 'Add custom document'}
+                    </button>
+                  </div>
                 </div>
               </SectionCard>
             </div>
@@ -1021,6 +1256,43 @@ const EditInitiativeForm: React.FC<EditInitiativeModalProps> = ({ initiative, on
 
           {activeTab === 'form' && (
             <div className="modal-body" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{
+                background: 'var(--gov-primary-50)',
+                border: '1px solid var(--gov-primary-200)',
+                borderRadius: 'var(--radius-md)',
+                padding: '0.85rem 1.1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+                flexWrap: 'wrap'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <div style={{ width: '34px', height: '34px', borderRadius: '8px', background: 'var(--gov-primary-900)', color: 'var(--gov-gold-bright)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <FileUp size={18} />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: '0.88rem', color: 'var(--gov-primary-900)' }}>
+                      {isAr ? 'المستندات المطلوب رفعها من صاحب المصنع (الخطوة 1 في التقديم)' : 'Documents uploaded by factory owner (Step 1 of application)'}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      {isAr
+                        ? `محدد حالياً ${docs.length} مستند ليرفعها المصنع (PDF) قبل ملء الفورم.`
+                        : `${docs.length} document(s) configured for factory upload before filling the form.`}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => setActiveTab('documents')}
+                  style={{ fontWeight: 700, gap: '0.35rem' }}
+                >
+                  <FileText size={14} />
+                  <span>{isAr ? `تعديل المستندات المطلوبة (${docs.length})` : `Edit required documents (${docs.length})`}</span>
+                </button>
+              </div>
+
               <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                 {isAr ? 'منشئ فورم التقديم — عدّل الأقسام والحقول والخيارات والشروط، وراجع المعاينة الحية قبل الحفظ.' : 'Application form builder — edit sections, fields, options and conditions, then review the live preview.'}
               </div>
