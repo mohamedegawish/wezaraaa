@@ -27,7 +27,7 @@ services:
     volumes:
       - app-data:/data
     expose:
-      - "4000"
+      - "3000"
 
 volumes:
   app-data:
