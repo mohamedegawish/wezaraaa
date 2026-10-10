@@ -25,7 +25,7 @@ RUN npm run build
 FROM node:22-alpine
 WORKDIR /app
 ENV NODE_ENV=production \
-    PORT=4000 \
+    PORT=3000 \
     DB_PATH=/data/app.db \
     UPLOAD_DIR=/data/uploads \
     BACKUP_DIR=/data/backups \
