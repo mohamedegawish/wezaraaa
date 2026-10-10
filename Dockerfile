@@ -52,6 +52,6 @@ USER node
 EXPOSE 4000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-  CMD curl -fsS http://127.0.0.1:4000/api/v1/health || exit 1
+  CMD curl -fsS http://127.0.0.1:3000/api/v1/health || exit 1
 
 CMD ["node", "dist/index.js"]
