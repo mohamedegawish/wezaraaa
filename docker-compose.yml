@@ -26,7 +26,8 @@ services:
     # SQLite + uploads + backups. Fresh named volume → inherits the image's node:node ownership.
     volumes:
       - app-data:/data
-    expose:4000"
+    expose:
+     "4000"
 
 volumes:
   app-data:
